@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/static/css/style.css?v=5.0">
+    <link rel="stylesheet" href="/static/css/style.css?v=8.0">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
@@ -52,34 +52,34 @@
 
             <!-- Primary Navigation Modes (hidden until signed in) -->
             <nav class="main-mode-switcher hidden" role="tablist">
-                <button class="mode-btn active" data-mode="studio" id="mode-studio">
+                <button class="mode-btn active" data-mode="studio" id="mode-studio" role="tab" aria-selected="true" aria-controls="section-studio">
                     <i class="fa-solid fa-code"></i>
                     <span>Code Studio</span>
                 </button>
-                <button class="mode-btn" data-mode="tracker" id="mode-tracker">
+                <button class="mode-btn" data-mode="tracker" id="mode-tracker" role="tab" aria-selected="false" aria-controls="section-tracker">
                     <i class="fa-solid fa-calendar-check"></i>
                     <span>Roadmap</span>
                 </button>
-                <button class="mode-btn" data-mode="analytics" id="mode-analytics">
+                <button class="mode-btn" data-mode="analytics" id="mode-analytics" role="tab" aria-selected="false" aria-controls="section-analytics">
                     <i class="fa-solid fa-chart-line"></i>
                     <span>Analytics</span>
                 </button>
-                <button class="mode-btn" data-mode="ai" id="mode-ai">
+                <button class="mode-btn" data-mode="ai" id="mode-ai" role="tab" aria-selected="false" aria-controls="section-ai">
                     <i class="fa-solid fa-robot"></i>
                     <span>AI Hub</span>
                 </button>
-                <button class="mode-btn interview-mode-btn" data-mode="interview" id="mode-interview">
+                <button class="mode-btn interview-mode-btn" data-mode="interview" id="mode-interview" role="tab" aria-selected="false" aria-controls="section-interview">
                     <i class="fa-solid fa-stopwatch-20"></i>
                     <span>Mock Interview</span>
                     <span class="interview-live-pill"><span class="badge-dot pulse-red"></span>LIVE</span>
                 </button>
-                <button class="mode-btn" data-mode="community" id="mode-community">
+                <button class="mode-btn" data-mode="community" id="mode-community" role="tab" aria-selected="false" aria-controls="section-community">
                     <i class="fa-solid fa-people-group"></i>
                     <span>Community</span>
                     <span id="community-unread-pill" class="community-unread-pill hidden">0</span>
                 </button>
                 <!-- Admin Console Tab (Visible only to Admin role) -->
-                <button class="mode-btn admin-mode-btn" data-mode="admin" id="mode-admin" style="display: none;">
+                <button class="mode-btn admin-mode-btn" data-mode="admin" id="mode-admin" style="display: none;" role="tab" aria-selected="false" aria-controls="section-admin">
                     <i class="fa-solid fa-shield-halved"></i>
                     <span>Admin</span>
                 </button>
@@ -115,7 +115,7 @@
                             <span class="user-role-badge" id="user-role-display">USER</span>
                         </div>
                     </div>
-                    <button id="btn-logout" class="btn btn-glass-icon" title="Sign Out">
+                    <button id="btn-logout" class="btn btn-glass-icon" title="Sign Out" aria-label="Sign Out">
                         <i class="fa-solid fa-arrow-right-from-bracket"></i>
                     </button>
                 </div>
@@ -186,7 +186,7 @@
             <!-- ======================================================== -->
             <!-- 1. INBUILT DSA CODE STUDIO (PYTHON IDE)                  -->
             <!-- ======================================================== -->
-            <section id="section-studio" class="studio-section hidden">
+            <section id="section-studio" class="studio-section hidden" role="tabpanel" aria-labelledby="mode-studio">
                 <!-- Problem Selection & Filter Bar -->
                 <div class="studio-toolbar glass-panel">
                     <!-- Row 1: Filters — narrows the working set, with a live match count -->
@@ -218,7 +218,7 @@
                         </div>
                         <div class="filter-match-count" id="filter-match-count" title="Problems matching the current filters">
                             <i class="fa-solid fa-layer-group"></i>
-                            <span id="filter-match-label"><strong id="filter-match-num">342</strong> <span id="filter-match-total">problems</span></span>
+                            <span id="filter-match-label"><strong id="filter-match-num">325</strong> <span id="filter-match-total">problems</span></span>
                         </div>
                     </div>
 
@@ -235,8 +235,8 @@
                             </select>
                         </div>
                         <div class="nav-arrows">
-                            <button id="prev-prob-btn" class="btn btn-icon" title="Previous Problem"><i class="fa-solid fa-chevron-left"></i></button>
-                            <button id="next-prob-btn" class="btn btn-icon" title="Next Problem"><i class="fa-solid fa-chevron-right"></i></button>
+                            <button id="prev-prob-btn" class="btn btn-icon" title="Previous Problem" aria-label="Previous Problem"><i class="fa-solid fa-chevron-left"></i></button>
+                            <button id="next-prob-btn" class="btn btn-icon" title="Next Problem" aria-label="Next Problem"><i class="fa-solid fa-chevron-right"></i></button>
                         </div>
                     </div>
                 </div>
@@ -249,7 +249,7 @@
                         <div class="problem-header-box">
                             <div class="prob-title-row">
                                 <h2 id="prob-title" class="prob-title">Select a problem</h2>
-                                <button id="bookmark-btn" class="btn-star" title="Bookmark problem">
+                                <button id="bookmark-btn" class="btn-star" title="Bookmark problem" aria-label="Bookmark problem">
                                     <i class="fa-regular fa-star"></i>
                                 </button>
                             </div>
@@ -282,10 +282,10 @@
                             <div id="tab-content-solution" class="subtab-content hidden">
                                 <div class="approach-toolbar">
                                     <div class="approach-toggle" role="tablist">
-                                        <button class="approach-btn" data-approach="brute" id="approach-btn-brute">
+                                        <button class="approach-btn" data-approach="brute" id="approach-btn-brute" role="tab" aria-selected="false">
                                             <i class="fa-solid fa-hammer"></i> Brute Force
                                         </button>
-                                        <button class="approach-btn active" data-approach="optimized" id="approach-btn-optimized">
+                                        <button class="approach-btn active" data-approach="optimized" id="approach-btn-optimized" role="tab" aria-selected="true">
                                             <i class="fa-solid fa-bolt"></i> Optimized
                                         </button>
                                     </div>
@@ -638,7 +638,7 @@
                                 <!-- Test Results View -->
                                 <div id="console-tab-tests" class="console-tab-pane">
                                     <div id="test-results-container" class="test-results-empty">
-                                        Click <strong>Run Code</strong> or <strong>Submit</strong> to evaluate your solution against test cases.
+                                        Click <strong>Run</strong> or <strong>Submit</strong> to evaluate your solution against test cases.
                                     </div>
                                 </div>
 
@@ -662,7 +662,7 @@
             <!-- ======================================================== -->
             <!-- 2. DAILY TRACKER & MASTERY ROADMAP                      -->
             <!-- ======================================================== -->
-            <section id="section-tracker" class="tracker-section hidden">
+            <section id="section-tracker" class="tracker-section hidden" role="tabpanel" aria-labelledby="mode-tracker">
                 <!-- Daily Goal & Streak Hero -->
                 <div class="tracker-hero glass-panel">
                     <div class="tracker-hero-left">
@@ -732,24 +732,24 @@
             <!-- ======================================================== -->
             <!-- 3. MULTI-PLATFORM ANALYTICS (LEETCODE/CODECHEF/CF)      -->
             <!-- ======================================================== -->
-            <section id="section-analytics" class="analytics-section hidden">
+            <section id="section-analytics" class="analytics-section hidden" role="tabpanel" aria-labelledby="mode-analytics">
                 
                 <!-- Platform Switcher Header -->
                 <div class="analytics-header-bar glass-panel">
                     <div class="platform-switcher" role="tablist">
-                        <button class="platform-btn active" data-platform="leetcode">
+                        <button class="platform-btn active" data-platform="leetcode" role="tab" aria-selected="true">
                             <i class="fa-solid fa-code"></i>
                             <span>LeetCode</span>
                         </button>
-                        <button class="platform-btn" data-platform="codechef">
+                        <button class="platform-btn" data-platform="codechef" role="tab" aria-selected="false">
                             <i class="fa-solid fa-terminal"></i>
                             <span>CodeChef</span>
                         </button>
-                        <button class="platform-btn" data-platform="codeforces">
+                        <button class="platform-btn" data-platform="codeforces" role="tab" aria-selected="false">
                             <i class="fa-solid fa-chart-column"></i>
                             <span>Codeforces</span>
                         </button>
-                        <button class="platform-btn" data-platform="unified">
+                        <button class="platform-btn" data-platform="unified" role="tab" aria-selected="false">
                             <i class="fa-solid fa-layer-group"></i>
                             <span>Unified Hub</span>
                         </button>
@@ -1100,14 +1100,14 @@
             <!-- ======================================================== -->
             <!-- 4. AI HUB — Ask AI Mentor + Trending AI News             -->
             <!-- ======================================================== -->
-            <section id="section-ai" class="ai-section hidden">
+            <section id="section-ai" class="ai-section hidden" role="tabpanel" aria-labelledby="mode-ai">
                 <div class="ai-header-bar glass-panel">
                     <div class="platform-switcher" role="tablist">
-                        <button class="ai-sub-tab active" data-aitab="chat">
+                        <button class="ai-sub-tab active" data-aitab="chat" role="tab" aria-selected="true" aria-controls="ai-pane-chat">
                             <i class="fa-solid fa-comments"></i>
                             <span>Ask AI Mentor</span>
                         </button>
-                        <button class="ai-sub-tab" data-aitab="news">
+                        <button class="ai-sub-tab" data-aitab="news" role="tab" aria-selected="false" aria-controls="ai-pane-news">
                             <i class="fa-solid fa-newspaper"></i>
                             <span>Trending AI News</span>
                         </button>
@@ -1115,7 +1115,7 @@
                 </div>
 
                 <!-- Ask AI Chat Pane -->
-                <div id="ai-pane-chat" class="ai-pane">
+                <div id="ai-pane-chat" class="ai-pane" role="tabpanel">
                     <div class="ai-chat-card glass-panel">
                         <div id="ai-chat-not-configured" class="ai-not-configured hidden">
                             <i class="fa-solid fa-plug-circle-exclamation"></i>
@@ -1141,7 +1141,7 @@
                 </div>
 
                 <!-- Trending AI News Pane -->
-                <div id="ai-pane-news" class="ai-pane hidden">
+                <div id="ai-pane-news" class="ai-pane hidden" role="tabpanel">
                     <div class="ai-news-toolbar glass-panel">
                         <div>
                             <h3 class="section-title"><i class="fa-solid fa-newspaper"></i> Trending in AI</h3>
@@ -1163,7 +1163,7 @@
             <!-- ======================================================== -->
             <!-- 5. ADMIN MANAGEMENT CONSOLE (RBAC)                       -->
             <!-- ======================================================== -->
-            <section id="section-admin" class="admin-section hidden">
+            <section id="section-admin" class="admin-section hidden" role="tabpanel" aria-labelledby="mode-admin">
                 <!-- Admin Header Banner -->
                 <div class="admin-header-card glass-panel">
                     <div class="admin-header-title">
@@ -1275,7 +1275,7 @@
             <!-- ======================================================== -->
             <!-- 6. TIMED AI MOCK INTERVIEW MODE (45-MINUTE TECHNICAL ROUND) -->
             <!-- ======================================================== -->
-            <section id="section-interview" class="interview-section hidden">
+            <section id="section-interview" class="interview-section hidden" role="tabpanel" aria-labelledby="mode-interview">
                 <!-- VIEW 1: CANDIDATE INTAKE SCREEN (MANDATORY GATE) -->
                 <div id="interview-view-intake" class="interview-view-block">
                     <div class="interview-hero glass-panel">
@@ -1576,7 +1576,7 @@
                         <div class="interview-right-pane glass-panel">
                             <div class="editor-header-bar">
                                 <div class="editor-lang-pill">
-                                    <i class="fa-brands fa-python text-yellow"></i> <span>Python 3.11</span>
+                                    <i class="fa-brands fa-python text-yellow"></i> <span>Python 3.13</span>
                                 </div>
                                 <div class="editor-actions">
                                     <button id="btn-interview-reset-code" class="btn btn-glass-sm" title="Reset starter code">
@@ -1770,14 +1770,14 @@
             <!-- ======================================================== -->
             <!-- 6. COMMUNITY — Public Chat & Private Direct Messages     -->
             <!-- ======================================================== -->
-            <section id="section-community" class="community-section hidden">
+            <section id="section-community" class="community-section hidden" role="tabpanel" aria-labelledby="mode-community">
                 <div class="community-header-bar glass-panel">
                     <div class="platform-switcher" role="tablist">
-                        <button class="community-sub-tab active" data-ctab="chat">
+                        <button class="community-sub-tab active" data-ctab="chat" role="tab" aria-selected="true" aria-controls="community-pane-chat">
                             <i class="fa-solid fa-comments"></i>
                             <span>Community Chat</span>
                         </button>
-                        <button class="community-sub-tab" data-ctab="dm">
+                        <button class="community-sub-tab" data-ctab="dm" role="tab" aria-selected="false" aria-controls="community-pane-dm">
                             <i class="fa-solid fa-envelope"></i>
                             <span>Direct Messages</span>
                             <span id="dm-unread-pill" class="community-unread-pill hidden">0</span>
@@ -1786,7 +1786,7 @@
                 </div>
 
                 <!-- Public Community Chat Pane -->
-                <div id="community-pane-chat" class="community-pane">
+                <div id="community-pane-chat" class="community-pane" role="tabpanel">
                     <div class="community-chat-card glass-panel">
                         <div id="community-chat-messages" class="community-chat-messages">
                             <div class="community-chat-welcome">
@@ -1805,13 +1805,13 @@
                 </div>
 
                 <!-- Direct Messages Pane -->
-                <div id="community-pane-dm" class="community-pane hidden">
+                <div id="community-pane-dm" class="community-pane hidden" role="tabpanel">
                     <div class="dm-layout">
                         <!-- Conversation list sidebar -->
                         <div class="dm-sidebar glass-panel">
                             <div class="dm-sidebar-header">
                                 <h3>Messages</h3>
-                                <button id="btn-new-dm" class="btn btn-icon" title="New message"><i class="fa-solid fa-square-pen"></i></button>
+                                <button id="btn-new-dm" class="btn btn-icon" title="New message" aria-label="New message"><i class="fa-solid fa-square-pen"></i></button>
                             </div>
 
                             <!-- New conversation search (hidden until "new message" is clicked) -->
@@ -1899,9 +1899,9 @@
     <!-- ======================================================== -->
     <!-- AUTH GATEWAY MODAL (LOGIN & REGISTER)                    -->
     <!-- ======================================================== -->
-    <div id="auth-modal" class="auth-modal-backdrop" style="display: none;">
+    <div id="auth-modal" class="auth-modal-backdrop" style="display: none;" role="dialog" aria-modal="true" aria-label="Sign in or register">
         <div class="auth-modal-box glass-panel">
-            <button id="btn-close-auth" class="auth-close-btn" title="Close"><i class="fa-solid fa-xmark"></i></button>
+            <button id="btn-close-auth" class="auth-close-btn" title="Close" aria-label="Close dialog"><i class="fa-solid fa-xmark"></i></button>
             
             <div class="auth-modal-header">
                 <div class="auth-header-icon"><i class="fa-solid fa-fingerprint"></i></div>
@@ -1932,7 +1932,7 @@
                     <label for="auth-login-password"><i class="fa-solid fa-lock"></i> Password</label>
                     <div class="input-password-wrapper">
                         <input type="password" id="auth-login-password" class="auth-input" placeholder="Enter your password" required autocomplete="current-password">
-                        <button type="button" class="btn-toggle-pw" title="Toggle password visibility"><i class="fa-regular fa-eye"></i></button>
+                        <button type="button" class="btn-toggle-pw" title="Toggle password visibility" aria-label="Toggle password visibility"><i class="fa-regular fa-eye"></i></button>
                     </div>
                 </div>
 
@@ -1961,7 +1961,7 @@
                     <label for="auth-reg-password"><i class="fa-solid fa-lock"></i> Password</label>
                     <div class="input-password-wrapper">
                         <input type="password" id="auth-reg-password" class="auth-input" placeholder="Create password (min 8 chars)" required autocomplete="new-password" minlength="8">
-                        <button type="button" class="btn-toggle-pw" title="Toggle password visibility"><i class="fa-regular fa-eye"></i></button>
+                        <button type="button" class="btn-toggle-pw" title="Toggle password visibility" aria-label="Toggle password visibility"><i class="fa-regular fa-eye"></i></button>
                     </div>
                 </div>
 
@@ -1985,9 +1985,9 @@
     <!-- ======================================================== -->
     <!-- NOTION INTEGRATION HUB MODAL                             -->
     <!-- ======================================================== -->
-    <div id="notion-modal" class="auth-modal-backdrop" style="display: none;">
+    <div id="notion-modal" class="auth-modal-backdrop" style="display: none;" role="dialog" aria-modal="true" aria-label="Notion workspace integration">
         <div class="auth-modal-box notion-modal-box glass-panel">
-            <button id="btn-close-notion" class="auth-close-btn" title="Close"><i class="fa-solid fa-xmark"></i></button>
+            <button id="btn-close-notion" class="auth-close-btn" title="Close" aria-label="Close dialog"><i class="fa-solid fa-xmark"></i></button>
 
             <div class="auth-modal-header notion-modal-header">
                 <div class="notion-header-icon"><i class="fa-solid fa-book-bookmark"></i></div>
@@ -2014,7 +2014,7 @@
                         <label for="notion-token-input"><i class="fa-solid fa-key"></i> Internal Integration Secret</label>
                         <div class="input-password-wrapper">
                             <input type="password" id="notion-token-input" class="auth-input" placeholder="secret_xxxxxxxxxxxxxxxxxxxxxxxxxxxx" required autocomplete="off">
-                            <button type="button" id="btn-toggle-notion-token" class="btn-toggle-pw" title="Toggle visibility"><i class="fa-regular fa-eye"></i></button>
+                            <button type="button" id="btn-toggle-notion-token" class="btn-toggle-pw" title="Toggle visibility" aria-label="Toggle token visibility"><i class="fa-regular fa-eye"></i></button>
                         </div>
                     </div>
 

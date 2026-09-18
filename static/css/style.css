@@ -348,60 +348,11 @@ body {
     color: #fff;
 }
 
-.admin-tab-pill {
-    display: inline-flex;
-    align-items: center;
-    background: rgba(167, 139, 250, 0.15);
-    border: 1px solid rgba(167, 139, 250, 0.3);
-    color: #c4b5fd;
-    font-size: 0.6rem;
-    font-weight: 700;
-    padding: 1px 5px;
-    border-radius: 8px;
-    letter-spacing: 0.3px;
-}
+/* .user-auth-panel / .auth-view-block rules live further down the file,
+   nearer the auth button styles — that's the currently active definition. */
 
-/* User Auth & Session Panel */
-.user-auth-panel {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-shrink: 0;
-}
-
-.auth-view-block {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.btn-notion-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 5px 12px;
-    border-radius: 20px;
-    background: var(--surface-2);
-    border: 1px solid var(--border-strong);
-    color: var(--text-secondary);
-    font-size: 0.78rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: var(--transition-smooth);
-    white-space: nowrap;
-}
-
-.btn-notion-pill:hover {
-    background: var(--surface-3);
-    color: var(--text-primary);
-    border-color: var(--accent);
-}
-
-.btn-notion-pill.connected {
-    background: rgba(70, 167, 88, 0.1);
-    border-color: rgba(70, 167, 88, 0.35);
-    color: var(--success);
-}
+/* .btn-notion-pill base/:hover/.connected rules live in the "NOTION
+   INTEGRATION HUB" section below, which is the currently active definition. */
 
 .btn-theme-toggle {
     display: inline-flex;
@@ -1101,19 +1052,8 @@ body {
     color: var(--text-secondary);
 }
 
-.editor-actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.code-editor-wrapper {
-    flex: 1;
-    display: flex;
-    position: relative;
-    background: var(--bg);
-    overflow: hidden;
-}
+/* .editor-actions and .code-editor-wrapper's active rules live in the
+   CodeMirror 6 Integration section further down the file. */
 
 .line-numbers {
     width: 44px;
@@ -1884,21 +1824,11 @@ body {
     background: var(--accent-soft) !important;
 }
 
-.admin-tab-pill {
-    font-size: 0.58rem;
-    font-weight: 800;
-    padding: 1px 6px;
-    border-radius: 10px;
-    background: var(--accent);
-    color: #fff;
-    letter-spacing: 0.4px;
-    margin-left: 2px;
-}
-
 .user-auth-panel {
     display: flex;
     align-items: center;
     gap: 12px;
+    flex-shrink: 0;
 }
 
 .auth-view-block {
@@ -4930,6 +4860,7 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
+    flex-wrap: wrap;
 }
 
 /* Progressive Hints Dropdown */
@@ -4938,6 +4869,7 @@ body {
     align-items: center;
     gap: 8px;
     position: relative;
+    flex-wrap: wrap;
 }
 
 .hints-badge {
@@ -4958,10 +4890,10 @@ body {
     top: calc(100% + 8px);
     right: 0;
     width: 280px;
-    background: rgba(20, 22, 36, 0.98);
-    border: 1px solid rgba(110, 98, 229, 0.35);
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
     border-radius: var(--radius-md);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+    box-shadow: var(--shadow-lg);
     z-index: 100;
     overflow: hidden;
     display: flex;
@@ -5007,125 +4939,13 @@ body {
     border-radius: 4px;
 }
 
-/* Split Workspace & Pause Overlay */
-.interview-workspace-container {
-    position: relative;
-    width: 100%;
-    border-radius: var(--radius-md);
-}
-
-/* Pause Overlay */
-.interview-pause-overlay {
-    position: absolute;
-    inset: 0;
-    z-index: 50;
-    background: rgba(9, 11, 20, 0.76);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--radius-md);
-    animation: fadeInView 0.2s ease-out;
-}
-
-.pause-modal-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow-lg);
-    border-radius: var(--radius-lg);
-    padding: 36px 32px;
-    max-width: 500px;
-    width: 90%;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    animation: pauseCardZoom 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes pauseCardZoom {
-    from { opacity: 0; transform: scale(0.92); }
-    to { opacity: 1; transform: scale(1); }
-}
-
-.pause-icon-circle {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    background: rgba(245, 158, 11, 0.14);
-    border: 2px solid #f59e0b;
-    color: #fbbf24;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.8rem;
-    box-shadow: 0 0 20px rgba(245, 158, 11, 0.35);
-}
-
-.pause-modal-card h2 {
-    margin: 0;
-    font-size: 1.6rem;
-    font-weight: 800;
-    color: var(--text-primary);
-}
-
-.pause-subtitle {
-    font-size: 0.88rem;
-    color: var(--text-secondary);
-    line-height: 1.6;
-    margin: 0;
-}
-
-.pause-time-badge {
-    padding: 6px 16px;
-    border-radius: 20px;
-    background: rgba(56, 189, 248, 0.1);
-    border: 1px solid rgba(56, 189, 248, 0.3);
-    color: var(--text-primary);
-    font-size: 0.85rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-}
-
+/* Split Workspace & Pause Overlay — full rules live in the "MOCK INTERVIEW:
+   PAUSE & RESTART CONTROLS" section below; .pause-time-badge strong isn't
+   redefined there, so it stays here as the sole definition. */
 .pause-time-badge strong {
     font-family: 'JetBrains Mono', monospace;
     color: #38bdf8;
     font-size: 1.05rem;
-}
-
-.pause-actions {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-top: 8px;
-}
-
-/* Blur & Inactive States When Test is Paused */
-.interview-workspace-container.is-test-paused .interview-left-pane {
-    filter: blur(14px);
-    -webkit-filter: blur(14px);
-    opacity: 0.4;
-    pointer-events: none;
-    user-select: none;
-    transition: filter 0.3s ease, opacity 0.3s ease;
-}
-
-.interview-workspace-container.is-test-paused .interview-right-pane {
-    filter: blur(12px);
-    -webkit-filter: blur(12px);
-    opacity: 0.35;
-    pointer-events: none;
-    user-select: none;
-    transition: filter 0.3s ease, opacity 0.3s ease;
-}
-
-.interview-workspace-container.is-test-paused #interview-code-textarea {
-    pointer-events: none !important;
-    user-select: none !important;
-    cursor: not-allowed !important;
 }
 
 .interview-room-body {
@@ -5941,6 +5761,7 @@ body {
     position: relative;
     width: 100%;
     min-height: 580px;
+    border-radius: var(--radius-md);
 }
 
 /* When the test is paused, aggressively blur question, dialogue, and code editor */
@@ -5978,6 +5799,7 @@ body {
     align-items: center;
     justify-content: center;
     padding: 24px;
+    border-radius: var(--radius-md);
     animation: fadeIn 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
@@ -6108,6 +5930,7 @@ body {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
+    white-space: nowrap;
 }
 
 .btn-notion-pill:hover,
@@ -6379,6 +6202,7 @@ body {
 .code-editor-wrapper {
     position: relative;
     display: flex;
+    flex: 1;
     flex-direction: column;
     height: 100%;
     min-height: 320px;

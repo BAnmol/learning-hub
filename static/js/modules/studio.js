@@ -1271,7 +1271,9 @@ function wireEvents() {
     approachBtnOptimized.addEventListener("click", () => {
         currentApproach = "optimized";
         approachBtnOptimized.classList.add("active");
+        approachBtnOptimized.setAttribute("aria-selected", "true");
         approachBtnBrute.classList.remove("active");
+        approachBtnBrute.setAttribute("aria-selected", "false");
         bruteForceUnavailable.classList.add("hidden");
         renderApproachCode();
         // Re-fetch explanation for optimized if Solution tab is visible
@@ -1285,7 +1287,9 @@ function wireEvents() {
         if (approachBtnBrute.classList.contains("hidden")) return;
         currentApproach = "brute";
         approachBtnBrute.classList.add("active");
+        approachBtnBrute.setAttribute("aria-selected", "true");
         approachBtnOptimized.classList.remove("active");
+        approachBtnOptimized.setAttribute("aria-selected", "false");
         bruteForceUnavailable.classList.add("hidden");
         renderApproachCode();
         // Re-fetch explanation for brute force

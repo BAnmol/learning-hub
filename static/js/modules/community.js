@@ -84,7 +84,11 @@ function wireSubTabs() {
 function switchSubTab(target) {
     if (target === activeSubTab) return;
     activeSubTab = target;
-    subTabs.forEach((t) => t.classList.toggle("active", t.dataset.ctab === target));
+    subTabs.forEach((t) => {
+        const active = t.dataset.ctab === target;
+        t.classList.toggle("active", active);
+        t.setAttribute("aria-selected", active ? "true" : "false");
+    });
     chatPane.classList.toggle("hidden", target !== "chat");
     dmPane.classList.toggle("hidden", target !== "dm");
 

@@ -25,7 +25,11 @@ export function onModeChange(fn) {
 export function switchMode(mode) {
     if (!mode || !sections[mode]) return;
     currentMode = mode;
-    document.querySelectorAll(".mode-btn").forEach((b) => b.classList.toggle("active", b.dataset.mode === mode));
+    document.querySelectorAll(".mode-btn").forEach((b) => {
+        const active = b.dataset.mode === mode;
+        b.classList.toggle("active", active);
+        b.setAttribute("aria-selected", active ? "true" : "false");
+    });
     Object.keys(sections).forEach((k) => {
         sections[k].classList.toggle("hidden", k !== mode);
     });

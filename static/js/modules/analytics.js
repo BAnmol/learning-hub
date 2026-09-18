@@ -37,7 +37,11 @@ function cacheDom() {
 
 function switchPlatform(platform) {
     activePlatform = platform;
-    platformBtns.forEach((b) => b.classList.toggle("active", b.dataset.platform === platform));
+    platformBtns.forEach((b) => {
+        const active = b.dataset.platform === platform;
+        b.classList.toggle("active", active);
+        b.setAttribute("aria-selected", active ? "true" : "false");
+    });
 
     if (platform === "unified") {
         searchForm.style.opacity = "0.5";
@@ -174,6 +178,67 @@ function renderLeetCodeAnalytics(data) {
             bPill.classList.add("hidden");
         }
     }
+
+    renderLCTopics(data.skills || {});
+}
+
+// "DSA Topic Mastery" tag cloud — cached so switching category tabs doesn't
+// need a re-fetch, since skill data was already pulled with the rest of the
+// LeetCode dashboard payload (src/leetcode_client.py's get_skill_stats()).
+let lcSkillsData = null;
+
+function renderLCTopics(skills) {
+    lcSkillsData = skills || {};
+    const activeTab = document.querySelector(".topic-tab.active");
+    renderLCTopicsForCategory(activeTab ? activeTab.dataset.category : "all");
+}
+
+function renderLCTopicsForCategory(category) {
+    const container = document.getElementById("lc-topics-container");
+    if (!container) return;
+
+    if (!lcSkillsData) {
+        container.innerHTML = "";
+        return;
+    }
+
+    let tags;
+    if (category === "all") {
+        tags = [
+            ...(lcSkillsData.fundamental || []),
+            ...(lcSkillsData.intermediate || []),
+            ...(lcSkillsData.advanced || []),
+        ];
+    } else {
+        tags = lcSkillsData[category] || [];
+    }
+    tags = tags.slice().sort((a, b) => (b.problemsSolved || 0) - (a.problemsSolved || 0));
+
+    if (tags.length === 0) {
+        container.innerHTML = `
+            <div class="approach-empty-hint">
+                <i class="fa-solid fa-circle-info"></i> No topic-wise data available for this profile yet.
+            </div>
+        `;
+        return;
+    }
+
+    container.innerHTML = tags.map((t) => `
+        <span class="topic-badge">
+            <span class="topic-name">${escapeHtml(t.tagName || t.tagSlug || "Unknown")}</span>
+            <span class="topic-count">${t.problemsSolved || 0}</span>
+        </span>
+    `).join("");
+}
+
+function wireTopicTabs() {
+    document.querySelectorAll(".topic-tab").forEach((tab) => {
+        tab.addEventListener("click", () => {
+            document.querySelectorAll(".topic-tab").forEach((t) => t.classList.remove("active"));
+            tab.classList.add("active");
+            renderLCTopicsForCategory(tab.dataset.category);
+        });
+    });
 }
 
 function renderLCDiff(key, acItem, totalCount, totItem) {
@@ -309,6 +374,7 @@ export function initAnalytics() {
     if (wired) return;
     cacheDom();
     wireEvents();
+    wireTopicTabs();
     wired = true;
 }
 
