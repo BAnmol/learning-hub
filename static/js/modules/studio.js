@@ -7,6 +7,7 @@ import { apiJson, escapeHtml, formatMarkdown } from "./utils.js?v=8.0";
 import { VisualizerPlayer } from "./visualizer.js?v=8.0";
 import { buildVisualSimulation } from "./trace_simulator.js?v=8.0";
 import { createPythonEditor, getEditorValue, setEditorValue, refreshEditorTheme } from "./editor.js";
+import { getCurrentMode } from "./nav.js?v=8.0";
 
 let stepFilter, difficultyFilter, statusFilter, problemSelect, prevProbBtn, nextProbBtn, bookmarkBtn;
 let filterMatchNum, filterMatchTotal, problemPositionPill;
@@ -670,7 +671,10 @@ function wireReviewEvents() {
     }
 
     // Ctrl+Shift+R — quick AI Review shortcut, matches the toolbar button's tooltip.
+    // Scoped to the Studio tab being active so it doesn't shadow the browser's
+    // own hard-reload shortcut (and silently trigger a review) on every other tab.
     document.addEventListener("keydown", (e) => {
+        if (getCurrentMode() !== "studio") return;
         if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "r") {
             e.preventDefault();
             runAiReview();
@@ -761,7 +765,7 @@ export async function loadFilteredProblems(targetStep = "") {
         const data = await apiJson(url);
         if (data.success) {
             loadedProblemsList = data.problems;
-            if (data.total) totalProblemCatalogSize = data.total;
+            if (data.total_count) totalProblemCatalogSize = data.total_count;
             if (filterMatchNum) filterMatchNum.textContent = loadedProblemsList.length;
             if (filterMatchTotal) {
                 if (!step && !diff && !status) {
@@ -798,8 +802,14 @@ export async function loadFilteredProblems(targetStep = "") {
                 // a problem that's no longer in the visible set.
                 await loadProblem(loadedProblemsList[0].id);
             }
+        } else if (problemSelect) {
+            problemSelect.innerHTML = `<option value="">Couldn't load problems — try again</option>`;
         }
-    } catch (e) { /* non-fatal */ }
+    } catch (e) {
+        if (problemSelect) {
+            problemSelect.innerHTML = `<option value="">Couldn't load problems — check your connection</option>`;
+        }
+    }
 }
 
 function updatePositionPill() {
@@ -822,6 +832,11 @@ async function loadProblem(problemId) {
         }
     } catch (e) { /* non-fatal */ }
 }
+
+/** Current Python source in the Studio editor — CodeMirror when mounted, else the hidden fallback textarea. */
+window.getStudioCode = function() {
+    return cmStudioView ? getEditorValue(cmStudioView) : (codeEditor?.value || "");
+};
 
 window.loadTestCaseIntoCustom = function(rawInput) {
     if (!rawInput) return;
@@ -870,13 +885,12 @@ function buildProblemDescriptionHtml(p) {
     if (testCases.length > 0) {
         examplesHtml = testCases.slice(0, 3).map((c, idx) => {
             const rawIn = c.raw_input || c.input || "";
-            const safeRawIn = escapeHtml(rawIn).replace(/"/g, '&quot;');
             return `
                 <div class="problem-example-card">
                     <div class="example-card-header">
                         <span class="example-badge"><i class="fa-solid fa-flask"></i> ${escapeHtml(c.label || `Example ${idx + 1}`)}</span>
                         ${rawIn ? `
-                            <button type="button" class="btn btn-ghost btn-xs btn-use-example" onclick="window.loadTestCaseIntoCustom('${safeRawIn}')" title="Load this input into Custom Input console">
+                            <button type="button" class="btn btn-ghost btn-xs btn-use-example" data-raw-input="${escapeHtml(rawIn)}" title="Load this input into Custom Input console">
                                 <i class="fa-solid fa-play text-green"></i> Test This Input
                             </button>
                         ` : ""}
@@ -1187,6 +1201,15 @@ function wireEvents() {
 
     problemSelect.addEventListener("change", (e) => {
         if (e.target.value) loadProblem(e.target.value);
+    });
+
+    // Delegated so it keeps working across every re-render of probDescText.innerHTML
+    // (the "Test This Input" buttons on example cards are rebuilt per problem load).
+    probDescText.addEventListener("click", (e) => {
+        const btn = e.target.closest(".btn-use-example");
+        if (btn && btn.dataset.rawInput !== undefined) {
+            window.loadTestCaseIntoCustom(btn.dataset.rawInput);
+        }
     });
 
     prevProbBtn.addEventListener("click", () => {

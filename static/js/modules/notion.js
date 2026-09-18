@@ -255,7 +255,7 @@ export async function syncActiveProblemToNotion(triggerBtn = null) {
         return;
     }
 
-    const code = document.getElementById("code-editor")?.value || "";
+    const code = window.getStudioCode ? window.getStudioCode() : (document.getElementById("code-editor")?.value || "");
     const notes = document.getElementById("prob-notes-input")?.value || "";
 
     const origHtml = triggerBtn ? triggerBtn.innerHTML : "";

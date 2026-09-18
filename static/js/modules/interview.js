@@ -4,7 +4,7 @@
 // AI interviewer dialogue & hints, code test sandbox, and FAANG scorecard.
 // ============================================================================
 
-import { formatMarkdown } from "./utils.js";
+import { formatMarkdown, escapeHtml } from "./utils.js?v=8.0";
 import { createPythonEditor, getEditorValue, setEditorValue, setEditorReadOnly, refreshEditorTheme } from "./editor.js";
 
 // Session State
@@ -428,6 +428,12 @@ function stopTimer() {
         clearInterval(timerInterval);
         timerInterval = null;
     }
+}
+
+/** Called on logout so a running 45-minute countdown can't fire an auto-submit
+ *  (which would 401) against a session that no longer exists. */
+export function stopActiveTimers() {
+    stopTimer();
 }
 
 function updateClockDisplay() {
@@ -1041,14 +1047,4 @@ async function loadInterviewHistory() {
     } catch (err) {
         tbody.innerHTML = `<tr><td colspan="7" class="text-center text-red">Failed to load history: ${escapeHtml(err.message)}</td></tr>`;
     }
-}
-
-function escapeHtml(text) {
-    if (!text) return "";
-    return String(text)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
 }

@@ -2,6 +2,7 @@ import json
 import logging
 import re
 from typing import Any, Dict, List, Optional
+from bs4 import BeautifulSoup
 try:
     from curl_cffi import requests
 except ImportError:

@@ -32,7 +32,15 @@ from src.notion_engine import NotionEngine, NotionVault
 load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY", "dsa_nexus_quantum_secret_2026_rbac_x89a")
+_DEFAULT_SECRET_KEY = "dsa_nexus_quantum_secret_2026_rbac_x89a"
+app.secret_key = os.getenv("SECRET_KEY", _DEFAULT_SECRET_KEY)
+if app.secret_key == _DEFAULT_SECRET_KEY:
+    print(
+        "[Brainfreeze Algos] WARNING: SECRET_KEY is not set in .env — using the hardcoded "
+        "source default. Session cookies are signed with this key, so anyone who reads the "
+        "source can forge a login session for any user, including admin. Set SECRET_KEY to a "
+        "long random value (see README) before deploying anywhere reachable outside your own machine."
+    )
 app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
@@ -94,6 +102,14 @@ def get_current_user():
     if not user_id:
         return None
     return db.get_user_by_id(user_id)
+
+
+def _safe_int(value, default=0):
+    """Coerce a request payload value to int, falling back to `default` on bad input."""
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return default
 
 
 def login_required(f):
@@ -477,14 +493,17 @@ def run_dsa_code():
     if not prob:
         return jsonify({"success": False, "error": "Problem not found"}), 404
 
-    res = PythonCodeRunner.execute_code(
-        user_code=code,
-        method_name=prob["method_name"],
-        reference_solution=prob.get("reference_solution"),
-        custom_input=custom_input,
-        test_cases=prob.get("test_cases"),
-    )
-    return jsonify({"success": True, "result": res})
+    try:
+        res = PythonCodeRunner.execute_code(
+            user_code=code,
+            method_name=prob["method_name"],
+            reference_solution=prob.get("reference_solution"),
+            custom_input=custom_input,
+            test_cases=prob.get("test_cases"),
+        )
+        return jsonify({"success": True, "result": res})
+    except Exception as e:
+        return jsonify({"success": False, "error": f"Code execution failed: {str(e)}"}), 500
 
 
 @app.route("/api/dsa/submit", methods=["POST"])
@@ -502,32 +521,35 @@ def submit_dsa_code():
     if not prob:
         return jsonify({"success": False, "error": "Problem not found"}), 404
 
-    res = PythonCodeRunner.execute_code(
-        user_code=code,
-        method_name=prob["method_name"],
-        reference_solution=prob.get("reference_solution"),
-        test_cases=prob.get("test_cases"),
-    )
+    try:
+        res = PythonCodeRunner.execute_code(
+            user_code=code,
+            method_name=prob["method_name"],
+            reference_solution=prob.get("reference_solution"),
+            test_cases=prob.get("test_cases"),
+        )
 
-    is_accepted = res.get("passed", False)
-    db.record_attempt(
-        problem_id=problem_id,
-        code=code,
-        is_accepted=is_accepted,
-        exec_time_ms=res.get("execution_time_ms", 0.0),
-        tests_passed=res.get("tests_passed", 0),
-        tests_total=res.get("tests_total", 0),
-        error_message=res.get("error") or "",
-        user_id=user_id,
-    )
+        is_accepted = res.get("passed", False)
+        db.record_attempt(
+            problem_id=problem_id,
+            code=code,
+            is_accepted=is_accepted,
+            exec_time_ms=res.get("execution_time_ms", 0.0),
+            tests_passed=res.get("tests_passed", 0),
+            tests_total=res.get("tests_total", 0),
+            error_message=res.get("error") or "",
+            user_id=user_id,
+        )
 
-    stats = db.get_stats(user_id=user_id)
-    return jsonify({
-        "success": True,
-        "result": res,
-        "is_accepted": is_accepted,
-        "stats": stats,
-    })
+        stats = db.get_stats(user_id=user_id)
+        return jsonify({
+            "success": True,
+            "result": res,
+            "is_accepted": is_accepted,
+            "stats": stats,
+        })
+    except Exception as e:
+        return jsonify({"success": False, "error": f"Submission failed: {str(e)}"}), 500
 
 
 @app.route("/api/dsa/notes", methods=["POST"])
@@ -586,10 +608,10 @@ def get_dsa_stats():
 
 
 # =============================================================================
-# AI Mentor Chat & Trending AI News (OpenRouter) — login-gated like every
-# other service; each route additionally checks openrouter_client.is_configured
-# so the UI can show a clean setup hint instead of a broken feature when no
-# OPENROUTER_API_KEY has been provided yet.
+# AI Mentor Chat & Trending AI News — login-gated like every other service;
+# each route additionally checks llm_router.is_configured so the UI can show
+# a clean setup hint instead of a broken feature when no provider API key
+# (OpenRouter / Groq / Gemini) has been configured yet.
 # =============================================================================
 
 @app.route("/api/ai/status")
@@ -838,7 +860,7 @@ def chat_mock_interview():
     session_id = data.get("session_id")
     message = (data.get("message") or "").strip()
     message_type = data.get("message_type", "chat")  # 'chat', 'pitch', 'hint'
-    hint_level = int(data.get("hint_level") or 1)
+    hint_level = _safe_int(data.get("hint_level"), 1)
     current_code = data.get("current_code", "")
 
     if not session_id:
@@ -857,7 +879,7 @@ def chat_mock_interview():
 
     try:
         if message_type == "hint":
-            hint_info = interview_engine.generate_hint(prob, hint_level=hint_level)
+            hint_info = interview_engine.generate_hint(prob, hint_level=hint_level, hint_number=hints_used + 1)
             hints_used += 1
             db.update_interview_progress(session_id, hints_used=hints_used, code=current_code, user_id=user_id)
 
@@ -938,7 +960,7 @@ def run_mock_interview_tests():
     data = request.get_json() or {}
     session_id = data.get("session_id")
     code = data.get("code", "")
-    time_spent_seconds = int(data.get("time_spent_seconds") or 0)
+    time_spent_seconds = _safe_int(data.get("time_spent_seconds"), 0)
 
     if not session_id:
         return jsonify({"success": False, "error": "Missing session_id."}), 400
@@ -951,21 +973,24 @@ def run_mock_interview_tests():
     if not prob:
         return jsonify({"success": False, "error": "Problem not found."}), 404
 
-    res = PythonCodeRunner.execute_code(
-        user_code=code,
-        method_name=prob["method_name"],
-        reference_solution=prob.get("reference_solution"),
-        test_cases=prob.get("test_cases"),
-    )
+    try:
+        res = PythonCodeRunner.execute_code(
+            user_code=code,
+            method_name=prob["method_name"],
+            reference_solution=prob.get("reference_solution"),
+            test_cases=prob.get("test_cases"),
+        )
 
-    db.update_interview_progress(
-        session_id=session_id,
-        code=code,
-        time_spent_seconds=time_spent_seconds,
-        user_id=user_id,
-    )
+        db.update_interview_progress(
+            session_id=session_id,
+            code=code,
+            time_spent_seconds=time_spent_seconds,
+            user_id=user_id,
+        )
 
-    return jsonify({"success": True, "result": res})
+        return jsonify({"success": True, "result": res})
+    except Exception as e:
+        return jsonify({"success": False, "error": f"Test run failed: {str(e)}"}), 500
 
 
 @app.route("/api/interview/submit", methods=["POST"])
@@ -978,7 +1003,7 @@ def submit_mock_interview():
     data = request.get_json() or {}
     session_id = data.get("session_id")
     code = data.get("code", "")
-    time_spent_seconds = int(data.get("time_spent_seconds") or 0)
+    time_spent_seconds = _safe_int(data.get("time_spent_seconds"), 0)
     status = data.get("status", "completed")  # 'completed' or 'timed_out'
 
     if not session_id:
@@ -992,80 +1017,83 @@ def submit_mock_interview():
     if not prob:
         return jsonify({"success": False, "error": "Problem not found."}), 404
 
-    # Run complete test suite
-    test_res = PythonCodeRunner.execute_code(
-        user_code=code,
-        method_name=prob["method_name"],
-        reference_solution=prob.get("reference_solution"),
-        test_cases=prob.get("test_cases"),
-    )
+    try:
+        # Run complete test suite
+        test_res = PythonCodeRunner.execute_code(
+            user_code=code,
+            method_name=prob["method_name"],
+            reference_solution=prob.get("reference_solution"),
+            test_cases=prob.get("test_cases"),
+        )
 
-    tests_passed = test_res.get("tests_passed", 0)
-    tests_total = test_res.get("tests_total", 0)
-    is_accepted = bool(test_res.get("passed", False))
+        tests_passed = test_res.get("tests_passed", 0)
+        tests_total = test_res.get("tests_total", 0)
+        is_accepted = bool(test_res.get("passed", False))
 
-    intake = {
-        "target_role": session_data.get("target_role"),
-        "target_company": session_data.get("target_company"),
-        "experience_level": session_data.get("experience_level"),
-        "focus_skills": session_data.get("focus_skills"),
-        "qualification": session_data.get("qualification"),
-    }
+        intake = {
+            "target_role": session_data.get("target_role"),
+            "target_company": session_data.get("target_company"),
+            "experience_level": session_data.get("experience_level"),
+            "focus_skills": session_data.get("focus_skills"),
+            "qualification": session_data.get("qualification"),
+        }
 
-    transcript = session_data.get("transcript") or []
-    hints_used = session_data.get("hints_used") or 0
+        transcript = session_data.get("transcript") or []
+        hints_used = session_data.get("hints_used") or 0
 
-    # Calculate scorecard
-    eval_card = interview_engine.evaluate_interview(
-        intake=intake,
-        problem=prob,
-        user_code=code,
-        test_result=test_res,
-        time_spent_seconds=time_spent_seconds,
-        hints_used=hints_used,
-        chat_history=transcript,
-    )
+        # Calculate scorecard
+        eval_card = interview_engine.evaluate_interview(
+            intake=intake,
+            problem=prob,
+            user_code=code,
+            test_result=test_res,
+            time_spent_seconds=time_spent_seconds,
+            hints_used=hints_used,
+            chat_history=transcript,
+        )
 
-    score = eval_card["score"]
-    hire_decision = eval_card["hire_decision"]
-    rubric_scores = eval_card["rubric_scores"]
-    feedback = eval_card["feedback"]
-    tests_passed = eval_card["tests_passed"]
-    tests_total = eval_card["tests_total"]
+        score = eval_card["score"]
+        hire_decision = eval_card["hire_decision"]
+        rubric_scores = eval_card["rubric_scores"]
+        feedback = eval_card["feedback"]
+        tests_passed = eval_card["tests_passed"]
+        tests_total = eval_card["tests_total"]
 
-    # Save to database
-    db.complete_interview_session(
-        session_id=session_id,
-        code=code,
-        tests_passed=tests_passed,
-        tests_total=tests_total,
-        score=score,
-        hire_decision=hire_decision,
-        rubric_scores=rubric_scores,
-        feedback=feedback,
-        status=status,
-        time_spent_seconds=time_spent_seconds,
-        user_id=user_id,
-    )
+        # Save to database
+        db.complete_interview_session(
+            session_id=session_id,
+            code=code,
+            tests_passed=tests_passed,
+            tests_total=tests_total,
+            score=score,
+            hire_decision=hire_decision,
+            rubric_scores=rubric_scores,
+            feedback=feedback,
+            status=status,
+            time_spent_seconds=time_spent_seconds,
+            user_id=user_id,
+        )
 
-    # Also log to standard problem attempts so candidate's activity and streak reflect the practice
-    db.record_attempt(
-        problem_id=session_data["problem_id"],
-        code=code,
-        is_accepted=is_accepted,
-        exec_time_ms=test_res.get("execution_time_ms", 0.0),
-        tests_passed=tests_passed,
-        tests_total=tests_total,
-        error_message=test_res.get("error") or "",
-        user_id=user_id,
-    )
+        # Also log to standard problem attempts so candidate's activity and streak reflect the practice
+        db.record_attempt(
+            problem_id=session_data["problem_id"],
+            code=code,
+            is_accepted=is_accepted,
+            exec_time_ms=test_res.get("execution_time_ms", 0.0),
+            tests_passed=tests_passed,
+            tests_total=tests_total,
+            error_message=test_res.get("error") or "",
+            user_id=user_id,
+        )
 
-    return jsonify({
-        "success": True,
-        "scorecard": eval_card,
-        "test_result": test_res,
-        "session_id": session_id,
-    })
+        return jsonify({
+            "success": True,
+            "scorecard": eval_card,
+            "test_result": test_res,
+            "session_id": session_id,
+        })
+    except Exception as e:
+        return jsonify({"success": False, "error": f"Interview submission failed: {str(e)}"}), 500
 
 
 @app.route("/api/interview/history", methods=["GET"])

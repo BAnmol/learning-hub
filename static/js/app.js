@@ -10,9 +10,9 @@ import { loadTrackerStats } from "./modules/tracker.js?v=8.0";
 import { initAnalytics, onShow as analyticsOnShow } from "./modules/analytics.js?v=8.0";
 import { onShow as aiOnShow } from "./modules/ai.js?v=8.0";
 import { loadAdminDashboard } from "./modules/admin.js?v=8.0";
-import { initInterview, onShow as interviewOnShow } from "./modules/interview.js?v=8.0";
+import { initInterview, onShow as interviewOnShow, stopActiveTimers as stopInterviewTimers } from "./modules/interview.js?v=8.0";
 import { initNotion, refreshNotionStatus } from "./modules/notion.js?v=8.0";
-import { initCommunity, onShow as communityOnShow, refreshUnreadBadge as refreshCommunityUnreadBadge } from "./modules/community.js?v=8.0";
+import { initCommunity, onShow as communityOnShow, refreshUnreadBadge as refreshCommunityUnreadBadge, stopAllPolling as stopCommunityPolling } from "./modules/community.js?v=8.0";
 
 const ALLOWED_MODES = ["studio", "tracker", "analytics", "ai", "interview", "community", "admin"];
 
@@ -78,7 +78,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let studioBooted = false;
     onAuthChange(async (user) => {
-        if (!user) return;
+        if (!user) {
+            // Tear down timers that don't already stop themselves via onModeChange
+            // (they're designed to keep running across tab switches, just not
+            // past logout, where they'd otherwise keep firing now-401'd requests).
+            stopInterviewTimers();
+            stopCommunityPolling();
+            return;
+        }
 
         refreshNotionStatus();
         refreshCommunityUnreadBadge();

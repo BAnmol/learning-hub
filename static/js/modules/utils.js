@@ -34,19 +34,25 @@ export async function apiJson(url, options = {}) {
     }
 }
 
-/** Lightweight markdown and math formatter for problem statements. */
+/**
+ * Lightweight markdown and math formatter for problem statements and AI-generated
+ * text. The input is HTML-escaped first (none of the markdown syntax below relies
+ * on `&<>'"`, so escaping first doesn't break any of the regex passes) so raw HTML/
+ * script content coming from problem data or an LLM response can never execute when
+ * the result is assigned to innerHTML.
+ */
 export function formatMarkdown(md) {
     if (!md) return "";
-    let html = md;
-    
-    // Display Math: $$ ... $$
+    let html = escapeHtml(md);
+
+    // Display Math: $$ ... $$ (content is already escaped as part of `html` above)
     html = html.replace(/\$\$([\s\S]*?)\$\$/g, (match, math) => {
-        return `<div class="math-block"><code>${escapeHtml(math.trim())}</code></div>`;
+        return `<div class="math-block"><code>${math.trim()}</code></div>`;
     });
-    
-    // Inline Math: $ ... $
+
+    // Inline Math: $ ... $ (content is already escaped as part of `html` above)
     html = html.replace(/\$([^\$\n]+?)\$/g, (match, math) => {
-        return `<span class="math-inline"><code>${escapeHtml(math.trim())}</code></span>`;
+        return `<span class="math-inline"><code>${math.trim()}</code></span>`;
     });
 
     // Headings

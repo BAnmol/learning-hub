@@ -131,19 +131,31 @@ class InterviewEngine:
             f"The 45-minute clock is running. Take a moment to inspect the problem description, and let me know your thoughts or any clarifying questions!"
         )
 
-    def generate_hint(self, problem: Dict[str, Any], hint_level: int) -> Dict[str, Any]:
-        """Generate a 3-tier progressive hint with clear deduction attribution."""
+    def generate_hint(self, problem: Dict[str, Any], hint_level: int, hint_number: int = 1) -> Dict[str, Any]:
+        """Generate a 3-tier progressive hint with clear deduction attribution.
+
+        `hint_number` is this request's 1-indexed position among all hints used so
+        far in the session (regardless of tier) — the scorecard's hint penalty is
+        based on how many hints were used in total, so the displayed deduction is
+        computed from that same count-based schedule (see evaluate_interview) to
+        stay consistent with what's actually deducted from the final score.
+        """
         title = problem.get("title", "")
         topic = problem.get("topic", "")
         desc = problem.get("description", "")
         ref = problem.get("reference_solution", "")
 
-        penalties = {1: 5, 2: 15, 3: 25}
         labels = {1: "Tier 1: Gentle Nudge", 2: "Tier 2: Structural Clue", 3: "Tier 3: Algorithmic Strategy"}
 
         level = max(1, min(3, hint_level))
-        penalty = penalties[level]
         label = labels[level]
+
+        # Cumulative deduction schedule mirrored from evaluate_interview's hint_penalty logic.
+        cumulative_schedule = {0: 0, 1: 4, 2: 9}
+        count = max(1, hint_number)
+        cumulative_before = cumulative_schedule.get(count - 1, 15)
+        cumulative_after = cumulative_schedule.get(count, 15)
+        penalty = cumulative_after - cumulative_before
 
         # LLM prompt if online
         system_prompt = (
@@ -168,17 +180,17 @@ class InterviewEngine:
             # High quality static heuristics
             if level == 1:
                 hint_text = (
-                    f"**Gentle Nudge (-5 pts)**: Think about the core invariant of {topic}. "
+                    f"**Gentle Nudge**: Think about the core invariant of {topic}. "
                     f"What information do you need at each step? Can you avoid redundant computations by storing intermediate results?"
                 )
             elif level == 2:
                 hint_text = (
-                    f"**Structural Clue (-15 pts)**: Consider using an optimal data structure (e.g. Hash Map, Two Pointers, or Heap). "
+                    f"**Structural Clue**: Consider using an optimal data structure (e.g. Hash Map, Two Pointers, or Heap). "
                     f"Notice how each element relates to the boundary or target condition to achieve sub-quadratic complexity."
                 )
             else:
                 hint_text = (
-                    f"**Algorithmic Strategy (-25 pts)**: Initialize your tracking variables or state table. "
+                    f"**Algorithmic Strategy**: Initialize your tracking variables or state table. "
                     f"Iterate through the inputs, updating the state in O(1) or O(log N) time per element. "
                     f"Check boundary conditions first (e.g. empty inputs or single-element inputs), then return the aggregated result."
                 )

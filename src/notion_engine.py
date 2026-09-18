@@ -12,6 +12,9 @@ from cryptography.fernet import Fernet
 NOTION_API_BASE = "https://api.notion.com/v1"
 NOTION_API_VERSION = "2022-06-28"
 
+_DEFAULT_VAULT_SECRET = "dsa-nexus-notion-vault-salt-2026"
+_warned_insecure_vault_key = False
+
 
 class NotionVault:
     """
@@ -21,7 +24,16 @@ class NotionVault:
 
     @classmethod
     def _get_fernet(cls) -> Fernet:
-        raw_secret = os.getenv("NOTION_ENCRYPTION_KEY") or os.getenv("SECRET_KEY", "dsa-nexus-notion-vault-salt-2026")
+        global _warned_insecure_vault_key
+        raw_secret = os.getenv("NOTION_ENCRYPTION_KEY") or os.getenv("SECRET_KEY") or _DEFAULT_VAULT_SECRET
+        if raw_secret == _DEFAULT_VAULT_SECRET and not _warned_insecure_vault_key:
+            _warned_insecure_vault_key = True
+            print(
+                "[NotionVault] WARNING: neither NOTION_ENCRYPTION_KEY nor SECRET_KEY is set in .env — "
+                "encrypting stored Notion tokens with the hardcoded source default. This provides no real "
+                "protection at rest. Set SECRET_KEY (or a dedicated NOTION_ENCRYPTION_KEY) before storing "
+                "any real Notion integration tokens."
+            )
         # Derive 32-byte urlsafe base64 key
         digest = hashlib.sha256(raw_secret.encode("utf-8")).digest()
         key = base64.urlsafe_b64encode(digest)

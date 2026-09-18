@@ -12,6 +12,11 @@ const platformCache = { leetcode: null, codechef: null, codeforces: null };
 let activePlatform = "leetcode";
 let wired = false;
 
+// Short storage keys used consistently on both the read (cacheDom) and write
+// (wireEvents' search handler) sides, keyed by the full platform name used
+// throughout this module (data-platform="leetcode"/"codechef"/"codeforces").
+const PLATFORM_STORAGE_KEYS = { leetcode: "lc_user", codechef: "cc_user", codeforces: "cf_user" };
+
 function cacheDom() {
     platformBtns = document.querySelectorAll(".platform-btn");
     searchForm = document.getElementById("search-form");
@@ -24,9 +29,9 @@ function cacheDom() {
     analyticsViews.unified = document.getElementById("view-unified");
 
     platformUsers = {
-        leetcode: document.body.dataset.leetcodeUser || localStorage.getItem("lc_user") || "lee215",
-        codechef: document.body.dataset.codechefUser || localStorage.getItem("cc_user") || "tourist",
-        codeforces: document.body.dataset.codeforcesUser || localStorage.getItem("cf_user") || "tourist",
+        leetcode: document.body.dataset.leetcodeUser || localStorage.getItem(PLATFORM_STORAGE_KEYS.leetcode) || "lee215",
+        codechef: document.body.dataset.codechefUser || localStorage.getItem(PLATFORM_STORAGE_KEYS.codechef) || "tourist",
+        codeforces: document.body.dataset.codeforcesUser || localStorage.getItem(PLATFORM_STORAGE_KEYS.codeforces) || "tourist",
     };
 }
 
@@ -289,7 +294,7 @@ function wireEvents() {
         const username = usernameInput.value.trim();
         if (!username) return;
         platformUsers[activePlatform] = username;
-        localStorage.setItem(`${activePlatform}_user`, username);
+        localStorage.setItem(PLATFORM_STORAGE_KEYS[activePlatform] || `${activePlatform}_user`, username);
         loadPlatformData(activePlatform, username, true);
     });
 

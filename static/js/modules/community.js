@@ -454,3 +454,20 @@ export async function refreshUnreadBadge() {
         globalUnreadPollTimer = setInterval(refreshUnreadBadge, GLOBAL_UNREAD_POLL_MS);
     }
 }
+
+/** Called on logout. The chat/DM/conversations timers are also stopped by the
+ *  onModeChange teardown in initCommunity() whenever the user navigates to a
+ *  different tab — but logout doesn't fire a mode change (the section is hidden
+ *  in place via nav.js's hideAllSections()), so this covers a logout that
+ *  happens while Community is still the active tab. globalUnreadPollTimer is
+ *  always covered here, since by design it keeps running across tab switches
+ *  and only onAuthChange(null) is meant to stop it. */
+export function stopAllPolling() {
+    stopChatPolling();
+    stopDmPolling();
+    stopConversationsPolling();
+    if (globalUnreadPollTimer) {
+        clearInterval(globalUnreadPollTimer);
+        globalUnreadPollTimer = null;
+    }
+}

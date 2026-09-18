@@ -18,6 +18,13 @@ except ImportError:
 DB_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "dsa_platform.db")
 
 
+def _sanitize_or_filter_value(value: str) -> str:
+    """Strip PostgREST or() filter structural delimiters (`,`, `(`, `)`) from a value
+    before interpolating it into a raw `.or_("col.ilike.VALUE,...")` filter string, so
+    user-supplied input can't inject extra column conditions into the query."""
+    return (value or "").replace(",", "").replace("(", "").replace(")", "")
+
+
 class DSADatabase:
     """
     Dual-engine Database manager supporting:
@@ -254,8 +261,8 @@ class DSADatabase:
             return False, "Username must be at least 3 characters long.", None
         if not email or "@" not in email:
             return False, "Please provide a valid email address.", None
-        if not password or len(password) < 4:
-            return False, "Password must be at least 4 characters long.", None
+        if not password or len(password) < 8:
+            return False, "Password must be at least 8 characters long.", None
 
         now_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         hashed_pw = generate_password_hash(password)
@@ -263,7 +270,9 @@ class DSADatabase:
         if self.is_supabase:
             try:
                 # Check if username or email exists
-                existing_res = self.supabase.table("users").select("id, username, email").or_(f"username.ilike.{username},email.ilike.{email}").execute()
+                safe_username = _sanitize_or_filter_value(username)
+                safe_email = _sanitize_or_filter_value(email)
+                existing_res = self.supabase.table("users").select("id, username, email").or_(f"username.ilike.{safe_username},email.ilike.{safe_email}").execute()
                 if existing_res.data:
                     for ex in existing_res.data:
                         if ex.get("username", "").lower() == username.lower():
@@ -321,7 +330,8 @@ class DSADatabase:
 
         if self.is_supabase:
             try:
-                res = self.supabase.table("users").select("*").or_(f"username.ilike.{identifier},email.ilike.{identifier}").eq("is_active", 1).execute()
+                safe_identifier = _sanitize_or_filter_value(identifier)
+                res = self.supabase.table("users").select("*").or_(f"username.ilike.{safe_identifier},email.ilike.{safe_identifier}").eq("is_active", 1).execute()
                 if not res.data or len(res.data) == 0:
                     return False, "Invalid credentials or account is suspended.", None
 
@@ -389,7 +399,8 @@ class DSADatabase:
             try:
                 query = self.supabase.table("users").select("*")
                 if search:
-                    query = query.or_(f"username.ilike.%{search}%,email.ilike.%{search}%")
+                    safe_search = _sanitize_or_filter_value(search)
+                    query = query.or_(f"username.ilike.%{safe_search}%,email.ilike.%{safe_search}%")
                 if role_filter:
                     query = query.eq("role", role_filter)
 
@@ -735,9 +746,6 @@ class DSADatabase:
                     solved_at = row["solved_at"]
                     if is_accepted and not solved_at:
                         solved_at = now_str
-                        cursor.execute("""
-                        UPDATE daily_activity SET problems_solved_count = problems_solved_count + 1 WHERE user_id = ? AND date = ?
-                        """, (user_id, today_str))
 
                     cursor.execute("""
                     UPDATE problem_progress
@@ -747,10 +755,6 @@ class DSADatabase:
                 else:
                     new_status = "solved" if is_accepted else "attempted"
                     solved_at = now_str if is_accepted else None
-                    if is_accepted:
-                        cursor.execute("""
-                        UPDATE daily_activity SET problems_solved_count = problems_solved_count + 1 WHERE user_id = ? AND date = ?
-                        """, (user_id, today_str))
 
                     cursor.execute("""
                     INSERT INTO problem_progress (user_id, problem_id, status, solved_at, attempts_count, last_code, updated_at)
