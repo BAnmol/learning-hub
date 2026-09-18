@@ -3,6 +3,7 @@
 // Handles connection lifecycle, auto-provisioning, syncing code solutions &
 // personal notes, and exporting mock interview scorecards.
 // ============================================================================
+import { apiFetch } from "./utils.js?v=8.0";
 
 let isNotionConnected = false;
 let notionData = null;
@@ -60,7 +61,7 @@ export function initNotion() {
     if (toggleAutosync) {
         toggleAutosync.addEventListener("change", async (e) => {
             try {
-                await fetch("/api/notion/toggle-autosync", {
+                await apiFetch("/api/notion/toggle-autosync", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ auto_sync_enabled: e.target.checked }),
@@ -97,7 +98,7 @@ export function initNotion() {
  */
 export async function refreshNotionStatus() {
     try {
-        const resp = await fetch("/api/notion/status");
+        const resp = await apiFetch("/api/notion/status");
         if (!resp.ok) return;
         const data = await resp.json();
 
@@ -192,7 +193,7 @@ async function handleNotionConnect(e) {
     }
 
     try {
-        const resp = await fetch("/api/notion/connect", {
+        const resp = await apiFetch("/api/notion/connect", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -226,7 +227,7 @@ async function handleNotionDisconnect() {
     if (!confirm("Are you sure you want to disconnect your Notion workspace?")) return;
 
     try {
-        const resp = await fetch("/api/notion/disconnect", { method: "POST" });
+        const resp = await apiFetch("/api/notion/disconnect", { method: "POST" });
         const data = await resp.json();
         if (!resp.ok || !data.success) {
             throw new Error(data.error || "Failed to disconnect.");
@@ -265,7 +266,7 @@ export async function syncActiveProblemToNotion(triggerBtn = null) {
     }
 
     try {
-        const resp = await fetch("/api/notion/sync-problem", {
+        const resp = await apiFetch("/api/notion/sync-problem", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -327,7 +328,7 @@ export async function exportScorecardToNotion(triggerBtn = null) {
     }
 
     try {
-        const resp = await fetch("/api/notion/sync-interview", {
+        const resp = await apiFetch("/api/notion/sync-interview", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ session_id: sessionId }),
