@@ -1,0 +1,384 @@
+{
+  "test_p::optimized": {
+    "intuition": "The optimised solution to \"Two Sum\" avoids redundant comparisons by exploiting structure in the problem — using a hash map, two pointers, or prefix sums to reduce the inner loop to an O(1) lookup.",
+    "approach_name": "Optimised — Smart Data Structure",
+    "key_insight": "Trade space for time: store seen values so each lookup is O(1).",
+    "steps": [
+      {
+        "label": "Step 1 — Choose the right structure",
+        "detail": "Identify whether a hash map, sorted array + pointers, or prefix array eliminates the inner loop."
+      },
+      {
+        "label": "Step 2 — Preprocess (if needed)",
+        "detail": "Sort or build the auxiliary structure once — O(n) or O(n log n) — paid once."
+      },
+      {
+        "label": "Step 3 — Single main pass",
+        "detail": "Iterate over the input once, performing O(1) lookups or pointer moves at every step."
+      },
+      {
+        "label": "Step 4 — Update state",
+        "detail": "Maintain minimal variables (current count, pointer positions, running max/min)."
+      },
+      {
+        "label": "Step 5 — Return directly",
+        "detail": "Answer is accumulated during the pass — return it without a second traversal."
+      }
+    ],
+    "time_complexity": "O(n) — two-pointer single sweep",
+    "space_complexity": "O(1) — no auxiliary structure",
+    "trace_template": [
+      {
+        "phase": "Initialise",
+        "description": "Set up hash map / pointers / DP array. Input: {INPUT}",
+        "highlight_type": "init"
+      },
+      {
+        "phase": "Preprocess",
+        "description": "Sort or build auxiliary structure (O(n) or O(n log n)).",
+        "highlight_type": "scan"
+      },
+      {
+        "phase": "Main Sweep",
+        "description": "For each element, do O(1) lookup in the helper structure.",
+        "highlight_type": "compare"
+      },
+      {
+        "phase": "State Update",
+        "description": "Record the current element in the structure for future lookups.",
+        "highlight_type": "update"
+      },
+      {
+        "phase": "Result Ready",
+        "description": "Answer is accumulated — return without a second scan.",
+        "highlight_type": "result"
+      }
+    ],
+    "common_mistakes": [
+      "Forgetting to add the current element to the hash map after checking.",
+      "Two-pointer: not advancing both pointers correctly when a condition is met."
+    ],
+    "approach": "optimized",
+    "generated_by": "heuristic"
+  },
+  "test_two_sum::optimized": {
+    "intuition": "For each number, calculate the value needed to reach the target. Use a hash map to remember previously seen numbers and their indices, so the needed value can be found in constant average time.",
+    "approach_name": "Hash Map Complement Lookup",
+    "key_insight": "Instead of checking every pair, look up target minus the current number among values already scanned.",
+    "steps": [
+      {
+        "label": "Step 1 — initialize the lookup map",
+        "detail": "Create an empty hash map that will store each previously seen number and its index. The number is the key, and its index is the value."
+      },
+      {
+        "label": "Step 2 — scan the array once",
+        "detail": "Move from left to right through {INPUT}, examining one number and its index at a time. For the current number, calculate its complement as target minus the number."
+      },
+      {
+        "label": "Step 3 — check for the complement",
+        "detail": "Look up the complement in the hash map. If it is already present, its stored index and the current index form the required answer."
+      },
+      {
+        "label": "Step 4 — record the current number",
+        "detail": "If no complement was found, store the current number and its index in the hash map. Checking before storing prevents the same array element from being used twice."
+      },
+      {
+        "label": "Step 5 — return the matching indices",
+        "detail": "When a complement is found, immediately return the stored index and current index. A valid Two Sum input guarantees that a solution exists."
+      }
+    ],
+    "time_complexity": "O(n) — each of the n elements is scanned once, and hash map lookup and insertion take O(1) average time",
+    "space_complexity": "O(n) — in the worst case, the hash map stores all n previously seen numbers",
+    "trace_template": [
+      {
+        "phase": "Initialize Map",
+        "description": "Start with an empty map while preparing to process {INPUT}.",
+        "highlight_type": "init"
+      },
+      {
+        "phase": "Read Current Number",
+        "description": "Select the current value and index while scanning {INPUT} from left to right.",
+        "highlight_type": "scan"
+      },
+      {
+        "phase": "Calculate and Find Complement",
+        "description": "Compute target minus the current value from {INPUT}, then check whether that complement exists in the map.",
+        "highlight_type": "compare"
+      },
+      {
+        "phase": "Save Current Number",
+        "description": "If no match exists yet, add the current value and its index from {INPUT} to the map.",
+        "highlight_type": "update"
+      },
+      {
+        "phase": "Return Pair of Indices",
+        "description": "When the complement from {INPUT} is found, return its stored index together with the current index.",
+        "highlight_type": "result"
+      }
+    ],
+    "common_mistakes": [
+      "Returning the numbers instead of their indices.",
+      "Inserting the current number before checking its complement, which can incorrectly reuse the same element.",
+      "Using a nested loop and missing the intended O(n) hash map solution."
+    ],
+    "approach": "optimized",
+    "generated_by": "ai",
+    "sample_test_cases": [
+      {
+        "label": "Case 1 (Standard)",
+        "input": "[2, 7, 11, 15], 9",
+        "description": "Standard positive array with target 9"
+      },
+      {
+        "label": "Case 2 (Unsorted)",
+        "input": "[3, 2, 4], 6",
+        "description": "Unsorted array with target 6"
+      },
+      {
+        "label": "Case 3 (Duplicates)",
+        "input": "[3, 3], 6",
+        "description": "Duplicate values summing to target 6"
+      }
+    ]
+  },
+  "step_01___basics_all_divisors::optimized": {
+    "intuition": "The optimised solution to \"All Divisors\" eliminates repeated work by utilizing smart data structures like hash tables, two pointers, or binary search. Instead of re-scanning previous elements, we do instant O(1) lookups or halve the search space at every step.",
+    "approach_name": "Optimised — Efficient Single-Pass",
+    "key_insight": "Trade a little space for huge time savings: store seen elements to make each step O(1).",
+    "steps": [
+      {
+        "label": "Step 1 — Select appropriate data structure",
+        "detail": "Choose a hash map, pointer pair, or auxiliary array to eliminate redundant loops."
+      },
+      {
+        "label": "Step 2 — Single sweep iteration",
+        "detail": "Walk through the elements one-by-one in a single pass."
+      },
+      {
+        "label": "Step 3 — Instant lookup / transition",
+        "detail": "Query the lookup table in O(1) time or move the active pointers toward each other."
+      },
+      {
+        "label": "Step 4 — Update current state",
+        "detail": "Save the current element into memory so future elements can look it up."
+      },
+      {
+        "label": "Step 5 — Return immediately",
+        "detail": "Yield the final answer as soon as the target condition is met."
+      }
+    ],
+    "time_complexity": "O(n) — linear scan through elements",
+    "space_complexity": "O(1) — constant auxiliary space",
+    "trace_template": [
+      {
+        "phase": "Initialise",
+        "description": "Prepare lookup table / pointers. Input: {INPUT}",
+        "highlight_type": "init"
+      },
+      {
+        "phase": "Traverse",
+        "description": "Inspect current element at active pointer.",
+        "highlight_type": "scan"
+      },
+      {
+        "phase": "Fast Lookup",
+        "description": "Check memory table in O(1) time for the needed value.",
+        "highlight_type": "compare"
+      },
+      {
+        "phase": "Update State",
+        "description": "Save current element into memory for future elements.",
+        "highlight_type": "update"
+      },
+      {
+        "phase": "Result Found",
+        "description": "Target achieved in a single pass. Return result.",
+        "highlight_type": "result"
+      }
+    ],
+    "common_mistakes": [
+      "Inserting into the hash map before checking for complement (which can cause using the same index twice).",
+      "Forgetting to update both pointers in two-pointer inward scans.",
+      "Not handling edge cases like empty inputs, all zeroes, or negative values."
+    ],
+    "approach": "optimized",
+    "generated_by": "heuristic",
+    "sample_test_cases": [
+      {
+        "label": "Case 1",
+        "input": "12",
+        "description": "Number with multiple divisors (1,2,3,4,6,12)"
+      },
+      {
+        "label": "Case 2",
+        "input": "7",
+        "description": "Prime number (divisors 1, 7)"
+      },
+      {
+        "label": "Case 3",
+        "input": "36",
+        "description": "Perfect square with odd number of divisors"
+      }
+    ]
+  },
+  "step_01___basics_all_divisors::brute": {
+    "intuition": "Instead of finding divisors of each number one by one, flip the perspective: for every number i from 1 to N, count how many numbers up to N have i as a divisor (those are the multiples of i). Each such multiple contributes i to the grand total, so we add i once per multiple.",
+    "approach_name": "Divisor Contribution via Multiples",
+    "key_insight": "Every number i contributes itself to the divisor-sum of every multiple of i, so the total is sum of i × floor(N/i) for all i from 1 to N.",
+    "steps": [
+      {
+        "label": "Step 1 — Initialize accumulator",
+        "detail": "Start a running total at 0 that will collect the sum of all divisors across all numbers from 1 to N."
+      },
+      {
+        "label": "Step 2 — Pick each candidate divisor",
+        "detail": "Loop i from 1 to N. Each i is a potential divisor of some numbers in the range."
+      },
+      {
+        "label": "Step 3 — Walk through multiples of i",
+        "detail": "Use an inner loop with j starting at 1, and while i*j <= N, the number i*j is a multiple of i, so i is one of its divisors."
+      },
+      {
+        "label": "Step 4 — Add i for each multiple",
+        "detail": "For every valid multiple found, add i to the total. This accounts for i being a divisor of that multiple."
+      },
+      {
+        "label": "Step 5 — Return the grand total",
+        "detail": "After all i values are processed, the total holds the sum of divisors of every number from 1 to N."
+      }
+    ],
+    "time_complexity": "O(N log N) — for each i, the inner loop runs floor(N/i) times; summing N/i over i=1..N gives roughly N log N.",
+    "space_complexity": "O(1) — only a few integer variables are used regardless of N.",
+    "trace_template": [
+      {
+        "phase": "Init",
+        "description": "total = 0, N = {INPUT}",
+        "highlight_type": "init"
+      },
+      {
+        "phase": "Outer loop i",
+        "description": "For each i from 1 to {INPUT}, treat i as a candidate divisor",
+        "highlight_type": "scan"
+      },
+      {
+        "phase": "Inner loop multiples",
+        "description": "j=1; while i*j <= {INPUT}, the value i*j is a multiple of i",
+        "highlight_type": "compare"
+      },
+      {
+        "phase": "Accumulate",
+        "description": "Add i to total for each multiple found",
+        "highlight_type": "update"
+      },
+      {
+        "phase": "Result",
+        "description": "After all i processed, return total",
+        "highlight_type": "result"
+      }
+    ],
+    "common_mistakes": [
+      "Confusing this with the per-number divisor approach and trying to find divisors of each number individually, which is less intuitive here.",
+      "Using i*j < N instead of i*j <= N, which would miss the number N itself as a multiple.",
+      "Adding j instead of i to the total — i is the divisor, j is just the multiplier index."
+    ],
+    "approach": "brute",
+    "generated_by": "ai",
+    "sample_test_cases": [
+      {
+        "label": "Case 1",
+        "input": "12",
+        "description": "Number with multiple divisors (1,2,3,4,6,12)"
+      },
+      {
+        "label": "Case 2",
+        "input": "7",
+        "description": "Prime number (divisors 1, 7)"
+      },
+      {
+        "label": "Case 3",
+        "input": "36",
+        "description": "Perfect square with odd number of divisors"
+      }
+    ]
+  },
+  "step_03___arrays_4_sum::optimized": {
+    "intuition": "The optimised solution to \"4 Sum\" eliminates repeated work by utilizing smart data structures like hash tables, two pointers, or binary search. Instead of re-scanning previous elements, we do instant O(1) lookups or halve the search space at every step.",
+    "approach_name": "Optimised — Efficient Single-Pass",
+    "key_insight": "Trade a little space for huge time savings: store seen elements to make each step O(1).",
+    "steps": [
+      {
+        "label": "Step 1 — Select appropriate data structure",
+        "detail": "Choose a hash map, pointer pair, or auxiliary array to eliminate redundant loops."
+      },
+      {
+        "label": "Step 2 — Single sweep iteration",
+        "detail": "Walk through the elements one-by-one in a single pass."
+      },
+      {
+        "label": "Step 3 — Instant lookup / transition",
+        "detail": "Query the lookup table in O(1) time or move the active pointers toward each other."
+      },
+      {
+        "label": "Step 4 — Update current state",
+        "detail": "Save the current element into memory so future elements can look it up."
+      },
+      {
+        "label": "Step 5 — Return immediately",
+        "detail": "Yield the final answer as soon as the target condition is met."
+      }
+    ],
+    "time_complexity": "O(n log n) — initial sorting dominates runtime",
+    "space_complexity": "O(1) — constant auxiliary space",
+    "trace_template": [
+      {
+        "phase": "Initialise",
+        "description": "Prepare lookup table / pointers. Input: {INPUT}",
+        "highlight_type": "init"
+      },
+      {
+        "phase": "Traverse",
+        "description": "Inspect current element at active pointer.",
+        "highlight_type": "scan"
+      },
+      {
+        "phase": "Fast Lookup",
+        "description": "Check memory table in O(1) time for the needed value.",
+        "highlight_type": "compare"
+      },
+      {
+        "phase": "Update State",
+        "description": "Save current element into memory for future elements.",
+        "highlight_type": "update"
+      },
+      {
+        "phase": "Result Found",
+        "description": "Target achieved in a single pass. Return result.",
+        "highlight_type": "result"
+      }
+    ],
+    "common_mistakes": [
+      "Inserting into the hash map before checking for complement (which can cause using the same index twice).",
+      "Forgetting to update both pointers in two-pointer inward scans.",
+      "Not handling edge cases like empty inputs, all zeroes, or negative values."
+    ],
+    "approach": "optimized",
+    "generated_by": "heuristic",
+    "sample_test_cases": [
+      {
+        "label": "Case 1",
+        "input": "[2, 7, 11, 15], 9",
+        "description": "Array and target scalar"
+      },
+      {
+        "label": "Case 2",
+        "input": "[3, 2, 4], 6",
+        "description": "Unsorted array with target"
+      },
+      {
+        "label": "Case 3",
+        "input": "[1, 4, 6, 9], 10",
+        "description": "Target at boundary"
+      }
+    ]
+  }
+}

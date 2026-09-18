@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+    <defs>
+        <linearGradient id="brainfreezeCrystalGradIcon" x1="20" y1="2" x2="20" y2="38" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#D9FDFF"/>
+            <stop offset="0.45" stop-color="#5FCBF2"/>
+            <stop offset="1" stop-color="#1B5FA8"/>
+        </linearGradient>
+    </defs>
+    <rect width="40" height="40" rx="9" fill="#071422"/>
+    <path d="M20 3 L30 11 L34 22 L26 36 L14 36 L6 22 L10 11 Z" fill="url(#brainfreezeCrystalGradIcon)"/>
+    <path d="M20 3 L20 36 M6 22 L34 22 M10 11 L30 11" stroke="#071422" stroke-width="0.7" stroke-opacity="0.3"/>
+    <text x="20" y="24" text-anchor="middle" font-family="Arial, sans-serif" font-weight="800" font-size="12" letter-spacing="-0.3" fill="#FFFFFF">BA</text>
+</svg>

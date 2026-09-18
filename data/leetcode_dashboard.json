@@ -1,0 +1,808 @@
+{
+  "username": "lee215",
+  "profile": {
+    "ranking": 105142,
+    "userAvatar": "https://assets.leetcode.com/users/lee215/avatar_1551541889.png",
+    "realName": "lee",
+    "aboutMe": "Lee codes for fun :)\n\n   \ud83c\udf60lee215: 2950607729",
+    "school": null,
+    "websites": [
+      "https://www.youtube.com/channel/UCUBt1TDQTl1atYsscVoUzoQ"
+    ],
+    "countryName": "China",
+    "company": null,
+    "jobTitle": null,
+    "skillTags": [
+      "python",
+      "java",
+      "c++"
+    ],
+    "postViewCount": 20670564.0,
+    "reputation": 230777,
+    "solutionCount": 1364
+  },
+  "social": {
+    "github": null,
+    "twitter": null,
+    "linkedin": null
+  },
+  "badges": [
+    {
+      "id": "10260542",
+      "displayName": "Guardian",
+      "icon": "/static/images/badges/guardian.png",
+      "creationDate": "2026-05-06"
+    },
+    {
+      "id": "5712613",
+      "displayName": "500 Days Badge",
+      "icon": "https://assets.leetcode.com/static_assets/marketing/lg500.png",
+      "creationDate": "2024-12-08"
+    },
+    {
+      "id": "5712612",
+      "displayName": "365 Days Badge",
+      "icon": "https://assets.leetcode.com/static_assets/marketing/lg365.png",
+      "creationDate": "2024-12-08"
+    }
+  ],
+  "streak": 3,
+  "total_active_days": 48,
+  "submission_calendar": {
+    "1767398400": 3,
+    "1767484800": 2,
+    "1769299200": 5,
+    "1769817600": 6,
+    "1769904000": 3,
+    "1771027200": 1,
+    "1771113600": 2,
+    "1772323200": 4,
+    "1773446400": 1,
+    "1773532800": 7,
+    "1774137600": 4,
+    "1776556800": 2,
+    "1777161600": 3,
+    "1777766400": 3,
+    "1777852800": 1,
+    "1778284800": 1,
+    "1778371200": 3,
+    "1778803200": 1,
+    "1778976000": 3,
+    "1782604800": 2,
+    "1783123200": 2,
+    "1783209600": 2,
+    "1783814400": 3,
+    "1784332800": 3,
+    "1784419200": 2,
+    "1784505600": 2,
+    "1785024000": 3,
+    "1785542400": 4,
+    "1785628800": 4,
+    "1786752000": 2,
+    "1786838400": 1,
+    "1787443200": 1,
+    "1787961600": 2,
+    "1788048000": 2,
+    "1788652800": 3,
+    "1789171200": 3,
+    "1789257600": 2,
+    "1758931200": 3,
+    "1759017600": 4,
+    "1760140800": 1,
+    "1760227200": 1,
+    "1761350400": 3,
+    "1761436800": 3,
+    "1762560000": 10,
+    "1763769600": 1,
+    "1764460800": 3,
+    "1765065600": 1,
+    "1765670400": 2
+  },
+  "all_questions_count": {
+    "All": 4055,
+    "Easy": 965,
+    "Medium": 2115,
+    "Hard": 975
+  },
+  "ac_submissions": {
+    "All": {
+      "count": 678,
+      "submissions": 2106
+    },
+    "Easy": {
+      "count": 125,
+      "submissions": 389
+    },
+    "Medium": {
+      "count": 406,
+      "submissions": 1226
+    },
+    "Hard": {
+      "count": 147,
+      "submissions": 491
+    }
+  },
+  "total_submissions": {
+    "All": {
+      "count": 742,
+      "submissions": 4925
+    },
+    "Easy": {
+      "count": 131,
+      "submissions": 827
+    },
+    "Medium": {
+      "count": 439,
+      "submissions": 2757
+    },
+    "Hard": {
+      "count": 172,
+      "submissions": 1341
+    }
+  },
+  "contest": {
+    "contest_info": {
+      "attendedContestsCount": 27,
+      "rating": 2204.316,
+      "globalRanking": 7504,
+      "totalParticipants": 882088,
+      "topPercentage": 0.9,
+      "badge": {
+        "name": "Guardian"
+      }
+    },
+    "attended_contests": [
+      {
+        "attended": true,
+        "trendDirection": "UP",
+        "problemsSolved": 2,
+        "totalProblems": 3,
+        "finishTimeInSeconds": 10184,
+        "rating": 1556.233,
+        "ranking": 145,
+        "contest": {
+          "title": "Weekly Contest 16A",
+          "startTime": 1485012600
+        }
+      },
+      {
+        "attended": true,
+        "trendDirection": "DOWN",
+        "problemsSolved": 2,
+        "totalProblems": 3,
+        "finishTimeInSeconds": 6380,
+        "rating": 1524.771,
+        "ranking": 375,
+        "contest": {
+          "title": "Weekly Contest 18A",
+          "startTime": 1486222200
+        }
+      },
+      {
+        "attended": true,
+        "trendDirection": "UP",
+        "problemsSolved": 4,
+        "totalProblems": 4,
+        "finishTimeInSeconds": 9468,
+        "rating": 1542.213,
+        "ranking": 312,
+        "contest": {
+          "title": "Weekly Contest 18B",
+          "startTime": 1486261800
+        }
+      },
+      {
+        "attended": true,
+        "trendDirection": "DOWN",
+        "problemsSolved": 3,
+        "totalProblems": 4,
+        "finishTimeInSeconds": 6534,
+        "rating": 1534.057,
+        "ranking": 646,
+        "contest": {
+          "title": "Weekly Contest 19",
+          "startTime": 1486866600
+        }
+      },
+      {
+        "attended": true,
+        "trendDirection": "DOWN",
+        "problemsSolved": 1,
+        "totalProblems": 4,
+        "finishTimeInSeconds": 1762,
+        "rating": 1516.761,
+        "ranking": 907,
+        "contest": {
+          "title": "Weekly Contest 23",
+          "startTime": 1489285800
+        }
+      },
+      {
+        "attended": true,
+        "trendDirection": "UP",
+        "problemsSolved": 4,
+        "totalProblems": 4,
+        "finishTimeInSeconds": 3309,
+        "rating": 1656.512,
+        "ranking": 17,
+        "contest": {
+          "title": "Weekly Contest 44",
+          "startTime": 1501983000
+        }
+      },
+      {
+        "attended": true,
+        "trendDirection": "UP",
+        "problemsSolved": 4,
+        "totalProblems": 4,
+        "finishTimeInSeconds": 5987,
+        "rating": 1723.299,
+        "ranking": 86,
+        "contest": {
+          "title": "Weekly Contest 45",
+          "startTime": 1502587800
+        }
+      },
+      {
+        "attended": true,
+        "trendDirection": "DOWN",
+        "problemsSolved": 2,
+        "totalProblems": 4,
+        "finishTimeInSeconds": 5822,
+        "rating": 1711.711,
+        "ranking": 690,
+        "contest": {
+          "title": "Weekly Contest 46",
+          "startTime": 1503192600
+        }
+      },
+      {
+        "attended": true,
+        "trendDirection": "UP",
+        "problemsSolved": 3,
+        "totalProblems": 4,
+        "finishTimeInSeconds": 6209,
+        "rating": 1735.978,
+        "ranking": 277,
+        "contest": {
+          "title": "Weekly Contest 47",
+          "startTime": 1503797400
+        }
+      },
+      {
+        "attended": true,
+        "trendDirection": "UP",
+        "problemsSolved": 4,
+        "totalProblems": 4,
+        "finishTimeInSeconds": 3811,
+        "rating": 1793.128,
+        "ranking": 84,
+        "contest": {
+          "title": "Weekly Contest 48",
+          "startTime": 1504402200
+        }
+      },
+      {
+        "attended": true,
+        "trendDirection": "UP",
+        "problemsSolved": 4,
+        "totalProblems": 4,
+        "finishTimeInSeconds": 3386,
+        "rating": 1872.467,
+        "ranking": 29,
+        "contest": {
+          "title": "Weekly Contest 50",
+          "startTime": 1505611800
+        }
+      },
+      {
+        "attended": true,
+        "trendDirection": "UP",
+        "problemsSolved": 4,
+        "totalProblems": 4,
+        "finishTimeInSeconds": 5334,
+        "rating": 1920.185,
+        "ranking": 74,
+        "contest": {
+          "title": "Weekly Contest 54",
+          "startTime": 1508031000
+        }
+      },
+      {
+        "attended": true,
+        "trendDirection": "UP",
+        "problemsSolved": 4,
+        "totalProblems": 4,
+        "finishTimeInSeconds": 6244,
+        "rating": 1963.039,
+        "ranking": 53,
+        "contest": {
+          "title": "Weekly Contest 63",
+          "startTime": 1513477800
+        }
+      },
+      {
+        "attended": true,
+        "trendDirection": "DOWN",
+        "problemsSolved": 3,
+        "totalProblems": 4,
+        "finishTimeInSeconds": 4954,
+        "rating": 1948.081,
+        "ranking": 352,
+        "contest": {
+          "title": "Weekly Contest 66",
+          "startTime": 1515292200
+        }
+      },
+      {
+        "attended": true,
+        "trendDirection": "UP",
+        "problemsSolved": 4,
+        "totalProblems": 5,
+        "finishTimeInSeconds": 2777,
+        "rating": 1992.434,
+        "ranking": 54,
+        "contest": {
+          "title": "Weekly Contest 68",
+          "startTime": 1516501800
+        }
+      },
+      {
+        "attended": true,
+        "trendDirection": "UP",
+        "problemsSolved": 4,
+        "totalProblems": 4,
+        "finishTimeInSeconds": 4528,
+        "rating": 2022.118,
+        "ranking": 79,
+        "contest": {
+          "title": "Weekly Contest 69",
+          "startTime": 1517106600
+        }
+      },
+      {
+        "attended": true,
+        "trendDirection": "UP",
+        "problemsSolved": 4,
+        "totalProblems": 4,
+        "finishTimeInSeconds": 6087,
+        "rating": 2076.188,
+        "ranking": 24,
+        "contest": {
+          "title": "Weekly Contest 71",
+          "startTime": 1518316200
+        }
+      },
+      {
+        "attended": true,
+        "trendDirection": "DOWN",
+        "problemsSolved": 1,
+        "totalProblems": 4,
+        "finishTimeInSeconds": 376,
+        "rating": 2024.075,
+        "ranking": 689,
+        "contest": {
+          "title": "Weekly Contest 72",
+          "startTime": 1518921000
+        }
+      },
+      {
+        "attended": true,
+        "trendDirection": "UP",
+        "problemsSolved": 4,
+        "totalProblems": 4,
+        "finishTimeInSeconds": 4095,
+        "rating": 2033.692,
+        "ranking": 125,
+        "contest": {
+          "title": "Weekly Contest 73",
+          "startTime": 1519525800
+        }
+      },
+      {
+        "attended": true,
+        "trendDirection": "UP",
+        "problemsSolved": 4,
+        "totalProblems": 4,
+        "finishTimeInSeconds": 6288,
+        "rating": 2052.492,
+        "ranking": 99,
+        "contest": {
+          "title": "Weekly Contest 75",
+          "startTime": 1520735400
+        }
+      },
+      {
+        "attended": true,
+        "trendDirection": "UP",
+        "problemsSolved": 3,
+        "totalProblems": 4,
+        "finishTimeInSeconds": 4219,
+        "rating": 2082.721,
+        "ranking": 56,
+        "contest": {
+          "title": "Weekly Contest 76",
+          "startTime": 1521336600
+        }
+      },
+      {
+        "attended": true,
+        "trendDirection": "DOWN",
+        "problemsSolved": 4,
+        "totalProblems": 4,
+        "finishTimeInSeconds": 6394,
+        "rating": 2074.746,
+        "ranking": 208,
+        "contest": {
+          "title": "Weekly Contest 77",
+          "startTime": 1521941400
+        }
+      },
+      {
+        "attended": true,
+        "trendDirection": "UP",
+        "problemsSolved": 3,
+        "totalProblems": 4,
+        "finishTimeInSeconds": 5244,
+        "rating": 2095.397,
+        "ranking": 76,
+        "contest": {
+          "title": "Weekly Contest 78",
+          "startTime": 1522546200
+        }
+      },
+      {
+        "attended": true,
+        "trendDirection": "DOWN",
+        "problemsSolved": 3,
+        "totalProblems": 4,
+        "finishTimeInSeconds": 2037,
+        "rating": 2081.302,
+        "ranking": 217,
+        "contest": {
+          "title": "Weekly Contest 79",
+          "startTime": 1523151000
+        }
+      },
+      {
+        "attended": true,
+        "trendDirection": "UP",
+        "problemsSolved": 4,
+        "totalProblems": 4,
+        "finishTimeInSeconds": 1961,
+        "rating": 2163.084,
+        "ranking": 26,
+        "contest": {
+          "title": "Weekly Contest 156",
+          "startTime": 1569724200
+        }
+      },
+      {
+        "attended": true,
+        "trendDirection": "UP",
+        "problemsSolved": 4,
+        "totalProblems": 4,
+        "finishTimeInSeconds": 3192,
+        "rating": 2222.412,
+        "ranking": 59,
+        "contest": {
+          "title": "Weekly Contest 176",
+          "startTime": 1581820200
+        }
+      },
+      {
+        "attended": true,
+        "trendDirection": "DOWN",
+        "problemsSolved": 4,
+        "totalProblems": 4,
+        "finishTimeInSeconds": 4883,
+        "rating": 2204.316,
+        "ranking": 2663,
+        "contest": {
+          "title": "Weekly Contest 416",
+          "startTime": 1726972200
+        }
+      }
+    ]
+  },
+  "recent_submissions": [
+    {
+      "id": "2140228077",
+      "title": "Minimum Operations to Make Every Element Palindromic",
+      "titleSlug": "minimum-operations-to-make-every-element-palindromic",
+      "timestamp": "1789272451"
+    },
+    {
+      "id": "2140224419",
+      "title": "Count Shadow Pairs I",
+      "titleSlug": "count-shadow-pairs-i",
+      "timestamp": "1789272109"
+    },
+    {
+      "id": "2139754751",
+      "title": "Count Subarrays with Distant Sums",
+      "titleSlug": "count-subarrays-with-distant-sums",
+      "timestamp": "1789229040"
+    },
+    {
+      "id": "2139753057",
+      "title": "Minimum Days to Score Exactly N Points",
+      "titleSlug": "minimum-days-to-score-exactly-n-points",
+      "timestamp": "1789228942"
+    },
+    {
+      "id": "2132419657",
+      "title": "Minimum Cost Path With At Most K Turns",
+      "titleSlug": "minimum-cost-path-with-at-most-k-turns",
+      "timestamp": "1788668124"
+    },
+    {
+      "id": "2132413037",
+      "title": "Count Robot Groups",
+      "titleSlug": "count-robot-groups",
+      "timestamp": "1788667547"
+    },
+    {
+      "id": "2132410793",
+      "title": "Count Good Cyclic Rotations",
+      "titleSlug": "count-good-cyclic-rotations",
+      "timestamp": "1788667363"
+    },
+    {
+      "id": "2124601864",
+      "title": "Count Integers Appearing in a Single Block",
+      "titleSlug": "count-integers-appearing-in-a-single-block",
+      "timestamp": "1788062725"
+    },
+    {
+      "id": "2124090080",
+      "title": "Lexicographically Largest String After Pair Transformations",
+      "titleSlug": "lexicographically-largest-string-after-pair-transformations",
+      "timestamp": "1788019490"
+    },
+    {
+      "id": "2124088878",
+      "title": "Minimum Bishop Moves to Reach Target",
+      "titleSlug": "minimum-bishop-moves-to-reach-target",
+      "timestamp": "1788019422"
+    }
+  ],
+  "skills": {
+    "advanced": [
+      {
+        "tagName": "Data Stream",
+        "tagSlug": "data-stream",
+        "problemsSolved": 3
+      },
+      {
+        "tagName": "Game Theory",
+        "tagSlug": "game-theory",
+        "problemsSolved": 9
+      },
+      {
+        "tagName": "Rolling Hash",
+        "tagSlug": "rolling-hash",
+        "problemsSolved": 5
+      },
+      {
+        "tagName": "Sweep Line",
+        "tagSlug": "sweep-line",
+        "problemsSolved": 4
+      },
+      {
+        "tagName": "Backtracking",
+        "tagSlug": "backtracking",
+        "problemsSolved": 29
+      },
+      {
+        "tagName": "Bitmask",
+        "tagSlug": "bitmask",
+        "problemsSolved": 9
+      },
+      {
+        "tagName": "Quickselect",
+        "tagSlug": "quickselect",
+        "problemsSolved": 3
+      },
+      {
+        "tagName": "Dynamic Programming",
+        "tagSlug": "dynamic-programming",
+        "problemsSolved": 133
+      },
+      {
+        "tagName": "Divide and Conquer",
+        "tagSlug": "divide-and-conquer",
+        "problemsSolved": 19
+      },
+      {
+        "tagName": "Trie",
+        "tagSlug": "trie",
+        "problemsSolved": 9
+      },
+      {
+        "tagName": "Union-Find",
+        "tagSlug": "union-find",
+        "problemsSolved": 27
+      },
+      {
+        "tagName": "Suffix Array",
+        "tagSlug": "suffix-array",
+        "problemsSolved": 2
+      },
+      {
+        "tagName": "Binary Indexed Tree",
+        "tagSlug": "binary-indexed-tree",
+        "problemsSolved": 7
+      },
+      {
+        "tagName": "Segment Tree",
+        "tagSlug": "segment-tree",
+        "problemsSolved": 13
+      },
+      {
+        "tagName": "Monotonic Stack",
+        "tagSlug": "monotonic-stack",
+        "problemsSolved": 23
+      },
+      {
+        "tagName": "Monotonic Queue",
+        "tagSlug": "monotonic-queue",
+        "problemsSolved": 3
+      },
+      {
+        "tagName": "Topological Sort",
+        "tagSlug": "topological-sort",
+        "problemsSolved": 4
+      },
+      {
+        "tagName": "Shortest Path",
+        "tagSlug": "shortest-path",
+        "problemsSolved": 7
+      }
+    ],
+    "intermediate": [
+      {
+        "tagName": "Tree",
+        "tagSlug": "tree",
+        "problemsSolved": 57
+      },
+      {
+        "tagName": "Binary Tree",
+        "tagSlug": "binary-tree",
+        "problemsSolved": 54
+      },
+      {
+        "tagName": "Hash Table",
+        "tagSlug": "hash-table",
+        "problemsSolved": 148
+      },
+      {
+        "tagName": "Ordered Set",
+        "tagSlug": "ordered-set",
+        "problemsSolved": 11
+      },
+      {
+        "tagName": "Graph Theory",
+        "tagSlug": "graph",
+        "problemsSolved": 33
+      },
+      {
+        "tagName": "Greedy",
+        "tagSlug": "greedy",
+        "problemsSolved": 82
+      },
+      {
+        "tagName": "Binary Search",
+        "tagSlug": "binary-search",
+        "problemsSolved": 61
+      },
+      {
+        "tagName": "Depth-First Search",
+        "tagSlug": "depth-first-search",
+        "problemsSolved": 82
+      },
+      {
+        "tagName": "Breadth-First Search",
+        "tagSlug": "breadth-first-search",
+        "problemsSolved": 56
+      },
+      {
+        "tagName": "Recursion",
+        "tagSlug": "recursion",
+        "problemsSolved": 9
+      },
+      {
+        "tagName": "Sliding Window",
+        "tagSlug": "sliding-window",
+        "problemsSolved": 27
+      },
+      {
+        "tagName": "Bit Manipulation",
+        "tagSlug": "bit-manipulation",
+        "problemsSolved": 45
+      },
+      {
+        "tagName": "Math",
+        "tagSlug": "math",
+        "problemsSolved": 135
+      },
+      {
+        "tagName": "Randomized",
+        "tagSlug": "randomized",
+        "problemsSolved": 3
+      },
+      {
+        "tagName": "Design",
+        "tagSlug": "design",
+        "problemsSolved": 21
+      },
+      {
+        "tagName": "Iterator",
+        "tagSlug": "iterator",
+        "problemsSolved": 1
+      },
+      {
+        "tagName": "Brainteaser",
+        "tagSlug": "brainteaser",
+        "problemsSolved": 7
+      },
+      {
+        "tagName": "Database",
+        "tagSlug": "database",
+        "problemsSolved": 2
+      }
+    ],
+    "fundamental": [
+      {
+        "tagName": "Array",
+        "tagSlug": "array",
+        "problemsSolved": 369
+      },
+      {
+        "tagName": "Matrix",
+        "tagSlug": "matrix",
+        "problemsSolved": 47
+      },
+      {
+        "tagName": "String",
+        "tagSlug": "string",
+        "problemsSolved": 164
+      },
+      {
+        "tagName": "Simulation",
+        "tagSlug": "simulation",
+        "problemsSolved": 21
+      },
+      {
+        "tagName": "Enumeration",
+        "tagSlug": "enumeration",
+        "problemsSolved": 20
+      },
+      {
+        "tagName": "Sorting",
+        "tagSlug": "sorting",
+        "problemsSolved": 87
+      },
+      {
+        "tagName": "Stack",
+        "tagSlug": "stack",
+        "problemsSolved": 46
+      },
+      {
+        "tagName": "Queue",
+        "tagSlug": "queue",
+        "problemsSolved": 7
+      },
+      {
+        "tagName": "Linked List",
+        "tagSlug": "linked-list",
+        "problemsSolved": 18
+      },
+      {
+        "tagName": "Two Pointers",
+        "tagSlug": "two-pointers",
+        "problemsSolved": 60
+      }
+    ]
+  }
+}

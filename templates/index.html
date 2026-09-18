@@ -1,0 +1,2084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brainfreeze Algos - Coding the Core of Cold Logic</title>
+    <meta name="description" content="Brainfreeze Algos is a members-only workspace for engineers targeting Data Scientist, GenAI, FDE, LLM, NLP, and Deep Learning roles: a Python judge, a daily practice tracker, multi-platform analytics, an AI mentor, and a trending AI news feed.">
+    <link rel="icon" type="image/svg+xml" href="/static/img/brand/favicon.svg">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css?v=5.0">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body
+    data-leetcode-user="{{ leetcode_user }}"
+    data-codechef-user="{{ codechef_user }}"
+    data-codeforces-user="{{ codeforces_user }}"
+>
+    <div class="app-container">
+        <!-- Top Main Navigation -->
+        <header class="navbar glass-panel">
+            <div class="brand">
+                <!-- Brainfreeze Algos logomark: faceted ice-crystal "BA" monogram -->
+                <div class="brand-logo-wrapper" title="Brainfreeze Algos">
+                    <svg class="brand-logo-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <defs>
+                            <linearGradient id="brainfreezeCrystalGradNav" x1="20" y1="2" x2="20" y2="38" gradientUnits="userSpaceOnUse">
+                                <stop offset="0" stop-color="#D9FDFF" />
+                                <stop offset="0.45" stop-color="#5FCBF2" />
+                                <stop offset="1" stop-color="#1B5FA8" />
+                            </linearGradient>
+                        </defs>
+                        <rect width="40" height="40" rx="9" fill="#071422" />
+                        <path d="M20 3 L30 11 L34 22 L26 36 L14 36 L6 22 L10 11 Z" fill="url(#brainfreezeCrystalGradNav)" />
+                        <path d="M20 3 L20 36 M6 22 L34 22 M10 11 L30 11" stroke="#071422" stroke-width="0.7" stroke-opacity="0.3" />
+                        <text x="20" y="24" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-weight="800" font-size="12" letter-spacing="-0.3" fill="#FFFFFF">BA</text>
+                    </svg>
+                </div>
+
+                <div class="brand-text">
+                    <div class="brand-title-row">
+                        <h1>Brainfreeze <span class="brand-wordmark-accent">Algos</span></h1>
+                        <span class="brand-badge"><span class="badge-dot"></span>AI/ML PREP</span>
+                    </div>
+                    <span class="subtitle">Coding the Core of Cold Logic</span>
+                </div>
+            </div>
+
+            <!-- Primary Navigation Modes (hidden until signed in) -->
+            <nav class="main-mode-switcher hidden" role="tablist">
+                <button class="mode-btn active" data-mode="studio" id="mode-studio">
+                    <i class="fa-solid fa-code"></i>
+                    <span>Code Studio</span>
+                </button>
+                <button class="mode-btn" data-mode="tracker" id="mode-tracker">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    <span>Roadmap</span>
+                </button>
+                <button class="mode-btn" data-mode="analytics" id="mode-analytics">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Analytics</span>
+                </button>
+                <button class="mode-btn" data-mode="ai" id="mode-ai">
+                    <i class="fa-solid fa-robot"></i>
+                    <span>AI Hub</span>
+                </button>
+                <button class="mode-btn interview-mode-btn" data-mode="interview" id="mode-interview">
+                    <i class="fa-solid fa-stopwatch-20"></i>
+                    <span>Mock Interview</span>
+                    <span class="interview-live-pill"><span class="badge-dot pulse-red"></span>LIVE</span>
+                </button>
+                <button class="mode-btn" data-mode="community" id="mode-community">
+                    <i class="fa-solid fa-people-group"></i>
+                    <span>Community</span>
+                    <span id="community-unread-pill" class="community-unread-pill hidden">0</span>
+                </button>
+                <!-- Admin Console Tab (Visible only to Admin role) -->
+                <button class="mode-btn admin-mode-btn" data-mode="admin" id="mode-admin" style="display: none;">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>Admin</span>
+                </button>
+            </nav>
+
+            <!-- User Auth & Session Panel -->
+            <div class="user-auth-panel" id="user-auth-panel">
+                <!-- Guest View: Sign In / Register Buttons -->
+                <div id="auth-guest-view" class="auth-view-block">
+                    <button class="btn btn-theme-toggle theme-toggle-btn" title="Toggle Light / Dark Mode">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+                    <button id="btn-open-auth-login" class="btn btn-glass-sm">
+                        <i class="fa-solid fa-arrow-right-to-bracket"></i> Sign In
+                    </button>
+                    <button id="btn-open-auth-register" class="btn btn-primary-sm">
+                        <i class="fa-solid fa-user-plus"></i> Register
+                    </button>
+                </div>
+
+                <!-- Logged In User Profile View -->
+                <div id="auth-user-view" class="auth-view-block" style="display: none;">
+                    <button class="btn btn-theme-toggle theme-toggle-btn" title="Toggle Light / Dark Mode">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+                    <button id="btn-notion-hub" class="btn btn-notion-pill" title="Notion Workspace Sync">
+                        <i class="fa-solid fa-book-bookmark"></i> <span id="notion-pill-text">Notion</span>
+                    </button>
+                    <div class="user-profile-badge" id="user-profile-badge">
+                        <div class="user-avatar-circle" id="user-avatar-initial">U</div>
+                        <div class="user-info-meta">
+                            <span class="user-name-label" id="user-name-display">Guest</span>
+                            <span class="user-role-badge" id="user-role-display">USER</span>
+                        </div>
+                    </div>
+                    <button id="btn-logout" class="btn btn-glass-icon" title="Sign Out">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Container -->
+        <main class="main-content">
+
+            <!-- ======================================================== -->
+            <!-- 0. AUTH GATE — shown to signed-out visitors only         -->
+            <!-- ======================================================== -->
+            <section id="auth-gate" class="auth-gate-section">
+                <div class="auth-gate-inner">
+                    <span class="auth-gate-eyebrow"><span class="badge-dot"></span> DSA prep for AI/ML careers</span>
+                    <h1>The AI/ML offer still runs through a <span>DSA round</span>.</h1>
+                    <p class="auth-gate-subtitle">
+                        Data Scientists, GenAI Engineers, LLM Developers, NLP/DL Engineers, and Forward-Deployed
+                        Engineers still get screened with the same array, graph, and DP problems as backend
+                        candidates. Brainfreeze Algos is a members-only workspace built for that round — plus a live
+                        AI mentor and a curated feed to keep you current on the field.
+                    </p>
+                    <div class="auth-gate-actions">
+                        <button id="btn-gate-login" class="btn btn-secondary btn-lg">
+                            <i class="fa-solid fa-arrow-right-to-bracket"></i> Sign In
+                        </button>
+                        <button id="btn-gate-register" class="btn btn-primary btn-lg">
+                            <i class="fa-solid fa-user-plus"></i> Create Free Account
+                        </button>
+                    </div>
+
+                    <div class="auth-gate-features">
+                        <div class="auth-gate-feature">
+                            <div class="auth-gate-feature-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                            <h3>Daily Prep Tracker</h3>
+                            <p>A day-by-day roadmap sized to fit around a research or shipping schedule, so DSA practice doesn't fall off between sprints.</p>
+                        </div>
+                        <div class="auth-gate-feature">
+                            <div class="auth-gate-feature-icon"><i class="fa-solid fa-chart-line"></i></div>
+                            <h3>Cross-Platform Analytics</h3>
+                            <p>See your LeetCode, CodeChef, and Codeforces activity together, so you can tell if your reps actually match the bar these interviews set.</p>
+                        </div>
+                        <div class="auth-gate-feature">
+                            <div class="auth-gate-feature-icon"><i class="fa-solid fa-robot"></i></div>
+                            <h3>Ask AI Mentor</h3>
+                            <p>A chat mentor for the questions a course can't answer — how to frame your background for an ML role, or how to think through a system-design tradeoff before an interview.</p>
+                        </div>
+                        <div class="auth-gate-feature">
+                            <div class="auth-gate-feature-icon"><i class="fa-solid fa-newspaper"></i></div>
+                            <h3>Trending AI News</h3>
+                            <p>A daily, filtered feed of AI/ML developments — model releases, papers, and industry shifts — so staying current doesn't mean five different newsletters.</p>
+                        </div>
+                        <div class="auth-gate-feature">
+                            <div class="auth-gate-feature-icon"><i class="fa-solid fa-people-group"></i></div>
+                            <h3>Community</h3>
+                            <p>Talk with other members in a shared room, or take it to a private conversation when you'd rather ask one-on-one.</p>
+                        </div>
+                    </div>
+
+                    <div class="auth-gate-stats">
+                        <div class="auth-gate-stat"><strong>325</strong><span>Curated Problems</span></div>
+                        <div class="auth-gate-stat"><strong>3</strong><span>Platforms Unified</span></div>
+                        <div class="auth-gate-stat"><strong>&lt;5s</strong><span>Judge Turnaround</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======================================================== -->
+            <!-- 1. INBUILT DSA CODE STUDIO (PYTHON IDE)                  -->
+            <!-- ======================================================== -->
+            <section id="section-studio" class="studio-section hidden">
+                <!-- Problem Selection & Filter Bar -->
+                <div class="studio-toolbar glass-panel">
+                    <!-- Row 1: Filters — narrows the working set, with a live match count -->
+                    <div class="toolbar-filters">
+                        <div class="filter-field">
+                            <label class="filter-label" for="step-filter"><i class="fa-solid fa-folder-tree"></i> Step</label>
+                            <select id="step-filter" class="form-select">
+                                <option value="">All Steps</option>
+                                <!-- Dynamically populated -->
+                            </select>
+                        </div>
+                        <div class="filter-field">
+                            <label class="filter-label" for="difficulty-filter"><i class="fa-solid fa-layer-group"></i> Difficulty</label>
+                            <select id="difficulty-filter" class="form-select">
+                                <option value="">All Difficulties</option>
+                                <option value="Easy">Easy</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Hard">Hard</option>
+                            </select>
+                        </div>
+                        <div class="filter-field">
+                            <label class="filter-label" for="status-filter"><i class="fa-solid fa-filter"></i> Status</label>
+                            <select id="status-filter" class="form-select">
+                                <option value="">All Statuses</option>
+                                <option value="unsolved">Unsolved</option>
+                                <option value="solved">Solved</option>
+                                <option value="bookmarked">Bookmarked</option>
+                            </select>
+                        </div>
+                        <div class="filter-match-count" id="filter-match-count" title="Problems matching the current filters">
+                            <i class="fa-solid fa-layer-group"></i>
+                            <span id="filter-match-label"><strong id="filter-match-num">342</strong> <span id="filter-match-total">problems</span></span>
+                        </div>
+                    </div>
+
+                    <div class="toolbar-divider"></div>
+
+                    <!-- Row 2: Problem navigator — pick and step through the filtered set -->
+                    <div class="toolbar-navigator">
+                        <span class="problem-position-pill" id="problem-position-pill">— / —</span>
+                        <div class="problem-select-wrapper">
+                            <i class="fa-solid fa-magnifying-glass problem-select-icon"></i>
+                            <select id="problem-select" class="form-select problem-select">
+                                <option value="">Select a problem to solve...</option>
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+                        <div class="nav-arrows">
+                            <button id="prev-prob-btn" class="btn btn-icon" title="Previous Problem"><i class="fa-solid fa-chevron-left"></i></button>
+                            <button id="next-prob-btn" class="btn btn-icon" title="Next Problem"><i class="fa-solid fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- IDE Split Workspace -->
+                <div class="ide-workspace">
+                    
+                    <!-- Left: Problem Description & Tabs -->
+                    <div class="ide-left-pane glass-panel">
+                        <div class="problem-header-box">
+                            <div class="prob-title-row">
+                                <h2 id="prob-title" class="prob-title">Select a problem</h2>
+                                <button id="bookmark-btn" class="btn-star" title="Bookmark problem">
+                                    <i class="fa-regular fa-star"></i>
+                                </button>
+                            </div>
+                            <div class="prob-meta-tags">
+                                <span id="prob-step-badge" class="meta-tag step-tag">Step 01</span>
+                                <span id="prob-topic-badge" class="meta-tag topic-tag">Basics</span>
+                                <span id="prob-diff-badge" class="meta-tag diff-tag easy-tag">Easy</span>
+                                <span id="prob-status-badge" class="meta-tag status-tag unsolved-tag">Unsolved</span>
+                            </div>
+                        </div>
+
+                        <!-- Sub-tabs (Description, Reference Solution, AI Review, Notes) -->
+                        <div class="pane-sub-tabs" id="studio-subtabs">
+                            <button class="sub-tab active" data-subtab="desc" id="subtab-btn-desc" onclick="window.switchSubTab && window.switchSubTab('desc')"><i class="fa-solid fa-book-open"></i> Description</button>
+                            <button class="sub-tab" data-subtab="solution" id="subtab-btn-solution" onclick="window.switchSubTab && window.switchSubTab('solution')"><i class="fa-solid fa-diagram-project"></i> Approach</button>
+                            <button class="sub-tab" data-subtab="review" id="subtab-btn-review" onclick="window.switchSubTab && window.switchSubTab('review')"><i class="fa-solid fa-wand-magic-sparkles text-purple"></i> AI Review</button>
+                            <button class="sub-tab" data-subtab="notes" id="subtab-btn-notes" onclick="window.switchSubTab && window.switchSubTab('notes')"><i class="fa-solid fa-note-sticky"></i> Notes</button>
+                        </div>
+
+                        <!-- Pane Tab Contents -->
+                        <div class="pane-tab-body">
+                            <!-- 1. Description Content -->
+                            <div id="tab-content-desc" class="subtab-content">
+                                <div id="prob-description-text" class="markdown-body">
+                                    <p>Select any problem from the dropdown above to view its statement, write your Python code, and run tests.</p>
+                                </div>
+                            </div>
+
+                            <!-- 2. Approach Content: Brute Force + Optimized + step-by-step Visualizer -->
+                            <div id="tab-content-solution" class="subtab-content hidden">
+                                <div class="approach-toolbar">
+                                    <div class="approach-toggle" role="tablist">
+                                        <button class="approach-btn" data-approach="brute" id="approach-btn-brute">
+                                            <i class="fa-solid fa-hammer"></i> Brute Force
+                                        </button>
+                                        <button class="approach-btn active" data-approach="optimized" id="approach-btn-optimized">
+                                            <i class="fa-solid fa-bolt"></i> Optimized
+                                        </button>
+                                    </div>
+                                    <div class="approach-actions">
+                                        <button id="visualize-btn" class="btn btn-secondary btn-sm">
+                                            <i class="fa-solid fa-diagram-project"></i> Visualize Flow
+                                        </button>
+                                        <button id="copy-solution-btn" class="btn btn-secondary btn-sm"><i class="fa-regular fa-copy"></i> Copy Code</button>
+                                    </div>
+                                </div>
+
+                                <div id="brute-force-unavailable" class="approach-empty-hint hidden">
+                                    <i class="fa-solid fa-flask"></i> A verified brute-force walkthrough for this problem isn't available yet — showing the optimized approach.
+                                </div>
+
+                                <!-- ══════════════════════════════════════════════════ -->
+                                <!-- AI EXPLANATION PANEL                               -->
+                                <!-- ══════════════════════════════════════════════════ -->
+                                <div id="explanation-panel" class="explanation-panel">
+                                    <!-- Loading state -->
+                                    <div id="expl-loading" class="expl-loading hidden">
+                                        <div class="expl-spinner"></div>
+                                        <span>Generating explanation<span class="expl-dots">...</span></span>
+                                    </div>
+
+                                    <!-- Explanation content (shown when loaded) -->
+                                    <div id="expl-content" class="expl-content hidden">
+
+                                        <!-- Header: approach name + key insight -->
+                                        <div class="expl-header">
+                                            <div class="expl-header-left">
+                                                <span id="expl-approach-badge" class="expl-approach-badge"></span>
+                                                <h4 id="expl-approach-name" class="expl-approach-name"></h4>
+                                            </div>
+                                            <button id="expl-regenerate-btn" class="btn btn-ghost btn-xs" title="Re-generate explanation">
+                                                <i class="fa-solid fa-rotate"></i>
+                                            </button>
+                                        </div>
+
+                                        <!-- Key Insight callout -->
+                                        <div class="expl-insight-box">
+                                            <i class="fa-solid fa-lightbulb"></i>
+                                            <span id="expl-key-insight"></span>
+                                        </div>
+
+                                        <!-- Intuition paragraph -->
+                                        <div class="expl-section">
+                                            <div class="expl-section-title"><i class="fa-solid fa-brain"></i> Intuition</div>
+                                            <p id="expl-intuition" class="expl-para"></p>
+                                        </div>
+
+                                        <!-- Complexity pills -->
+                                        <div class="expl-complexity-row">
+                                            <div class="expl-complexity-pill time-pill">
+                                                <span class="pill-icon"><i class="fa-regular fa-clock"></i></span>
+                                                <div>
+                                                    <div class="pill-label">Time</div>
+                                                    <div id="expl-time" class="pill-value"></div>
+                                                </div>
+                                            </div>
+                                            <div class="expl-complexity-pill space-pill">
+                                                <span class="pill-icon"><i class="fa-solid fa-microchip"></i></span>
+                                                <div>
+                                                    <div class="pill-label">Space</div>
+                                                    <div id="expl-space" class="pill-value"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Step-by-step breakdown -->
+                                        <div class="expl-section">
+                                            <div class="expl-section-title"><i class="fa-solid fa-list-ol"></i> Step-by-Step Walkthrough</div>
+                                            <div id="expl-steps" class="expl-steps-list"></div>
+                                        </div>
+
+                                        <!-- ═══ VISUAL TRACE ANIMATOR & SIMULATION ═══ -->
+                                        <div class="expl-section">
+                                            <div class="expl-section-title">
+                                                <i class="fa-solid fa-play-circle"></i> Visual Step-by-Step Simulation
+                                                <span class="expl-trace-hint">— dynamic execution on selected test cases</span>
+                                            </div>
+
+                                            <!-- 1. Test Case / Example Selector -->
+                                            <div class="trace-case-selector-wrap">
+                                                <div class="trace-case-selector-label">
+                                                    <i class="fa-solid fa-flask-vial"></i> Choose Example / Test Case to Visualize:
+                                                </div>
+                                                <div class="trace-case-pills" id="trace-case-pills">
+                                                    <!-- Rendered dynamically: Case 1, Case 2, Case 3, Last Run, Custom -->
+                                                </div>
+                                                <!-- Custom input field (shown when Custom is clicked) -->
+                                                <div class="trace-custom-box hidden" id="trace-custom-box">
+                                                    <div class="trace-custom-input-group">
+                                                        <i class="fa-solid fa-pen-to-square"></i>
+                                                        <input type="text" id="trace-custom-input" class="trace-custom-field" placeholder="e.g. [2, 7, 11, 15], 9 or 'racecar' or [5, 1, 4, 2, 8]">
+                                                        <button type="button" id="trace-custom-simulate-btn" class="btn btn-primary btn-sm">
+                                                            <i class="fa-solid fa-bolt"></i> Simulate
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- 2. Active Input Display Strip -->
+                                            <div class="trace-input-strip">
+                                                <span class="trace-input-label"><i class="fa-solid fa-eye"></i> Simulating:</span>
+                                                <span id="trace-input-summary" class="trace-input-summary"></span>
+                                            </div>
+
+                                            <!-- 3. Visual Stage: Animated Element Cards with Floating Pointers -->
+                                            <div class="trace-visual-stage" id="trace-visual-stage">
+                                                <div id="trace-input-visual" class="trace-input-visual"></div>
+                                            </div>
+
+                                            <!-- 4. Live Memory & Variables HUD -->
+                                            <div id="trace-memory-hud" class="trace-memory-hud"></div>
+
+                                            <!-- 5. Interactive Phase Stepper (clickable dots) -->
+                                            <div class="trace-stepper" id="trace-stepper">
+                                                <!-- Step dots rendered dynamically -->
+                                            </div>
+
+                                            <!-- 6. Playback & Scrubbing Controls -->
+                                            <div class="trace-controls">
+                                                <button id="trace-first-btn" class="btn btn-ghost btn-sm" title="Jump to First Step" disabled>
+                                                    <i class="fa-solid fa-backward-fast"></i>
+                                                </button>
+                                                <button id="trace-prev-btn" class="btn btn-ghost btn-sm" title="Previous Step" disabled>
+                                                    <i class="fa-solid fa-chevron-left"></i> Prev
+                                                </button>
+                                                <span id="trace-step-counter" class="trace-counter">1 / 1</span>
+                                                <button id="trace-next-btn" class="btn btn-ghost btn-sm" title="Next Step">
+                                                    Next <i class="fa-solid fa-chevron-right"></i>
+                                                </button>
+                                                <button id="trace-last-btn" class="btn btn-ghost btn-sm" title="Jump to Last Step">
+                                                    <i class="fa-solid fa-forward-fast"></i>
+                                                </button>
+                                                <button id="trace-play-btn" class="btn btn-secondary btn-sm" style="margin-left:auto">
+                                                    <i class="fa-solid fa-play"></i> Auto-Play
+                                                </button>
+                                                <div class="trace-speed-group">
+                                                    <button type="button" class="btn-speed active" data-speed="1400">1x</button>
+                                                    <button type="button" class="btn-speed" data-speed="800">1.8x</button>
+                                                </div>
+                                            </div>
+
+                                            <!-- 7. Plain-English Step Guidance Card -->
+                                            <div id="trace-phase-card" class="trace-phase-card">
+                                                <div id="trace-phase-name" class="trace-phase-name"></div>
+                                                <div id="trace-phase-desc" class="trace-phase-desc"></div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Common mistakes -->
+                                        <div class="expl-section">
+                                            <div class="expl-section-title"><i class="fa-solid fa-triangle-exclamation"></i> Common Mistakes</div>
+                                            <ul id="expl-mistakes" class="expl-mistakes-list"></ul>
+                                        </div>
+
+                                    </div>
+
+                                    <!-- Empty / error state -->
+                                    <div id="expl-empty" class="expl-empty">
+                                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                        <p>Click <strong>Approach</strong> tab on any problem to auto-generate an AI explanation.</p>
+                                    </div>
+                                </div>
+
+                                <pre class="code-preview"><code id="prob-ref-solution-code"># Solution code will appear here</code></pre>
+
+                                <div id="visualizer-panel" class="visualizer-panel hidden"></div>
+                            </div>
+
+                            <!-- 3. Notes Content -->
+                            <div id="tab-content-notes" class="subtab-content hidden">
+                                <div class="notes-wrapper">
+                                    <textarea id="prob-notes-input" placeholder="Write your key learnings, time/space complexity notes, or edge cases here..." rows="12"></textarea>
+                                    <div class="notes-actions-bar">
+                                        <button id="save-notes-btn" class="btn btn-primary btn-sm"><i class="fa-solid fa-floppy-disk"></i> Save Notes</button>
+                                        <button id="btn-sync-notes-notion" class="btn btn-notion-sm"><i class="fa-solid fa-book-bookmark"></i> Save to Notion</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 4. AI Review & Big-O Complexity Content -->
+                            <div id="tab-content-review" class="subtab-content hidden">
+                                <div id="review-panel" class="review-panel">
+                                    <!-- Review Action Bar inside tab -->
+                                    <div class="review-action-banner">
+                                        <div class="review-action-info">
+                                            <i class="fa-solid fa-wand-magic-sparkles text-purple"></i>
+                                            <span>Analyze your active editor code for Big-O complexity, anti-patterns, and optimal refactoring.</span>
+                                        </div>
+                                        <button id="trigger-review-btn" class="btn btn-ai-sparkle btn-sm">
+                                            <i class="fa-solid fa-bolt"></i> Run Review Now
+                                        </button>
+                                    </div>
+
+                                    <!-- Loading State -->
+                                    <div id="review-loading" class="review-loading hidden">
+                                        <div class="review-spinner"></div>
+                                        <div class="review-loading-text">
+                                            <strong>Analyzing Code with AI & AST Engine</strong>
+                                            <span>Calculating Big-O time & space, detecting bottlenecks, and verifying edge cases...</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Review Results Content -->
+                                    <div id="review-content" class="review-content hidden">
+                                        <!-- Score & Verdict Header -->
+                                        <div class="review-header-card">
+                                            <div class="review-score-gauge">
+                                                <span id="review-score-val" class="review-score-val">--</span>
+                                                <span class="review-score-max">/100</span>
+                                            </div>
+                                            <div class="review-verdict-wrap">
+                                                <div class="review-verdict-row">
+                                                    <span id="review-verdict-badge" class="review-verdict-badge">Optimal</span>
+                                                    <span id="review-source-badge" class="review-source-badge"><i class="fa-solid fa-microchip"></i> AI Engine</span>
+                                                </div>
+                                                <p id="review-summary-text" class="review-summary-text"></p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Complexity Matrix (Time & Space) -->
+                                        <div class="review-complexity-grid">
+                                            <div class="review-stat-card time-card">
+                                                <div class="stat-card-header">
+                                                    <span class="stat-icon"><i class="fa-regular fa-clock"></i></span>
+                                                    <span class="stat-title">Time Complexity</span>
+                                                </div>
+                                                <div class="stat-value-row">
+                                                    <span id="review-time-val" class="stat-big-val">O(n)</span>
+                                                    <span id="review-time-target" class="stat-target-pill">Target: O(n)</span>
+                                                </div>
+                                                <p id="review-time-rat" class="stat-rationale"></p>
+                                            </div>
+
+                                            <div class="review-stat-card space-card">
+                                                <div class="stat-card-header">
+                                                    <span class="stat-icon"><i class="fa-solid fa-microchip"></i></span>
+                                                    <span class="stat-title">Space Complexity</span>
+                                                </div>
+                                                <div class="stat-value-row">
+                                                    <span id="review-space-val" class="stat-big-val">O(1)</span>
+                                                    <span id="review-space-target" class="stat-target-pill">Target: O(1)</span>
+                                                </div>
+                                                <p id="review-space-rat" class="stat-rationale"></p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Strengths -->
+                                        <div class="review-section">
+                                            <div class="review-section-title"><i class="fa-solid fa-circle-check text-green"></i> Strengths & Highlights</div>
+                                            <ul id="review-strengths-list" class="review-strengths-list"></ul>
+                                        </div>
+
+                                        <!-- Anti-Patterns & Bottlenecks -->
+                                        <div class="review-section">
+                                            <div class="review-section-title"><i class="fa-solid fa-triangle-exclamation text-yellow"></i> Anti-Patterns & Bottlenecks</div>
+                                            <div id="review-antipatterns-list" class="review-antipatterns-list"></div>
+                                        </div>
+
+                                        <!-- Edge Cases Evaluated -->
+                                        <div class="review-section">
+                                            <div class="review-section-title"><i class="fa-solid fa-shield-halved text-cyan"></i> Edge Case Analysis</div>
+                                            <div id="review-edge-cases-list" class="review-edge-cases-list"></div>
+                                        </div>
+
+                                        <!-- Optimal Refactored Implementation -->
+                                        <div class="review-section">
+                                            <div class="review-section-header">
+                                                <div class="review-section-title"><i class="fa-solid fa-code-merge text-purple"></i> Optimal Refactored Implementation</div>
+                                                <div class="review-refactor-actions">
+                                                    <button id="review-copy-code-btn" class="btn btn-secondary btn-xs"><i class="fa-regular fa-copy"></i> Copy Code</button>
+                                                    <button id="review-apply-code-btn" class="btn btn-primary btn-xs" title="Load refactored solution into code editor"><i class="fa-solid fa-arrow-right-to-bracket"></i> Apply to Editor</button>
+                                                </div>
+                                            </div>
+                                            <p id="review-refactor-exp" class="review-refactor-exp"></p>
+                                            <pre class="code-preview review-code-preview"><code id="review-refactored-code"># Refactored code will appear here</code></pre>
+                                        </div>
+                                    </div>
+
+                                    <!-- Review Empty Initial State -->
+                                    <div id="review-empty" class="review-empty">
+                                        <i class="fa-solid fa-wand-magic-sparkles text-purple"></i>
+                                        <h3>AI Code Review & Big-O Complexity</h3>
+                                        <p>Write or paste your Python solution in the editor and click <strong>Run Review Now</strong> or <strong>AI Review</strong> in the toolbar.</p>
+                                        <button id="review-start-cta-btn" class="btn btn-primary btn-sm"><i class="fa-solid fa-bolt"></i> Review My Current Code</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Python Code Editor & Output Console -->
+                    <div class="ide-right-pane">
+                        
+                        <!-- Editor Container -->
+                        <div class="editor-card glass-panel">
+                            <div class="editor-header">
+                                <div class="editor-lang-badge">
+                                    <i class="fa-brands fa-python text-yellow"></i>
+                                    <span>Python 3.13</span>
+                                </div>
+                                <div class="editor-actions">
+                                    <button id="reset-code-btn" class="btn btn-secondary btn-sm" title="Reset to default starter template">
+                                        <i class="fa-solid fa-rotate-left"></i> <span>Reset</span>
+                                    </button>
+                                    <button id="ai-review-btn" class="btn btn-ai-review btn-sm" title="AI Code Review & Big-O Analysis (Ctrl + Shift + R)">
+                                        <i class="fa-solid fa-wand-magic-sparkles"></i> <span>AI Review</span>
+                                    </button>
+                                    <button id="run-code-btn" class="btn btn-secondary btn-sm" title="Run against test cases (Ctrl + Enter)">
+                                        <i class="fa-solid fa-play text-green"></i> <span>Run</span>
+                                    </button>
+                                    <button id="btn-sync-problem-notion" class="btn btn-notion-sm" title="Sync solution and notes to Notion">
+                                        <i class="fa-solid fa-book-bookmark"></i> <span>Notion</span>
+                                    </button>
+                                    <button id="submit-code-btn" class="btn btn-primary btn-sm" title="Submit Solution (Ctrl + Shift + Enter)">
+                                        <i class="fa-solid fa-paper-plane"></i> <span>Submit</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Code Editor Body: CodeMirror 6 Python Editor -->
+                            <div class="code-editor-wrapper">
+                                <!-- CodeMirror mounts here — do NOT add line-numbers div, CM handles it -->
+                                <div id="cm-studio-editor" class="cm-editor-host"></div>
+                                <!-- Hidden textarea: used as fallback / value bridge -->
+                                <textarea
+                                    id="code-editor"
+                                    class="code-textarea cm-hidden-textarea"
+                                    spellcheck="false"
+                                    autocomplete="off"
+                                    style="display:none"
+                                ></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Console & Test Case Terminal -->
+                        <div class="console-card glass-panel">
+                            <div class="console-header">
+                                <div class="console-tabs">
+                                    <button class="console-tab active" data-ctab="tests"><i class="fa-solid fa-vial"></i> Test Results</button>
+                                    <button class="console-tab" data-ctab="custom"><i class="fa-solid fa-terminal"></i> Custom Input</button>
+                                </div>
+                                <div id="console-status-pill" class="status-pill idle">Ready</div>
+                            </div>
+
+                            <div class="console-body">
+                                <!-- Test Results View -->
+                                <div id="console-tab-tests" class="console-tab-pane">
+                                    <div id="test-results-container" class="test-results-empty">
+                                        Click <strong>Run Code</strong> or <strong>Submit</strong> to evaluate your solution against test cases.
+                                    </div>
+                                </div>
+
+                                <!-- Custom Input View -->
+                                <div id="console-tab-custom" class="console-tab-pane hidden">
+                                    <div class="custom-input-box">
+                                        <label for="custom-input-field">Provide custom argument(s) in Python syntax (e.g. <code>[2, 7, 11, 15], 9</code>):</label>
+                                        <textarea id="custom-input-field" rows="3" placeholder="[2, 7, 11, 15], 9"></textarea>
+                                        <button id="run-custom-btn" class="btn btn-secondary btn-sm"><i class="fa-solid fa-play"></i> Run with Custom Input</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+
+
+            <!-- ======================================================== -->
+            <!-- 2. DAILY TRACKER & MASTERY ROADMAP                      -->
+            <!-- ======================================================== -->
+            <section id="section-tracker" class="tracker-section hidden">
+                <!-- Daily Goal & Streak Hero -->
+                <div class="tracker-hero glass-panel">
+                    <div class="tracker-hero-left">
+                        <div class="streak-badge-large">
+                            <i class="fa-solid fa-fire fire-icon"></i>
+                            <div class="streak-numbers">
+                                <span class="big-streak-num" id="tracker-streak-num">0</span>
+                                <span class="streak-label">DAYS STREAK</span>
+                            </div>
+                        </div>
+                        <div class="tracker-welcome">
+                            <h2>Daily Practice & Mastery Roadmap</h2>
+                            <p>Track your daily problem solving, maintain your practice streak, and master all core DSA topics.</p>
+                        </div>
+                    </div>
+                    <div class="tracker-hero-stats">
+                        <div class="hero-stat-pill">
+                            <span class="h-label">Total Solved</span>
+                            <span class="h-val text-green" id="tracker-total-solved">0 / 325</span>
+                        </div>
+                        <div class="hero-stat-pill">
+                            <span class="h-label">Easy Solved</span>
+                            <span class="h-val text-cyan" id="tracker-easy-solved">0</span>
+                        </div>
+                        <div class="hero-stat-pill">
+                            <span class="h-label">Medium Solved</span>
+                            <span class="h-val text-yellow" id="tracker-medium-solved">0</span>
+                        </div>
+                        <div class="hero-stat-pill">
+                            <span class="h-label">Hard Solved</span>
+                            <span class="h-val text-red" id="tracker-hard-solved">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Daily Activity Heatmap -->
+                <div class="card glass-panel tracker-heatmap-card">
+                    <div class="card-header-flex">
+                        <h3 class="section-title"><i class="fa-solid fa-chart-simple"></i> Daily Problem Solving Activity</h3>
+                        <span class="heatmap-legend">
+                            <span class="legend-text">Less</span>
+                            <span class="legend-cell level-0"></span>
+                            <span class="legend-cell level-1"></span>
+                            <span class="legend-cell level-2"></span>
+                            <span class="legend-cell level-3"></span>
+                            <span class="legend-cell level-4"></span>
+                            <span class="legend-text">More</span>
+                        </span>
+                    </div>
+                    <div class="heatmap-scroll-wrapper">
+                        <div id="tracker-calendar-heatmap" class="calendar-grid">
+                            <!-- Populated dynamically via JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mastery Steps Roadmap Grid -->
+                <div class="roadmap-container">
+                    <h3 class="section-title"><i class="fa-solid fa-map-location-dot"></i> Core DSA Steps Roadmap</h3>
+                    <div id="roadmap-steps-grid" class="roadmap-grid">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- ======================================================== -->
+            <!-- 3. MULTI-PLATFORM ANALYTICS (LEETCODE/CODECHEF/CF)      -->
+            <!-- ======================================================== -->
+            <section id="section-analytics" class="analytics-section hidden">
+                
+                <!-- Platform Switcher Header -->
+                <div class="analytics-header-bar glass-panel">
+                    <div class="platform-switcher" role="tablist">
+                        <button class="platform-btn active" data-platform="leetcode">
+                            <i class="fa-solid fa-code"></i>
+                            <span>LeetCode</span>
+                        </button>
+                        <button class="platform-btn" data-platform="codechef">
+                            <i class="fa-solid fa-terminal"></i>
+                            <span>CodeChef</span>
+                        </button>
+                        <button class="platform-btn" data-platform="codeforces">
+                            <i class="fa-solid fa-chart-column"></i>
+                            <span>Codeforces</span>
+                        </button>
+                        <button class="platform-btn" data-platform="unified">
+                            <i class="fa-solid fa-layer-group"></i>
+                            <span>Unified Hub</span>
+                        </button>
+                    </div>
+
+                    <div class="search-bar-container">
+                        <form id="search-form" class="search-form">
+                            <div class="search-input-wrapper">
+                                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                                <input 
+                                    type="text" 
+                                    id="username-input" 
+                                    placeholder="Enter username..." 
+                                    value="{{ leetcode_user }}" 
+                                    autocomplete="off"
+                                    spellcheck="false"
+                                >
+                            </div>
+                            <button type="submit" id="search-btn" class="btn btn-primary">
+                                <span>Analyze</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                            <button type="button" id="refresh-btn" class="btn btn-icon" title="Refresh data">
+                                <i class="fa-solid fa-arrows-rotate"></i>
+                            </button>
+                            <button type="button" id="export-json-btn" class="btn btn-secondary" title="Export snapshot">
+                                <i class="fa-solid fa-download"></i>
+                                <span>JSON</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- LeetCode View -->
+                <div id="view-leetcode" class="dashboard-grid">
+                    <section class="card hero-card glass-panel">
+                        <div class="hero-layout">
+                            <div class="avatar-container">
+                                <img id="lc-avatar" src="" alt="" class="avatar-img" onerror="this.style.display='none'">
+                                <div class="avatar-glow"></div>
+                                <span id="lc-rank-pill" class="rank-pill">#--</span>
+                            </div>
+                            <div class="hero-info">
+                                <div class="hero-name-row">
+                                    <h2 id="lc-realname" class="user-name">--</h2>
+                                    <a id="lc-profile-link" href="#" target="_blank" class="handle-link">
+                                        <span id="lc-handle">@--</span>
+                                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                    </a>
+                                </div>
+                                <p id="lc-bio" class="user-bio">--</p>
+                                <div class="meta-pills">
+                                    <div id="lc-pill-company" class="meta-pill"><i class="fa-solid fa-building"></i> <span>--</span></div>
+                                    <div id="lc-pill-location" class="meta-pill"><i class="fa-solid fa-location-dot"></i> <span>--</span></div>
+                                    <div id="lc-pill-reputation" class="meta-pill"><i class="fa-solid fa-star"></i> <span>Reputation: --</span></div>
+                                </div>
+                            </div>
+                            <div class="hero-stats">
+                                <div class="stat-box streak-box">
+                                    <div class="stat-icon-wrap streak-icon"><i class="fa-solid fa-fire"></i></div>
+                                    <div class="stat-content">
+                                        <span class="stat-number" id="lc-streak">0</span>
+                                        <span class="stat-label">Day Streak</span>
+                                    </div>
+                                </div>
+                                <div class="stat-box active-box">
+                                    <div class="stat-icon-wrap active-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                                    <div class="stat-content">
+                                        <span class="stat-number" id="lc-active-days">0</span>
+                                        <span class="stat-label">Total Active</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="problems-section">
+                        <div class="card total-solved-card glass-panel">
+                            <h3 class="section-title"><i class="fa-solid fa-circle-notch"></i> Solved Breakdown</h3>
+                            <div class="ring-container">
+                                <div class="svg-ring-wrapper">
+                                    <svg class="progress-ring" viewBox="0 0 160 160">
+                                        <circle class="ring-bg" cx="80" cy="80" r="65"></circle>
+                                        <circle id="lc-ring-all" class="ring-bar ring-all" cx="80" cy="80" r="65"></circle>
+                                    </svg>
+                                    <div class="ring-center-content">
+                                        <span id="lc-solved-num" class="ring-big-number">0</span>
+                                        <span id="lc-available-num" class="ring-sub-number">/ 0</span>
+                                        <span class="ring-label">SOLVED</span>
+                                    </div>
+                                </div>
+                                <div class="acceptance-rate-pill">
+                                    <i class="fa-solid fa-chart-line"></i> Acceptance: <strong id="lc-overall-acceptance">0%</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card difficulty-card easy-card glass-panel">
+                            <div class="diff-header">
+                                <span class="diff-tag easy-tag">Easy</span>
+                                <span class="diff-count" id="lc-easy-count">0 / 0</span>
+                            </div>
+                            <div class="progress-track"><div id="lc-easy-bar" class="progress-fill easy-fill" style="width: 0%"></div></div>
+                            <div class="diff-footer"><span id="lc-easy-percent">0%</span><span id="lc-easy-acceptance">Acceptance: 0%</span></div>
+                        </div>
+
+                        <div class="card difficulty-card medium-card glass-panel">
+                            <div class="diff-header">
+                                <span class="diff-tag medium-tag">Medium</span>
+                                <span class="diff-count" id="lc-medium-count">0 / 0</span>
+                            </div>
+                            <div class="progress-track"><div id="lc-medium-bar" class="progress-fill medium-fill" style="width: 0%"></div></div>
+                            <div class="diff-footer"><span id="lc-medium-percent">0%</span><span id="lc-medium-acceptance">Acceptance: 0%</span></div>
+                        </div>
+
+                        <div class="card difficulty-card hard-card glass-panel">
+                            <div class="diff-header">
+                                <span class="diff-tag hard-tag">Hard</span>
+                                <span class="diff-count" id="lc-hard-count">0 / 0</span>
+                            </div>
+                            <div class="progress-track"><div id="lc-hard-bar" class="progress-fill hard-fill" style="width: 0%"></div></div>
+                            <div class="diff-footer"><span id="lc-hard-percent">0%</span><span id="lc-hard-acceptance">Acceptance: 0%</span></div>
+                        </div>
+                    </section>
+
+                    <section class="card contest-card glass-panel">
+                        <div class="card-header-flex">
+                            <h3 class="section-title"><i class="fa-solid fa-trophy"></i> Contest Performance</h3>
+                            <span id="lc-contest-badge" class="badge-pill hidden">Guardian</span>
+                        </div>
+                        <div class="contest-grid">
+                            <div class="contest-metric"><span class="metric-label">Contest Rating</span><span id="lc-contest-rating" class="metric-value highlight-cyan">--</span></div>
+                            <div class="contest-metric"><span class="metric-label">Global Contest Rank</span><span id="lc-contest-global-rank" class="metric-value">--</span></div>
+                            <div class="contest-metric"><span class="metric-label">Top Percentile</span><span id="lc-contest-top-pct" class="metric-value highlight-gold">--</span></div>
+                            <div class="contest-metric"><span class="metric-label">Contests Attended</span><span id="lc-contest-attended" class="metric-value">0</span></div>
+                        </div>
+                    </section>
+
+                    <section class="card topics-card glass-panel">
+                        <div class="topics-header">
+                            <h3 class="section-title"><i class="fa-solid fa-brain"></i> DSA Topic Mastery</h3>
+                            <div class="topic-tabs">
+                                <button class="topic-tab active" data-category="all">All Topics</button>
+                                <button class="topic-tab" data-category="fundamental">Fundamental</button>
+                                <button class="topic-tab" data-category="intermediate">Intermediate</button>
+                                <button class="topic-tab" data-category="advanced">Advanced</button>
+                            </div>
+                        </div>
+                        <div id="lc-topics-container" class="topics-tag-cloud"></div>
+                    </section>
+                </div>
+
+                <!-- CodeChef View -->
+                <div id="view-codechef" class="dashboard-grid hidden">
+                    <section class="card hero-card cc-hero glass-panel">
+                        <div class="hero-layout">
+                            <div class="avatar-container">
+                                <img id="cc-avatar" src="" alt="" class="avatar-img" onerror="this.style.display='none'">
+                                <div class="avatar-glow cc-glow"></div>
+                                <span id="cc-stars-pill" class="rank-pill cc-stars-badge">1★</span>
+                            </div>
+                            <div class="hero-info">
+                                <div class="hero-name-row">
+                                    <h2 id="cc-name" class="user-name">--</h2>
+                                    <a id="cc-profile-link" href="#" target="_blank" class="handle-link">
+                                        <span id="cc-handle">@--</span>
+                                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                    </a>
+                                    <span id="cc-division-badge" class="division-badge">Div 4</span>
+                                </div>
+                                <div class="meta-pills">
+                                    <div id="cc-pill-country" class="meta-pill"><i class="fa-solid fa-location-dot"></i> <span>--</span></div>
+                                    <div id="cc-pill-grank" class="meta-pill"><i class="fa-solid fa-globe"></i> <span>Global Rank: --</span></div>
+                                    <div id="cc-pill-crank" class="meta-pill"><i class="fa-solid fa-flag"></i> <span>Country Rank: --</span></div>
+                                </div>
+                            </div>
+                            <div class="hero-stats">
+                                <div class="stat-box cc-rating-box">
+                                    <div class="stat-icon-wrap cc-rating-icon"><i class="fa-solid fa-star"></i></div>
+                                    <div class="stat-content">
+                                        <span class="stat-number" id="cc-rating">0</span>
+                                        <span class="stat-label">Current Rating</span>
+                                    </div>
+                                </div>
+                                <div class="stat-box cc-peak-box">
+                                    <div class="stat-icon-wrap cc-peak-icon"><i class="fa-solid fa-mountain"></i></div>
+                                    <div class="stat-content">
+                                        <span class="stat-number" id="cc-peak-rating">0</span>
+                                        <span class="stat-label">Highest Rating</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="problems-section cc-stats-grid">
+                        <div class="card glass-panel stat-metric-card">
+                            <div class="metric-top"><i class="fa-solid fa-circle-check text-green"></i> Fully Solved</div>
+                            <div class="metric-giant" id="cc-fully-solved">0</div>
+                            <div class="metric-sub">Practice & Contests</div>
+                        </div>
+                        <div class="card glass-panel stat-metric-card">
+                            <div class="metric-top"><i class="fa-solid fa-circle-half-stroke text-yellow"></i> Partially Solved</div>
+                            <div class="metric-giant" id="cc-partially-solved">0</div>
+                            <div class="metric-sub">Partial Points Earned</div>
+                        </div>
+                        <div class="card glass-panel stat-metric-card">
+                            <div class="metric-top"><i class="fa-solid fa-code text-cyan"></i> Total Solved</div>
+                            <div class="metric-giant" id="cc-total-solved">0</div>
+                            <div class="metric-sub">All Problems</div>
+                        </div>
+                        <div class="card glass-panel stat-metric-card">
+                            <div class="metric-top"><i class="fa-solid fa-trophy text-gold"></i> Rated Contests</div>
+                            <div class="metric-giant" id="cc-contests-count">0</div>
+                            <div class="metric-sub">Attended Rounds</div>
+                        </div>
+                    </section>
+
+                    <section class="card glass-panel">
+                        <h3 class="section-title"><i class="fa-solid fa-chart-line"></i> Recent Rated Contests</h3>
+                        <div class="table-responsive">
+                            <table class="recent-table">
+                                <thead>
+                                    <tr><th>Contest Name</th><th>Date</th><th>Rank</th><th>Rating</th></tr>
+                                </thead>
+                                <tbody id="cc-contest-history-tbody"></tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Codeforces View -->
+                <div id="view-codeforces" class="dashboard-grid hidden">
+                    <section class="card hero-card cf-hero glass-panel">
+                        <div class="hero-layout">
+                            <div class="avatar-container">
+                                <img id="cf-avatar" src="" alt="" class="avatar-img" onerror="this.style.display='none'">
+                                <div class="avatar-glow cf-glow"></div>
+                                <span id="cf-rank-pill" class="rank-pill cf-rank-badge">Unrated</span>
+                            </div>
+                            <div class="hero-info">
+                                <div class="hero-name-row">
+                                    <h2 id="cf-name" class="user-name">--</h2>
+                                    <a id="cf-profile-link" href="#" target="_blank" class="handle-link">
+                                        <span id="cf-handle">@--</span>
+                                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                    </a>
+                                </div>
+                                <div class="meta-pills">
+                                    <div id="cf-pill-location" class="meta-pill"><i class="fa-solid fa-location-dot"></i> <span>--</span></div>
+                                    <div id="cf-pill-org" class="meta-pill"><i class="fa-solid fa-building"></i> <span>--</span></div>
+                                    <div id="cf-pill-contrib" class="meta-pill"><i class="fa-solid fa-heart"></i> <span>Contribution: --</span></div>
+                                </div>
+                            </div>
+                            <div class="hero-stats">
+                                <div class="stat-box cf-rating-box">
+                                    <div class="stat-icon-wrap cf-rating-icon"><i class="fa-solid fa-bolt"></i></div>
+                                    <div class="stat-content">
+                                        <span class="stat-number" id="cf-rating">0</span>
+                                        <span class="stat-label">Current Rating</span>
+                                    </div>
+                                </div>
+                                <div class="stat-box cf-max-box">
+                                    <div class="stat-icon-wrap cf-max-icon"><i class="fa-solid fa-crown"></i></div>
+                                    <div class="stat-content">
+                                        <span class="stat-number" id="cf-max-rating">0</span>
+                                        <span class="stat-label" id="cf-max-rank-label">Max Rating</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="problems-section cf-stats-grid">
+                        <div class="card glass-panel stat-metric-card">
+                            <div class="metric-top"><i class="fa-solid fa-circle-check text-green"></i> Solved Problems</div>
+                            <div class="metric-giant" id="cf-solved-count">0</div>
+                            <div class="metric-sub">Unique Accepted</div>
+                        </div>
+                        <div class="card glass-panel stat-metric-card">
+                            <div class="metric-top"><i class="fa-solid fa-trophy text-gold"></i> Contests Attended</div>
+                            <div class="metric-giant" id="cf-contests-count">0</div>
+                            <div class="metric-sub">Rated Rounds</div>
+                        </div>
+                        <div class="card glass-panel stat-metric-card">
+                            <div class="metric-top"><i class="fa-solid fa-users text-cyan"></i> Friends</div>
+                            <div class="metric-giant" id="cf-friends-count">0</div>
+                            <div class="metric-sub">Followers</div>
+                        </div>
+                        <div class="card glass-panel stat-metric-card">
+                            <div class="metric-top"><i class="fa-solid fa-medal text-purple"></i> Max Title</div>
+                            <div class="metric-giant font-title" id="cf-max-rank">--</div>
+                            <div class="metric-sub">Peak Rank</div>
+                        </div>
+                    </section>
+
+                    <section class="card glass-panel">
+                        <h3 class="section-title"><i class="fa-solid fa-fire"></i> Recently Solved Problems</h3>
+                        <div class="table-responsive">
+                            <table class="recent-table">
+                                <thead>
+                                    <tr><th>Problem</th><th>Difficulty</th><th>Tags</th><th>Link</th></tr>
+                                </thead>
+                                <tbody id="cf-recent-subs-tbody"></tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Unified View -->
+                <div id="view-unified" class="dashboard-grid hidden">
+                    <section class="card glass-panel unified-hero">
+                        <h2 class="unified-title"><i class="fa-solid fa-layer-group text-cyan"></i> Multi-Platform Performance Overview</h2>
+                        <p class="unified-subtitle">Aggregated competitive programming performance across LeetCode, CodeChef, and Codeforces.</p>
+                    </section>
+                    <div class="unified-cards-grid">
+                        <div class="card glass-panel unified-platform-card lc-border">
+                            <div class="up-header"><span class="up-badge lc-badge"><i class="fa-solid fa-code"></i> LeetCode</span><span id="uni-lc-username" class="up-user">--</span></div>
+                            <div class="up-body">
+                                <div class="up-stat-row"><span>Problems Solved:</span><strong id="uni-lc-solved" class="text-green">--</strong></div>
+                                <div class="up-stat-row"><span>Contest Rating:</span><strong id="uni-lc-rating" class="text-gold">--</strong></div>
+                                <div class="up-stat-row"><span>Global Rank:</span><strong id="uni-lc-rank">--</strong></div>
+                                <div class="up-stat-row"><span>Active Streak:</span><strong id="uni-lc-streak" class="text-red">--</strong></div>
+                            </div>
+                        </div>
+                        <div class="card glass-panel unified-platform-card cc-border">
+                            <div class="up-header"><span class="up-badge cc-badge"><i class="fa-solid fa-utensils"></i> CodeChef</span><span id="uni-cc-username" class="up-user">--</span></div>
+                            <div class="up-body">
+                                <div class="up-stat-row"><span>Stars & Div:</span><strong id="uni-cc-stars" class="text-gold">--</strong></div>
+                                <div class="up-stat-row"><span>Current Rating:</span><strong id="uni-cc-rating" class="text-green">--</strong></div>
+                                <div class="up-stat-row"><span>Peak Rating:</span><strong id="uni-cc-peak">--</strong></div>
+                                <div class="up-stat-row"><span>Contests Attended:</span><strong id="uni-cc-contests">--</strong></div>
+                            </div>
+                        </div>
+                        <div class="card glass-panel unified-platform-card cf-border">
+                            <div class="up-header"><span class="up-badge cf-badge"><i class="fa-solid fa-chart-column"></i> Codeforces</span><span id="uni-cf-username" class="up-user">--</span></div>
+                            <div class="up-body">
+                                <div class="up-stat-row"><span>Rank Title:</span><strong id="uni-cf-rank" class="text-purple">--</strong></div>
+                                <div class="up-stat-row"><span>Current Rating:</span><strong id="uni-cf-rating" class="text-cyan">--</strong></div>
+                                <div class="up-stat-row"><span>Max Rating:</span><strong id="uni-cf-max">--</strong></div>
+                                <div class="up-stat-row"><span>Unique Solved:</span><strong id="uni-cf-solved" class="text-green">--</strong></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======================================================== -->
+            <!-- 4. AI HUB — Ask AI Mentor + Trending AI News             -->
+            <!-- ======================================================== -->
+            <section id="section-ai" class="ai-section hidden">
+                <div class="ai-header-bar glass-panel">
+                    <div class="platform-switcher" role="tablist">
+                        <button class="ai-sub-tab active" data-aitab="chat">
+                            <i class="fa-solid fa-comments"></i>
+                            <span>Ask AI Mentor</span>
+                        </button>
+                        <button class="ai-sub-tab" data-aitab="news">
+                            <i class="fa-solid fa-newspaper"></i>
+                            <span>Trending AI News</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Ask AI Chat Pane -->
+                <div id="ai-pane-chat" class="ai-pane">
+                    <div class="ai-chat-card glass-panel">
+                        <div id="ai-chat-not-configured" class="ai-not-configured hidden">
+                            <i class="fa-solid fa-plug-circle-exclamation"></i>
+                            <h3>AI Mentor isn't configured yet</h3>
+                            <p>Add an <code>OPENROUTER_API_KEY</code> to your <code>.env</code> file and restart the server to enable this feature.</p>
+                        </div>
+
+                        <div id="ai-chat-messages" class="ai-chat-messages">
+                            <div class="ai-chat-welcome">
+                                <div class="ai-chat-welcome-icon"><i class="fa-solid fa-robot"></i></div>
+                                <h3>Ask me anything about AI/ML or DSA</h3>
+                                <p>Interview prep, system design for LLM apps, NLP fundamentals, or career questions for Data Science / GenAI / FDE roles — ask away.</p>
+                            </div>
+                        </div>
+
+                        <form id="ai-chat-form" class="ai-chat-form hidden">
+                            <textarea id="ai-chat-input" class="ai-chat-input" rows="1" placeholder="Ask about DSA, ML system design, interview prep..." autocomplete="off"></textarea>
+                            <button type="submit" id="ai-chat-send-btn" class="btn btn-primary" title="Send (Enter)">
+                                <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Trending AI News Pane -->
+                <div id="ai-pane-news" class="ai-pane hidden">
+                    <div class="ai-news-toolbar glass-panel">
+                        <div>
+                            <h3 class="section-title"><i class="fa-solid fa-newspaper"></i> Trending in AI</h3>
+                            <p class="ai-news-subtitle">Latest arXiv papers &amp; Hacker News stories on AI/ML.</p>
+                        </div>
+                        <button id="ai-news-refresh-btn" class="btn btn-secondary btn-sm">
+                            <i class="fa-solid fa-arrows-rotate"></i> Refresh
+                        </button>
+                    </div>
+
+                    <div id="ai-news-loading" class="ai-news-loading hidden">
+                        <i class="fa-solid fa-spinner fa-spin"></i> Fetching the latest AI news...
+                    </div>
+
+                    <div id="ai-news-grid" class="ai-news-grid"></div>
+                </div>
+            </section>
+
+            <!-- ======================================================== -->
+            <!-- 5. ADMIN MANAGEMENT CONSOLE (RBAC)                       -->
+            <!-- ======================================================== -->
+            <section id="section-admin" class="admin-section hidden">
+                <!-- Admin Header Banner -->
+                <div class="admin-header-card glass-panel">
+                    <div class="admin-header-title">
+                        <div class="admin-icon-box"><i class="fa-solid fa-shield-halved"></i></div>
+                        <div>
+                            <h2>Admin Command Center</h2>
+                            <p>Real-time registered users directory, RBAC role management, and platform analytics</p>
+                        </div>
+                    </div>
+                    <div class="admin-header-actions">
+                        <button id="btn-refresh-admin" class="btn btn-glass">
+                            <i class="fa-solid fa-rotate"></i> Refresh Data
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Admin KPI Metric Cards -->
+                <div class="admin-kpi-grid">
+                    <div class="kpi-card glass-panel">
+                        <div class="kpi-icon icon-users"><i class="fa-solid fa-users"></i></div>
+                        <div class="kpi-data">
+                            <span class="kpi-label">Total Registered Users</span>
+                            <h3 class="kpi-value" id="kpi-total-users">0</h3>
+                            <span class="kpi-subtext" id="kpi-registered-today">+0 joined today</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card glass-panel">
+                        <div class="kpi-icon icon-admins"><i class="fa-solid fa-user-shield"></i></div>
+                        <div class="kpi-data">
+                            <span class="kpi-label">Admin Accounts</span>
+                            <h3 class="kpi-value" id="kpi-total-admins">0</h3>
+                            <span class="kpi-subtext">Privileged access</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card glass-panel">
+                        <div class="kpi-icon icon-solved"><i class="fa-solid fa-code-commit"></i></div>
+                        <div class="kpi-data">
+                            <span class="kpi-label">Global Submissions</span>
+                            <h3 class="kpi-value" id="kpi-global-submissions">0</h3>
+                            <span class="kpi-subtext" id="kpi-global-solved">0 solved problems</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card glass-panel">
+                        <div class="kpi-icon icon-active"><i class="fa-solid fa-bolt"></i></div>
+                        <div class="kpi-data">
+                            <span class="kpi-label">Active Users Today</span>
+                            <h3 class="kpi-value" id="kpi-active-today">0</h3>
+                            <span class="kpi-subtext">Active daily coders</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Users Directory Table & Activity Stream -->
+                <div class="admin-content-grid">
+                    <!-- Main Users Table Card -->
+                    <div class="admin-users-card glass-panel">
+                        <div class="admin-card-header">
+                            <div class="card-header-left">
+                                <h3><i class="fa-solid fa-address-book"></i> User Directory & Registrations</h3>
+                                <span class="badge-count" id="admin-user-count-badge">0 Users</span>
+                            </div>
+                            <div class="card-header-filters">
+                                <div class="admin-search-box">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                    <input type="text" id="admin-user-search" placeholder="Search username or email...">
+                                </div>
+                                <select id="admin-role-filter" class="form-select-sm">
+                                    <option value="">All Roles</option>
+                                    <option value="admin">Admins</option>
+                                    <option value="user">Regular Users</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Table -->
+                        <div class="table-responsive">
+                            <table class="admin-users-table">
+                                <thead>
+                                    <tr>
+                                        <th>Learner</th>
+                                        <th>Email Address</th>
+                                        <th>Role</th>
+                                        <th>Registered Date</th>
+                                        <th>Last Active</th>
+                                        <th>DSA Performance</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-users-tbody">
+                                    <!-- Populated dynamically via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Recent Registrations Feed Card -->
+                    <div class="admin-feed-card glass-panel">
+                        <div class="admin-card-header">
+                            <h3><i class="fa-solid fa-clock-rotate-left"></i> Registration Activity Feed</h3>
+                        </div>
+                        <div class="admin-feed-list" id="admin-feed-list">
+                            <!-- Populated dynamically via JS -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======================================================== -->
+            <!-- 6. TIMED AI MOCK INTERVIEW MODE (45-MINUTE TECHNICAL ROUND) -->
+            <!-- ======================================================== -->
+            <section id="section-interview" class="interview-section hidden">
+                <!-- VIEW 1: CANDIDATE INTAKE SCREEN (MANDATORY GATE) -->
+                <div id="interview-view-intake" class="interview-view-block">
+                    <div class="interview-hero glass-panel">
+                        <div class="interview-hero-badge">
+                            <span class="badge-dot pulse-red"></span>
+                            <span>45-MINUTE TECHNICAL ROUND SIMULATION</span>
+                        </div>
+                        <h1 class="interview-hero-title">Timed AI Mock <span class="gradient-text-animated">Interview Mode</span></h1>
+                        <p class="interview-hero-subtitle">
+                            Experience the true heat and pressure of a live 45-minute technical coding round.
+                            Our AI Technical Interviewer tailors the problem, clarifies edge cases, evaluates approach pitches,
+                            and grades you against FAANG engineering hiring bar rubrics.
+                        </p>
+
+                        <!-- Intake Form Container -->
+                        <div class="interview-intake-card glass-panel">
+                            <div class="intake-header">
+                                <div class="intake-header-icon"><i class="fa-solid fa-id-card-clip"></i></div>
+                                <div>
+                                    <h3>Mandatory Candidate Intake Specification</h3>
+                                    <p>Please specify your qualifications, target role, and preferred focus. <em>All fields are mandatory before the interview clock can start.</em></p>
+                                </div>
+                            </div>
+
+                            <div id="intake-error-banner" class="intake-alert-banner hidden">
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                                <span id="intake-error-text">Please complete all required fields before starting the technical interview.</span>
+                            </div>
+
+                            <form id="interview-intake-form" class="intake-grid">
+                                <!-- Target Role -->
+                                <div class="intake-field-group">
+                                    <label for="intake-role" class="intake-label">
+                                        Target Role <span class="required-star">*</span>
+                                    </label>
+                                    <select id="intake-role" class="form-select intake-select" required>
+                                        <option value="">Select Target Engineering Role...</option>
+                                        <option value="Software Development Engineer (SDE I / II)" selected>Software Development Engineer (SDE I / II)</option>
+                                        <option value="Generative AI / LLM Engineer">Generative AI / LLM Engineer</option>
+                                        <option value="Machine Learning Systems Engineer">Machine Learning Systems Engineer</option>
+                                        <option value="Data Engineer (Streaming & Pipelines)">Data Engineer (Streaming & Pipelines)</option>
+                                        <option value="Backend / Distributed Systems Engineer">Backend / Distributed Systems Engineer</option>
+                                        <option value="Forward Deployed AI Engineer">Forward Deployed AI Engineer</option>
+                                    </select>
+                                </div>
+
+                                <!-- Target Company Tier -->
+                                <div class="intake-field-group">
+                                    <label for="intake-company" class="intake-label">
+                                        Target Company Tier &amp; Style <span class="required-star">*</span>
+                                    </label>
+                                    <select id="intake-company" class="form-select intake-select" required>
+                                        <option value="">Select Target Company Tier...</option>
+                                        <option value="FAANG / Tier-1 Tech (Google, Meta, Apple)" selected>FAANG / Tier-1 Tech (Google, Meta, Apple)</option>
+                                        <option value="AI Frontier Lab (OpenAI, Anthropic, DeepMind)">AI Frontier Lab (OpenAI, Anthropic, DeepMind)</option>
+                                        <option value="High-Growth Unicorn (Databricks, Stripe, Snowflake)">High-Growth Unicorn (Databricks, Stripe, Snowflake)</option>
+                                        <option value="High-Frequency Trading / Quant Fintech">High-Frequency Trading / Quant Fintech</option>
+                                        <option value="Enterprise Tech (Microsoft, Amazon, Oracle)">Enterprise Tech (Microsoft, Amazon, Oracle)</option>
+                                    </select>
+                                </div>
+
+                                <!-- Experience Level -->
+                                <div class="intake-field-group">
+                                    <label for="intake-experience" class="intake-label">
+                                        Seniority / Experience Level <span class="required-star">*</span>
+                                    </label>
+                                    <select id="intake-experience" class="form-select intake-select" required>
+                                        <option value="">Select Experience Level...</option>
+                                        <option value="Junior / Graduate (0-2 YOE)" selected>Junior / Graduate (0-2 YOE)</option>
+                                        <option value="Mid-Level Engineer (3-5 YOE)">Mid-Level Engineer (3-5 YOE)</option>
+                                        <option value="Senior / Staff Engineer (5+ YOE)">Senior / Staff Engineer (5+ YOE)</option>
+                                    </select>
+                                </div>
+
+                                <!-- Focus Skills / DSA Track -->
+                                <div class="intake-field-group">
+                                    <label for="intake-skills" class="intake-label">
+                                        Focus Skill Track <span class="required-star">*</span>
+                                    </label>
+                                    <select id="intake-skills" class="form-select intake-select" required>
+                                        <option value="">Select Core Focus Area...</option>
+                                        <option value="Arrays, Two Pointers & Binary Search" selected>Arrays, Two Pointers &amp; Binary Search</option>
+                                        <option value="Trees, Graphs & Heaps">Trees, Graphs &amp; Heaps</option>
+                                        <option value="Dynamic Programming & Optimization">Dynamic Programming &amp; Optimization</option>
+                                        <option value="Tensors, Attention & ML Algorithms">Tensors, Attention &amp; ML Algorithms (AI Track)</option>
+                                        <option value="Streaming, Sliding Windows & MapReduce">Streaming, Sliding Windows &amp; Data Engineering</option>
+                                        <option value="Comprehensive Curriculum Master Pool">Comprehensive Curriculum Master Pool</option>
+                                    </select>
+                                </div>
+
+                                <!-- Academic / Technical Qualification -->
+                                <div class="intake-field-group intake-field-full">
+                                    <label for="intake-qualification" class="intake-label">
+                                        Academic / Technical Qualification <span class="required-star">*</span>
+                                    </label>
+                                    <select id="intake-qualification" class="form-select intake-select" required>
+                                        <option value="">Select Qualification Background...</option>
+                                        <option value="B.Tech / B.E. in Computer Science / IT" selected>B.Tech / B.E. in Computer Science / IT</option>
+                                        <option value="Master's / Ph.D. in AI, CS, or Data Science">Master's / Ph.D. in AI, CS, or Data Science</option>
+                                        <option value="Non-CS Engineering / STEM Graduate">Non-CS Engineering / STEM Graduate</option>
+                                        <option value="Self-Taught / Industry Lateral Switch">Self-Taught / Industry Lateral Switch</option>
+                                    </select>
+                                </div>
+
+                                <!-- Action Buttons -->
+                                <div class="intake-actions intake-field-full">
+                                    <button type="submit" id="btn-start-interview" class="btn btn-primary btn-lg pulse-glow">
+                                        <i class="fa-solid fa-play"></i> Launch 45-Minute Technical Round
+                                    </button>
+                                    <button type="button" id="btn-view-interview-history" class="btn btn-glass btn-lg">
+                                        <i class="fa-solid fa-clock-rotate-left"></i> Past Interview Sessions
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Feature highlights cards -->
+                        <div class="interview-highlights-grid">
+                            <div class="interview-highlight-card glass-panel">
+                                <div class="highlight-icon"><i class="fa-solid fa-stopwatch-20 text-cyan"></i></div>
+                                <h4>45:00 Urgency Clock</h4>
+                                <p>Real-time countdown with urgency color states and auto-submission when time expires.</p>
+                            </div>
+                            <div class="interview-highlight-card glass-panel">
+                                <div class="highlight-icon"><i class="fa-solid fa-user-tie text-purple"></i></div>
+                                <h4>AI Technical Interviewer</h4>
+                                <p>Clarify ambiguous constraints, pitch your approach, and receive 3-tier progressive hints.</p>
+                            </div>
+                            <div class="interview-highlight-card glass-panel">
+                                <div class="highlight-icon"><i class="fa-solid fa-square-poll-vertical text-green"></i></div>
+                                <h4>FAANG Scorecard Rubric</h4>
+                                <p>Evaluated on Problem Solving, Efficiency (Big-O), Code Quality, and Communication.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 2: ACTIVE LIVE INTERVIEW ROOM (45:00 TIMER) -->
+                <div id="interview-view-room" class="interview-view-block hidden">
+                    <!-- Top Urgent Interview Bar -->
+                    <div class="interview-room-header glass-panel">
+                        <div class="room-candidate-info">
+                            <div class="candidate-tag"><i class="fa-solid fa-user"></i> <span id="room-role-display">SDE Candidate</span></div>
+                            <div class="company-tag"><i class="fa-solid fa-building"></i> <span id="room-company-display">FAANG Tier-1</span></div>
+                            <div class="level-tag"><span id="room-level-display">Junior</span></div>
+                        </div>
+
+                        <!-- 45-Minute Clock Widget -->
+                        <div class="interview-timer-widget" id="interview-timer-widget">
+                            <div class="timer-live-indicator"><span class="badge-dot pulse-red"></span> LIVE ROUND</div>
+                            <div class="timer-display" id="interview-clock-display">45:00</div>
+                            <div class="timer-subtext" id="interview-clock-subtext">Time Remaining</div>
+                        </div>
+
+                        <div class="room-action-controls">
+                            <!-- Progressive Hints Selector -->
+                            <div class="hints-control-group">
+                                <span class="hints-badge" id="room-hints-count-badge">
+                                    <i class="fa-regular fa-lightbulb"></i> Hints: <strong id="room-hints-num">0</strong>/3
+                                </span>
+                                <div class="hints-dropdown-wrapper">
+                                    <button id="btn-request-hint" class="btn btn-glass-sm" title="Request progressive hint">
+                                        <i class="fa-solid fa-lightbulb"></i> Ask Hint <i class="fa-solid fa-chevron-down"></i>
+                                    </button>
+                                    <div class="hints-menu hidden" id="hints-menu-dropdown">
+                                        <div class="hints-menu-item" data-tier="1">
+                                            <div class="hint-tier-title">Tier 1: Gentle Nudge</div>
+                                            <div class="hint-tier-desc">Conceptual intuition &amp; direction <span class="penalty-tag">-5 pts</span></div>
+                                        </div>
+                                        <div class="hints-menu-item" data-tier="2">
+                                            <div class="hint-tier-title">Tier 2: Structural Clue</div>
+                                            <div class="hint-tier-desc">Key data structure or invariant <span class="penalty-tag">-15 pts</span></div>
+                                        </div>
+                                        <div class="hints-menu-item" data-tier="3">
+                                            <div class="hint-tier-title">Tier 3: Algorithmic Strategy</div>
+                                            <div class="hint-tier-desc">Full step-by-step logic breakdown <span class="penalty-tag">-25 pts</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Pause / Resume Button -->
+                            <button id="btn-pause-interview" class="btn btn-glass-sm" title="Pause technical test">
+                                <i class="fa-solid fa-pause"></i> <span id="btn-pause-text">Pause</span>
+                            </button>
+
+                            <!-- Restart Button -->
+                            <button id="btn-restart-interview" class="btn btn-glass-sm text-yellow" title="Restart 45-minute test">
+                                <i class="fa-solid fa-rotate-left"></i> <span>Restart</span>
+                            </button>
+
+                            <!-- Final Submit Button -->
+                            <button id="btn-finish-interview" class="btn btn-danger-sm">
+                                <i class="fa-solid fa-flag-checkered"></i> Submit Final Round
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Room Workspace Wrapper with Pause Overlay -->
+                    <div class="interview-workspace-container" id="interview-workspace-container">
+                        <!-- Pause Overlay: Blurs question and deactivates code editor -->
+                        <div id="interview-pause-overlay" class="interview-pause-overlay hidden">
+                            <div class="pause-modal-card glass-panel">
+                                <div class="pause-icon-circle">
+                                    <i class="fa-solid fa-pause"></i>
+                                </div>
+                                <h2>Test Paused</h2>
+                                <p class="pause-subtitle">The 45-minute timer is frozen. The problem description and interview dialogue are blurred, and the code editor is inactive to preserve real-world test integrity.</p>
+                                <div class="pause-time-badge">
+                                    <i class="fa-regular fa-clock text-cyan"></i> Time Remaining: <strong id="pause-time-left-display">45:00</strong>
+                                </div>
+                                <div class="pause-actions">
+                                    <button id="btn-resume-overlay" class="btn btn-primary btn-lg pulse-glow">
+                                        <i class="fa-solid fa-play"></i> Resume Test
+                                    </button>
+                                    <button id="btn-restart-overlay" class="btn btn-glass btn-lg text-yellow">
+                                        <i class="fa-solid fa-rotate-left"></i> Restart Test
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Main Interview Split Workspace -->
+                        <div class="interview-room-body" id="interview-room-body">
+
+                        <!-- Left Pane: Problem Description & Interviewer Chat -->
+                        <div class="interview-left-pane glass-panel">
+                            <div class="pane-tabs-header">
+                                <button class="pane-tab-btn active" data-ptab="problem" id="tab-btn-problem">
+                                    <i class="fa-solid fa-file-code"></i> Problem Statement
+                                </button>
+                                <button class="pane-tab-btn" data-ptab="chat" id="tab-btn-interviewer">
+                                    <i class="fa-solid fa-comments"></i> AI Interviewer <span class="unread-dot hidden" id="chat-unread-dot"></span>
+                                </button>
+                            </div>
+
+                            <!-- Tab 1: Problem Details Content -->
+                            <div id="pane-content-problem" class="pane-content-body active">
+                                <div class="interview-problem-header">
+                                    <div class="prob-title-row">
+                                        <h2 id="interview-problem-title">Two Sum</h2>
+                                        <span class="difficulty-pill medium" id="interview-problem-diff">Medium</span>
+                                    </div>
+                                    <div class="prob-meta-row">
+                                        <span class="prob-meta-item"><i class="fa-solid fa-folder-tree"></i> <span id="interview-problem-step">Step 1 - Basics</span></span>
+                                        <span class="prob-meta-item"><i class="fa-solid fa-tag"></i> <span id="interview-problem-topic">Arrays</span></span>
+                                    </div>
+                                </div>
+
+                                <div class="interview-problem-desc" id="interview-problem-desc">
+                                    <!-- Dynamic Markdown Problem Description -->
+                                </div>
+
+                                <div class="interview-problem-meta-card glass-panel">
+                                    <h4><i class="fa-solid fa-circle-info"></i> Method Signature &amp; Constraints</h4>
+                                    <div class="signature-box">
+                                        <code><span class="text-cyan">def</span> <strong id="interview-method-signature">solve(self, nums: List[int]) -> int:</strong></code>
+                                    </div>
+                                    <div id="interview-constraints-container" class="constraints-box">
+                                        <!-- Constraints injected here -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tab 2: Interviewer Dialogue Content -->
+                            <div id="pane-content-chat" class="pane-content-body hidden">
+                                <div class="chat-pane-inner">
+                                    <div class="chat-messages-container" id="interview-chat-stream">
+                                        <!-- Dialogue dynamically rendered here -->
+                                    </div>
+
+                                    <!-- Quick Pitch Action Chips -->
+                                    <div class="quick-pitch-chips">
+                                        <span class="pitch-label"><i class="fa-solid fa-bolt"></i> Quick Prompts:</span>
+                                        <button class="pitch-chip" data-text="Can the input contain duplicates, negative numbers, or empty lists?">
+                                            Clarify Constraints
+                                        </button>
+                                        <button class="pitch-chip" data-text="I'm thinking of using a Hash Map to store elements for O(1) lookups in O(N) total time. Does this sound optimal?">
+                                            Pitch O(N) Approach
+                                        </button>
+                                        <button class="pitch-chip" data-text="What are the time and space complexity expectations for this round?">
+                                            Big-O Bar
+                                        </button>
+                                    </div>
+
+                                    <!-- Chat Input Form -->
+                                    <form id="interview-chat-form" class="interview-chat-input-bar">
+                                        <textarea id="interview-chat-input" rows="2" placeholder="Talk to your interviewer (clarify edge cases, pitch approach)..." autocomplete="off"></textarea>
+                                        <button type="submit" id="btn-interview-send-chat" class="btn btn-primary" title="Send to Interviewer">
+                                            <i class="fa-solid fa-paper-plane"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Pane: Code Editor, Tests Runner & Sandbox -->
+                        <div class="interview-right-pane glass-panel">
+                            <div class="editor-header-bar">
+                                <div class="editor-lang-pill">
+                                    <i class="fa-brands fa-python text-yellow"></i> <span>Python 3.11</span>
+                                </div>
+                                <div class="editor-actions">
+                                    <button id="btn-interview-reset-code" class="btn btn-glass-sm" title="Reset starter code">
+                                        <i class="fa-solid fa-arrow-rotate-left"></i> Reset
+                                    </button>
+                                    <button id="btn-interview-run-code" class="btn btn-secondary-sm">
+                                        <i class="fa-solid fa-play"></i> Run Tests
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Code Editor Surface: CodeMirror 6 -->
+                            <div class="interview-code-surface">
+                                <div id="cm-interview-editor" class="cm-editor-host"></div>
+                                <textarea id="interview-code-textarea" class="interview-code-area cm-hidden-textarea" spellcheck="false" style="display:none"></textarea>
+                            </div>
+
+                            <!-- Bottom Test Execution Results Console -->
+                            <div class="interview-results-panel">
+                                <div class="results-panel-header">
+                                    <span><i class="fa-solid fa-terminal"></i> Test Execution Console</span>
+                                    <span id="interview-tests-status-badge" class="badge-status-idle">Idle</span>
+                                </div>
+                                <div class="results-panel-body" id="interview-test-results-body">
+                                    <span class="results-placeholder">Click <strong>Run Tests</strong> to verify your code against problem test cases during the interview.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW 3: FAANG EVALUATION SCORECARD VIEW -->
+
+                <div id="interview-view-scorecard" class="interview-view-block hidden">
+                    <div class="scorecard-container glass-panel">
+                        <!-- Scorecard Hero Header -->
+                        <div class="scorecard-hero">
+                            <div class="scorecard-badge-row">
+                                <span class="badge-dot"></span>
+                                <span>OFFICIAL TECHNICAL ROUND EVALUATION</span>
+                            </div>
+                            <h2>Engineering Hiring Scorecard</h2>
+                            <p id="scorecard-summary-line">45-Minute Live Technical Interview Evaluation Report</p>
+                        </div>
+
+                        <!-- Hire Decision Banner & Gauge -->
+                        <div class="scorecard-overview-card glass-panel">
+                            <div class="score-circle-wrapper">
+                                <div class="score-circle-display" id="scorecard-overall-score">--</div>
+                                <div class="score-circle-label">OUT OF 100</div>
+                            </div>
+
+                            <div class="decision-meta-wrapper">
+                                <div class="decision-pill-box">
+                                    <span class="decision-pill" id="scorecard-decision-badge">PENDING</span>
+                                </div>
+                                <div class="telemetry-pills-row">
+                                    <div class="telemetry-pill">
+                                        <i class="fa-regular fa-clock"></i>
+                                        <span>Time Spent: <strong id="scorecard-time-spent">--:--</strong></span>
+                                    </div>
+                                    <div class="telemetry-pill">
+                                        <i class="fa-solid fa-vial-circle-check"></i>
+                                        <span>Tests Passed: <strong id="scorecard-tests-passed">--/--</strong></span>
+                                    </div>
+                                    <div class="telemetry-pill">
+                                        <i class="fa-regular fa-lightbulb"></i>
+                                        <span>Hints Used: <strong id="scorecard-hints-used">0</strong></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 4 Dimensions Rubric Grid -->
+                        <div class="scorecard-rubric-grid">
+                            <div class="rubric-card glass-panel">
+                                <div class="rubric-card-header">
+                                    <div class="rubric-icon text-cyan"><i class="fa-solid fa-puzzle-piece"></i></div>
+                                    <div class="rubric-title">Problem Solving &amp; Intuition</div>
+                                    <div class="rubric-score" id="rubric-score-ps">-- / 25</div>
+                                </div>
+                                <div class="rubric-progress-bar"><div class="rubric-fill bg-cyan" id="rubric-fill-ps" style="width: 0%;"></div></div>
+                                <p class="rubric-desc">Deconstructing ambiguous requirements, conceptual soundness, and handling core test cases.</p>
+                            </div>
+
+                            <div class="rubric-card glass-panel">
+                                <div class="rubric-card-header">
+                                    <div class="rubric-icon text-purple"><i class="fa-solid fa-gauge-high"></i></div>
+                                    <div class="rubric-title">Algorithmic Efficiency (Big-O)</div>
+                                    <div class="rubric-score" id="rubric-score-eff">-- / 25</div>
+                                </div>
+                                <div class="rubric-progress-bar"><div class="rubric-fill bg-purple" id="rubric-fill-eff" style="width: 0%;"></div></div>
+                                <p class="rubric-desc">Time &amp; Space complexity optimality, loop depth, memory footprint, and scaling bounds.</p>
+                            </div>
+
+                            <div class="rubric-card glass-panel">
+                                <div class="rubric-card-header">
+                                    <div class="rubric-icon text-green"><i class="fa-solid fa-code-check"></i></div>
+                                    <div class="rubric-title">Code Quality &amp; Cleanliness</div>
+                                    <div class="rubric-score" id="rubric-score-cq">-- / 25</div>
+                                </div>
+                                <div class="rubric-progress-bar"><div class="rubric-fill bg-green" id="rubric-fill-cq" style="width: 0%;"></div></div>
+                                <p class="rubric-desc">Pythonic idioms, modular structure, defensive boundary handling, and variable naming.</p>
+                            </div>
+
+                            <div class="rubric-card glass-panel">
+                                <div class="rubric-card-header">
+                                    <div class="rubric-icon text-yellow"><i class="fa-solid fa-comments"></i></div>
+                                    <div class="rubric-title">Communication &amp; Scoping</div>
+                                    <div class="rubric-score" id="rubric-score-comm">-- / 25</div>
+                                </div>
+                                <div class="rubric-progress-bar"><div class="rubric-fill bg-yellow" id="rubric-fill-comm" style="width: 0%;"></div></div>
+                                <p class="rubric-desc">Proactive constraint clarification, approach pitch prior to coding, and receptive interaction.</p>
+                            </div>
+                        </div>
+
+                        <!-- Qualitative Feedback Section -->
+                        <div class="scorecard-feedback-card glass-panel">
+                            <h3><i class="fa-solid fa-clipboard-user"></i> Hiring Committee Feedback Notes</h3>
+                            <div class="feedback-executive-summary" id="scorecard-exec-summary">
+                                <!-- Executive summary -->
+                            </div>
+
+                            <div class="feedback-columns">
+                                <div class="feedback-col strengths-col">
+                                    <h4><i class="fa-solid fa-circle-check text-green"></i> Demonstrated Strengths</h4>
+                                    <ul id="scorecard-strengths-list"></ul>
+                                </div>
+                                <div class="feedback-col areas-col">
+                                    <h4><i class="fa-solid fa-circle-exclamation text-yellow"></i> Areas for Growth</h4>
+                                    <ul id="scorecard-areas-list"></ul>
+                                </div>
+                            </div>
+
+                            <div class="feedback-recommendation-box" id="scorecard-recommendations">
+                                <!-- Recommended practice topic -->
+                            </div>
+                        </div>
+
+                        <!-- Scorecard Footer Actions -->
+                        <div class="scorecard-actions">
+                            <button id="btn-scorecard-retake" class="btn btn-primary btn-lg">
+                                <i class="fa-solid fa-rotate-right"></i> Start Another Mock Interview
+                            </button>
+                            <button id="btn-scorecard-notion" class="btn btn-notion btn-lg">
+                                <i class="fa-solid fa-book-bookmark"></i> Export Scorecard to Notion
+                            </button>
+                            <button id="btn-scorecard-history" class="btn btn-glass btn-lg">
+                                <i class="fa-solid fa-list-check"></i> View Past Interview History
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 4: PAST INTERVIEWS HISTORY DRAWER/VIEW -->
+                <div id="interview-view-history" class="interview-view-block hidden">
+                    <div class="history-container glass-panel">
+                        <div class="history-header">
+                            <div>
+                                <h2><i class="fa-solid fa-clock-rotate-left"></i> Mock Interview Performance History</h2>
+                                <p>Review your historical technical rounds, score trajectories, and interviewer feedback reports.</p>
+                            </div>
+                            <button id="btn-history-back-intake" class="btn btn-glass">
+                                <i class="fa-solid fa-arrow-left"></i> Back to Interview Gate
+                            </button>
+                        </div>
+
+                        <div class="history-table-wrapper">
+                            <table class="history-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date &amp; Time</th>
+                                        <th>Target Role &amp; Company</th>
+                                        <th>Problem Tested</th>
+                                        <th>Time Spent</th>
+                                        <th>Score</th>
+                                        <th>Verdict</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="interview-history-tbody">
+                                    <!-- Populated dynamically via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======================================================== -->
+            <!-- 6. COMMUNITY — Public Chat & Private Direct Messages     -->
+            <!-- ======================================================== -->
+            <section id="section-community" class="community-section hidden">
+                <div class="community-header-bar glass-panel">
+                    <div class="platform-switcher" role="tablist">
+                        <button class="community-sub-tab active" data-ctab="chat">
+                            <i class="fa-solid fa-comments"></i>
+                            <span>Community Chat</span>
+                        </button>
+                        <button class="community-sub-tab" data-ctab="dm">
+                            <i class="fa-solid fa-envelope"></i>
+                            <span>Direct Messages</span>
+                            <span id="dm-unread-pill" class="community-unread-pill hidden">0</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Public Community Chat Pane -->
+                <div id="community-pane-chat" class="community-pane">
+                    <div class="community-chat-card glass-panel">
+                        <div id="community-chat-messages" class="community-chat-messages">
+                            <div class="community-chat-welcome">
+                                <div class="community-chat-welcome-icon"><i class="fa-solid fa-people-group"></i></div>
+                                <h3>Welcome to the Community</h3>
+                                <p>One shared room for every member. Ask questions, share progress, or just say hi.</p>
+                            </div>
+                        </div>
+                        <form id="community-chat-form" class="community-chat-form">
+                            <textarea id="community-chat-input" class="community-chat-input" rows="1" placeholder="Message the community..." autocomplete="off"></textarea>
+                            <button type="submit" id="community-chat-send-btn" class="btn btn-primary" title="Send (Enter)">
+                                <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Direct Messages Pane -->
+                <div id="community-pane-dm" class="community-pane hidden">
+                    <div class="dm-layout">
+                        <!-- Conversation list sidebar -->
+                        <div class="dm-sidebar glass-panel">
+                            <div class="dm-sidebar-header">
+                                <h3>Messages</h3>
+                                <button id="btn-new-dm" class="btn btn-icon" title="New message"><i class="fa-solid fa-square-pen"></i></button>
+                            </div>
+
+                            <!-- New conversation search (hidden until "new message" is clicked) -->
+                            <div id="dm-new-convo-box" class="dm-new-convo-box hidden">
+                                <div class="search-input-wrapper">
+                                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                                    <input type="text" id="dm-user-search" placeholder="Search members..." autocomplete="off">
+                                </div>
+                                <div id="dm-user-search-results" class="dm-user-search-results"></div>
+                            </div>
+
+                            <div id="dm-conversations-list" class="dm-conversations-list">
+                                <div class="dm-empty-hint">Loading conversations...</div>
+                            </div>
+                        </div>
+
+                        <!-- Active thread -->
+                        <div class="dm-thread glass-panel">
+                            <div id="dm-thread-empty" class="dm-thread-empty">
+                                <i class="fa-solid fa-comments"></i>
+                                <p>Select a conversation, or start a new one.</p>
+                            </div>
+                            <div id="dm-thread-active" class="dm-thread-active hidden">
+                                <div class="dm-thread-header">
+                                    <div class="dm-thread-avatar" id="dm-thread-avatar">U</div>
+                                    <span id="dm-thread-username" class="dm-thread-username">Username</span>
+                                </div>
+                                <div id="dm-thread-messages" class="dm-thread-messages"></div>
+                                <form id="dm-thread-form" class="community-chat-form">
+                                    <textarea id="dm-thread-input" class="community-chat-input" rows="1" placeholder="Type a private message..." autocomplete="off"></textarea>
+                                    <button type="submit" id="dm-thread-send-btn" class="btn btn-primary" title="Send (Enter)">
+                                        <i class="fa-solid fa-paper-plane"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <div class="footer-inner">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <defs>
+                                <linearGradient id="brainfreezeCrystalGradFooter" x1="20" y1="2" x2="20" y2="38" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0" stop-color="#D9FDFF" />
+                                    <stop offset="0.45" stop-color="#5FCBF2" />
+                                    <stop offset="1" stop-color="#1B5FA8" />
+                                </linearGradient>
+                            </defs>
+                            <rect width="40" height="40" rx="9" fill="#071422" />
+                            <path d="M20 3 L30 11 L34 22 L26 36 L14 36 L6 22 L10 11 Z" fill="url(#brainfreezeCrystalGradFooter)" />
+                            <path d="M20 3 L20 36 M6 22 L34 22 M10 11 L30 11" stroke="#071422" stroke-width="0.7" stroke-opacity="0.3" />
+                            <text x="20" y="24" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-weight="800" font-size="12" letter-spacing="-0.3" fill="#FFFFFF">BA</text>
+                        </svg>
+                        <span>Brainfreeze <strong class="brand-wordmark-accent">Algos</strong></span>
+                    </div>
+                    <p class="footer-tagline">Coding the Core of Cold Logic.</p>
+                </div>
+
+                <nav class="footer-links">
+                    <a href="#studio" data-mode="studio">Code Studio</a>
+                    <a href="#tracker" data-mode="tracker">Daily Tracker</a>
+                    <a href="#analytics" data-mode="analytics">Analytics</a>
+                    <a href="#ai" data-mode="ai">AI Hub</a>
+                    <a href="#interview" data-mode="interview">Mock Interview</a>
+                    <a href="#community" data-mode="community">Community</a>
+                </nav>
+            </div>
+
+            <div class="footer-bottom">
+                <span>&copy; 2026 Brainfreeze Algos</span>
+
+                <span class="footer-dot">&bull;</span>
+                <span>Built for engineers targeting Data Science, GenAI, FDE, LLM, NLP &amp; DL roles</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- AUTH GATEWAY MODAL (LOGIN & REGISTER)                    -->
+    <!-- ======================================================== -->
+    <div id="auth-modal" class="auth-modal-backdrop" style="display: none;">
+        <div class="auth-modal-box glass-panel">
+            <button id="btn-close-auth" class="auth-close-btn" title="Close"><i class="fa-solid fa-xmark"></i></button>
+            
+            <div class="auth-modal-header">
+                <div class="auth-header-icon"><i class="fa-solid fa-fingerprint"></i></div>
+                <h2>Brainfreeze <span class="brand-wordmark-accent">Algos</span></h2>
+                <p>Sign in or create your personalized coding profile</p>
+            </div>
+
+            <!-- Auth Mode Switch Tabs -->
+            <div class="auth-tabs">
+                <button class="auth-tab-btn active" id="tab-btn-login">
+                    <i class="fa-solid fa-key"></i> Sign In
+                </button>
+                <button class="auth-tab-btn" id="tab-btn-register">
+                    <i class="fa-solid fa-user-plus"></i> Create Account
+                </button>
+            </div>
+
+            <!-- Alert Box for feedback -->
+            <div id="auth-alert" class="auth-alert" style="display: none;"></div>
+
+            <!-- 1. Sign In Form -->
+            <form id="form-login" class="auth-form">
+                <div class="form-group">
+                    <label for="auth-login-identifier"><i class="fa-solid fa-user"></i> Username or Email</label>
+                    <input type="text" id="auth-login-identifier" class="auth-input" placeholder="e.g. admin or coder@example.com" required autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label for="auth-login-password"><i class="fa-solid fa-lock"></i> Password</label>
+                    <div class="input-password-wrapper">
+                        <input type="password" id="auth-login-password" class="auth-input" placeholder="Enter your password" required autocomplete="current-password">
+                        <button type="button" class="btn-toggle-pw" title="Toggle password visibility"><i class="fa-regular fa-eye"></i></button>
+                    </div>
+                </div>
+
+                <div class="auth-demo-helper">
+                    <button type="button" id="btn-demo-admin-fill" class="btn-demo-pill">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> One-Click Admin Demo (admin / admin123)
+                    </button>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block btn-lg" id="btn-submit-login">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i> Authenticate & Enter Studio
+                </button>
+            </form>
+
+            <!-- 2. Register Form -->
+            <form id="form-register" class="auth-form" style="display: none;">
+                <div class="form-group">
+                    <label for="auth-reg-username"><i class="fa-solid fa-at"></i> Username</label>
+                    <input type="text" id="auth-reg-username" class="auth-input" placeholder="Choose a username (min 3 chars)" required autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label for="auth-reg-email"><i class="fa-solid fa-envelope"></i> Email Address</label>
+                    <input type="email" id="auth-reg-email" class="auth-input" placeholder="name@domain.com" required autocomplete="email">
+                </div>
+                <div class="form-group">
+                    <label for="auth-reg-password"><i class="fa-solid fa-lock"></i> Password</label>
+                    <div class="input-password-wrapper">
+                        <input type="password" id="auth-reg-password" class="auth-input" placeholder="Create password (min 4 chars)" required autocomplete="new-password">
+                        <button type="button" class="btn-toggle-pw" title="Toggle password visibility"><i class="fa-regular fa-eye"></i></button>
+                    </div>
+                </div>
+
+                <!-- Optional Platform Handles -->
+                <div class="form-group-optional">
+                    <label class="label-optional"><i class="fa-solid fa-link"></i> Connected Handles (Optional)</label>
+                    <div class="optional-handles-grid">
+                        <input type="text" id="auth-reg-leetcode" class="auth-input-sm" placeholder="LeetCode username">
+                        <input type="text" id="auth-reg-codechef" class="auth-input-sm" placeholder="CodeChef handle">
+                        <input type="text" id="auth-reg-codeforces" class="auth-input-sm" placeholder="Codeforces handle">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-accent btn-block btn-lg" id="btn-submit-register">
+                    <i class="fa-solid fa-user-check"></i> Register Account & Start Coding
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- NOTION INTEGRATION HUB MODAL                             -->
+    <!-- ======================================================== -->
+    <div id="notion-modal" class="auth-modal-backdrop" style="display: none;">
+        <div class="auth-modal-box notion-modal-box glass-panel">
+            <button id="btn-close-notion" class="auth-close-btn" title="Close"><i class="fa-solid fa-xmark"></i></button>
+
+            <div class="auth-modal-header notion-modal-header">
+                <div class="notion-header-icon"><i class="fa-solid fa-book-bookmark"></i></div>
+                <h2>Notion <span class="gradient-text-animated">Integration Hub</span></h2>
+                <p>Auto-sync problem solutions, study notes &amp; interview scorecards to your personal Notion workspace</p>
+            </div>
+
+            <!-- Feedback Alert Banner -->
+            <div id="notion-alert" class="auth-alert" style="display: none;"></div>
+
+            <!-- STATE 1: DISCONNECTED VIEW -->
+            <div id="notion-state-disconnected" class="notion-state-block">
+                <div class="notion-guide-card glass-panel">
+                    <h4><i class="fa-solid fa-bolt text-yellow"></i> 3-Step Setup (Takes 60 Seconds):</h4>
+                    <ol class="notion-steps-list">
+                        <li>Go to <a href="https://www.notion.so/profile/integrations" target="_blank" rel="noopener">notion.so/profile/integrations</a> and create a <strong>New Integration</strong> (e.g. <em>Brainfreeze Algos</em>).</li>
+                        <li>Copy your <strong>Internal Integration Secret</strong> (starts with <code>secret_...</code>).</li>
+                        <li>Open your target page in Notion, click <strong>•••</strong> at top right &rarr; <strong>Connections</strong> &rarr; add your integration!</li>
+                    </ol>
+                </div>
+
+                <form id="notion-connect-form" class="notion-form">
+                    <div class="form-group">
+                        <label for="notion-token-input"><i class="fa-solid fa-key"></i> Internal Integration Secret</label>
+                        <div class="input-password-wrapper">
+                            <input type="password" id="notion-token-input" class="auth-input" placeholder="secret_xxxxxxxxxxxxxxxxxxxxxxxxxxxx" required autocomplete="off">
+                            <button type="button" id="btn-toggle-notion-token" class="btn-toggle-pw" title="Toggle visibility"><i class="fa-regular fa-eye"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notion-parent-page-input">
+                            <i class="fa-solid fa-folder-tree"></i> Target Page ID or URL <span class="label-muted">(Optional — auto-discovered if left blank)</span>
+                        </label>
+                        <input type="text" id="notion-parent-page-input" class="auth-input" placeholder="e.g. https://notion.so/my-workspace/abc1234567...">
+                    </div>
+
+                    <div class="notion-checkbox-group">
+                        <label class="notion-checkbox-label">
+                            <input type="checkbox" id="notion-auto-provision-check" checked>
+                            <span><strong>Auto-provision databases</strong> (Creates <em>Problem Solutions &amp; Notes</em> and <em>Mock Interviews</em>)</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" id="btn-submit-connect-notion" class="btn btn-notion btn-block btn-lg">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Connect &amp; Auto-Provision Workspace
+                    </button>
+                </form>
+            </div>
+
+            <!-- STATE 2: CONNECTED VIEW -->
+            <div id="notion-state-connected" class="notion-state-block" style="display: none;">
+                <div class="notion-connected-card glass-panel">
+                    <div class="notion-ws-row">
+                        <div class="notion-ws-avatar"><i class="fa-solid fa-book-bookmark"></i></div>
+                        <div class="notion-ws-meta">
+                            <h3 id="notion-connected-workspace-name">Personal Workspace</h3>
+                            <span class="badge-status-pass"><i class="fa-solid fa-circle-check"></i> Connected &amp; Synced</span>
+                        </div>
+                    </div>
+
+                    <div class="notion-databases-list">
+                        <h4><i class="fa-solid fa-database text-cyan"></i> Provisioned Notion Databases:</h4>
+                        <div class="notion-db-links">
+                            <a id="link-notion-problems-db" href="#" target="_blank" rel="noopener" class="notion-db-link-pill">
+                                <span><i class="fa-solid fa-file-lines text-cyan"></i> Problem Solutions &amp; Notes</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            </a>
+                            <a id="link-notion-scorecards-db" href="#" target="_blank" rel="noopener" class="notion-db-link-pill">
+                                <span><i class="fa-solid fa-stopwatch-20 text-yellow"></i> Mock Interview Scorecards</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="notion-settings-box">
+                        <label class="notion-checkbox-label">
+                            <input type="checkbox" id="toggle-notion-autosync" checked>
+                            <span><strong>Auto-sync problem solutions</strong> to Notion on accepted test run</span>
+                        </label>
+                    </div>
+
+                    <div class="notion-disconnect-row">
+                        <button id="btn-disconnect-notion" class="btn btn-danger-sm">
+                            <i class="fa-solid fa-link-slash"></i> Disconnect Notion
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="/static/js/app.js?v=8.0"></script>
+</body>
+</html>

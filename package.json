@@ -1,0 +1,18 @@
+{
+  "name": "brainfreeze-algos-frontend-build",
+  "private": true,
+  "description": "Build-only tooling. Brainfreeze Algos is a Flask app; Node/npm is used here solely to bundle the CodeMirror 6 editor into a single local file (static/js/vendor/codemirror-bundle.js) so the browser doesn't load CodeMirror's sub-packages from several independent CDN URLs at runtime, which caused mismatched versions of shared internals (@codemirror/state, @codemirror/view, @codemirror/language) to load side by side and break CodeMirror's identity checks. Re-run `npm run build:editor` after installing (npm install) whenever editor.js's CodeMirror version pins change.",
+  "scripts": {
+    "build:editor": "node scripts/build_codemirror_bundle.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.0",
+    "codemirror": "^6.0.1",
+    "@codemirror/lang-python": "^6.1.6",
+    "@codemirror/view": "^6.28.1",
+    "@codemirror/state": "^6.4.1",
+    "@codemirror/commands": "^6.6.0",
+    "@codemirror/autocomplete": "^6.18.1",
+    "@codemirror/theme-one-dark": "^6.1.2"
+  }
+}

@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+venv/
+.env
+
+# Node (build-only tooling for static/js/vendor/codemirror-bundle.js —
+# the bundle output itself IS committed; only the raw packages are not)
+node_modules/
+
+# Local data
+data/dsa_platform.db
+
+# Scratch / experiment dirs
+scratch_out/
+scratch_test/
