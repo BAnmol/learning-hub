@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ❄️ Brainfreeze Algos - Unified DSA & AI/ML Interview Studio
 
 > **"Coding the Core of Cold Logic"**  
@@ -695,3 +696,7 @@ python serve.py
 This project is licensed under the **MIT License**. See the `LICENSE` file for details.
 
 Developed with ❄️ by the **Brainfreeze Algos Team**. Happy coding!
+=======
+# learning-hub
+This is a platform where the users can get to know about the Data Science and AI related fields and also get job ready for coding rounds.
+>>>>>>> f7bed3692ddc551285fd9dc4b1f9682c9fad9597
