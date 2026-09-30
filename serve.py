@@ -14,11 +14,20 @@ import sys
 if sys.platform == "win32":
     try:
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
-        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
     except Exception:
+        pass
+
 _PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-if _PROJECT_ROOT not in sys.path:
-    sys.path.insert(0, _PROJECT_ROOT)
+for _candidate_path in [
+    _PROJECT_ROOT,
+    os.path.join(_PROJECT_ROOT, "src"),
+    "/home/site/wwwroot",
+    "/home/site/wwwroot/src",
+    os.getcwd(),
+    os.path.join(os.getcwd(), "src"),
+]:
+    if os.path.exists(_candidate_path) and _candidate_path not in sys.path:
+        sys.path.insert(0, _candidate_path)
 
 from dotenv import load_dotenv
 from waitress import serve
@@ -29,7 +38,7 @@ load_dotenv()
 
 if __name__ == "__main__":
     host = os.getenv("HOST", "0.0.0.0")
-    port = int(os.getenv("PORT", 5000))
+    port = int(os.getenv("PORT", 8000))
     threads = int(os.getenv("WEB_CONCURRENCY", 8))
     print(f"Serving Brainfreeze Algos (production/waitress) on http://{host}:{port} with {threads} threads")
     serve(app, host=host, port=port, threads=threads)

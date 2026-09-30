@@ -4,7 +4,10 @@ import re
 from typing import Any, Dict, List, Optional
 from dotenv import load_dotenv
 
-from src.llm_router import LLMRouter
+try:
+    from src.llm_router import LLMRouter
+except (ImportError, ModuleNotFoundError):
+    from llm_router import LLMRouter
 
 load_dotenv()
 

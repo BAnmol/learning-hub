@@ -5,8 +5,12 @@ EXPLANATION_CACHE_FILE = os.path.join(
     os.path.dirname(os.path.dirname(__file__)), "data", "dsa_explanations.json"
 )
 
-from src.llm_router import LLMRouter
-from src.problem_details import get_problem_enrichments, get_detailed_test_cases, extract_signature_and_params
+try:
+    from src.llm_router import LLMRouter
+    from src.problem_details import get_problem_enrichments, get_detailed_test_cases, extract_signature_and_params
+except (ImportError, ModuleNotFoundError):
+    from llm_router import LLMRouter
+    from problem_details import get_problem_enrichments, get_detailed_test_cases, extract_signature_and_params
 
 
 def get_sample_test_cases_for_problem(meta: Dict[str, Any]) -> List[Dict[str, str]]:

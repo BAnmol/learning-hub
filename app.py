@@ -12,27 +12,50 @@ if sys.platform == "win32":
     except Exception:
         pass
 
-# Ensure project root is always in sys.path for Gunicorn/production deployments (e.g. Azure App Service)
+# Ensure project root and src directories are always in sys.path for Gunicorn/Azure Linux App Service
 _PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-if _PROJECT_ROOT not in sys.path:
-    sys.path.insert(0, _PROJECT_ROOT)
+for _candidate_path in [
+    _PROJECT_ROOT,
+    os.path.join(_PROJECT_ROOT, "src"),
+    "/home/site/wwwroot",
+    "/home/site/wwwroot/src",
+    os.getcwd(),
+    os.path.join(os.getcwd(), "src"),
+]:
+    if os.path.exists(_candidate_path) and _candidate_path not in sys.path:
+        sys.path.insert(0, _candidate_path)
 
 from flask import Flask, Response, jsonify, render_template, request, session, stream_with_context
 from dotenv import load_dotenv
 
-from src.leetcode_client import LeetCodeClient
-from src.codechef_client import CodeChefClient
-from src.codeforces_client import CodeforcesClient
-from src.problem_loader import ProblemLoader
-from src.code_runner import PythonCodeRunner
-from src.database import DSADatabase
-from src.llm_router import LLMRouter
-from src.ai_news_aggregator import fetch_trending_ai_news
-from src.explainer import ExplainerEngine, get_sample_test_cases_for_problem
-from src.problem_details import get_problem_enrichments
-from src.ai_code_reviewer import AICodeReviewer
-from src.interview_engine import InterviewEngine
-from src.notion_engine import NotionEngine, NotionVault
+try:
+    from src.leetcode_client import LeetCodeClient
+    from src.codechef_client import CodeChefClient
+    from src.codeforces_client import CodeforcesClient
+    from src.problem_loader import ProblemLoader
+    from src.code_runner import PythonCodeRunner
+    from src.database import DSADatabase
+    from src.llm_router import LLMRouter
+    from src.ai_news_aggregator import fetch_trending_ai_news
+    from src.explainer import ExplainerEngine, get_sample_test_cases_for_problem
+    from src.problem_details import get_problem_enrichments
+    from src.ai_code_reviewer import AICodeReviewer
+    from src.interview_engine import InterviewEngine
+    from src.notion_engine import NotionEngine, NotionVault
+except (ImportError, ModuleNotFoundError):
+    from leetcode_client import LeetCodeClient
+    from codechef_client import CodeChefClient
+    from codeforces_client import CodeforcesClient
+    from problem_loader import ProblemLoader
+    from code_runner import PythonCodeRunner
+    from database import DSADatabase
+    from llm_router import LLMRouter
+    from ai_news_aggregator import fetch_trending_ai_news
+    from explainer import ExplainerEngine, get_sample_test_cases_for_problem
+    from problem_details import get_problem_enrichments
+    from ai_code_reviewer import AICodeReviewer
+    from interview_engine import InterviewEngine
+    from notion_engine import NotionEngine, NotionVault
 
 load_dotenv()
 
