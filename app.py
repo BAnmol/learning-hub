@@ -12,6 +12,11 @@ if sys.platform == "win32":
     except Exception:
         pass
 
+# Ensure project root is always in sys.path for Gunicorn/production deployments (e.g. Azure App Service)
+_PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+if _PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, _PROJECT_ROOT)
+
 from flask import Flask, Response, jsonify, render_template, request, session, stream_with_context
 from dotenv import load_dotenv
 
